@@ -53,6 +53,8 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《学习OpenCV3中文版》[百度云链接](https://pan.baidu.com/s/1nRiNKR1tvSkn2w282wBqOA) 提取码：n6e4
 - 《点云库PCL学习教程》[百度云链接](https://pan.baidu.com/s/1ZhHomzFsHoWj07OJjnwLqA) 提取码：hgvh
 - 《计算机视觉中的多视图几何-第一版-中文完整版》[百度云链接](https://pan.baidu.com/s/16DLUesqg1KT54pCmpRnt-w) 提取码：tmws
+- 《OpenSceneGraph三维渲染引擎编程指南》[百度云链接](https://pan.baidu.com/s/1O4vrIm8MfxbDItgPIupmKg) 提取码：nua4
+
 
 ### <span id="04 - 数据库">04 - 数据库</span>
 
@@ -79,6 +81,8 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 - 《剑指offer》[百度云链接](https://pan.baidu.com/s/1OXgcU3hpNf7_wnq-d0V_lg) 提取码：eu85  
 - 《leetcode-solution》[百度云链接](https://pan.baidu.com/s/1oiixq2NCvX-a11NFxbtRWw) 提取码：z9nv  
+- 《算法导论中文版》[百度云链接](https://pan.baidu.com/s/1Tk0JNuVa4e8fC8j99J5Pgg) 提取码：65n0
+- 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
 
 
 ## Contack
