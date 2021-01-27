@@ -19,7 +19,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - [04 - 数据库](#04---数据库)
 - [05 - Git版本控制](#05---Git版本控制)
 - [06 - CMake](#06---CMake)
-- [07 - 刷题相关](#07--- 刷题相关)
+- [07 - 刷题相关](#07---刷题相关)
 
 
 ### <span id="00 - C语言">00 - C语言</span>
