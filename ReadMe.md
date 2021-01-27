@@ -28,7 +28,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 ### <span id="01 - C++">01 - C++</span>
 
-- 《C++ Primer Plus(第6版)》[百度云链接](https://pan.baidu.com/s/1mkxiUxPHiM3hivSwTL4AFA) 提取码：y73e
+- 《C++ Primer Plus(第6版)》[百度云链接](https://pan.baidu.com/s/1H0_gje9t8wGYuNeZy5WskA) 提取码：k9a1
 - 《C++编程规范-101条规则准则与最佳实践》[百度云链接](https://pan.baidu.com/s/1E6ttXnXlhcnXkwGWMPrIOA) 提取码：g4pr
 - 《C++标准库(第2版)》[百度云链接](https://pan.baidu.com/s/1e9FzgQ5mkK3J5IXdUH0u2g) 提取码：ovng
 - 《C++并发》[百度云链接](https://pan.baidu.com/s/1idp4ao6TkNChW876qX8z1w) 提取码：2jtm
