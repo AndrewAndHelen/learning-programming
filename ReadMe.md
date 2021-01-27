@@ -47,6 +47,8 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《计算机网络（第7版）-谢希仁》[百度云链接](https://pan.baidu.com/s/1Wn8nBleEIuhWSP1BdDiQgQ) 提取码：mj5b
 - 《计算机操作系统第三版(原版) 汤小丹》[百度云链接](https://pan.baidu.com/s/1GGzLwug4AFJrHpqSxpSZvw) 提取码：4kv0
 - 《Linux鸟哥私房菜-第四版》[百度云链接](https://pan.baidu.com/s/1Xh3BhMC4U_YDkAomhWKznA) 提取码：3p6i
+- 《数据结构与算法分析 C++语言描述.4th.Mark Allen Weiss.2016》[百度云链接](https://pan.baidu.com/s/1k096L2QoyxtL4mHpbSsSpQ) 提取码：r7x5
+- 《数据结构与算法分析Java语言描述 原书第3版 》[百度云链接](https://pan.baidu.com/s/1mfUbNBRZ4byIZIFbJrrCCQ) 提取码：9sc1
 
 ### <span id="03 - 计算机视觉">03 - 计算机视觉</span>
 
