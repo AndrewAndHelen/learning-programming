@@ -82,10 +82,10 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 ### <span id="07 - 刷题相关">07 - 刷题相关</span>
 
 - 《剑指offer》[百度云链接](https://pan.baidu.com/s/1OXgcU3hpNf7_wnq-d0V_lg) 提取码：eu85  
-- 《leetcode-solution》[百度云链接](https://pan.baidu.com/s/1oiixq2NCvX-a11NFxbtRWw) 提取码：z9nv  
+- 《leetcode-solution》[百度云链接](https://pan.baidu.com/s/1oiixq2NCvX-a11NFxbtRWw) 提取码：z9nv 
+- 《cookbook-LeetCode》[百度云链接](https://pan.baidu.com/s/1SOd9sJt5IGQy_ufUfL2lcg) 提取码：e113 
 - 《算法导论中文版》[百度云链接](https://pan.baidu.com/s/1Tk0JNuVa4e8fC8j99J5Pgg) 提取码：65n0
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
-
 
 ## Contack
 
