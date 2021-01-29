@@ -20,7 +20,8 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - [05 - Git版本控制](#05---Git版本控制)
 - [06 - CMake](#06---CMake)
 - [07 - 刷题相关](#07---刷题相关)
-
+- [08 - Linux](#08---Linux)
+- [09 - 计算机网络](#09---计算机网络)
 
 ### <span id="00 - C语言">00 - C语言</span>
 
@@ -44,9 +45,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 - 《大话数据结构》[百度云链接](https://pan.baidu.com/s/1j8avVKTs0rv916Af6q_i0g) 提取码：0nlq
 - 《计算机组成原理（第2版）唐朔飞》[百度云链接](https://pan.baidu.com/s/1kA3Z3wnLGCL3soebdiqGcg) 提取码：1d9y
-- 《计算机网络（第7版）-谢希仁》[百度云链接](https://pan.baidu.com/s/1Wn8nBleEIuhWSP1BdDiQgQ) 提取码：mj5b
 - 《计算机操作系统第三版(原版) 汤小丹》[百度云链接](https://pan.baidu.com/s/1GGzLwug4AFJrHpqSxpSZvw) 提取码：4kv0
-- 《Linux鸟哥私房菜-第四版》[百度云链接](https://pan.baidu.com/s/1Xh3BhMC4U_YDkAomhWKznA) 提取码：3p6i
 - 《数据结构与算法分析 C++语言描述.4th.Mark Allen Weiss.2016》[百度云链接](https://pan.baidu.com/s/1k096L2QoyxtL4mHpbSsSpQ) 提取码：r7x5
 - 《数据结构与算法分析Java语言描述 原书第3版 》[百度云链接](https://pan.baidu.com/s/1mfUbNBRZ4byIZIFbJrrCCQ) 提取码：9sc1
 
@@ -86,6 +85,27 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《cookbook-LeetCode》[百度云链接](https://pan.baidu.com/s/1SOd9sJt5IGQy_ufUfL2lcg) 提取码：e113 
 - 《算法导论中文版》[百度云链接](https://pan.baidu.com/s/1Tk0JNuVa4e8fC8j99J5Pgg) 提取码：65n0
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
+
+### <span id="08 - Linux">08 - Linux</span>
+
+- 《Linux系统命令及shell脚本实践指南linuxunix技术丛书》[百度云链接](https://pan.baidu.com/s/1VB-LkMuJXtR1ub2fevrY-w) 提取码：a8me
+- 《Linux鸟哥私房菜基础篇-第四版》[百度云链接](https://pan.baidu.com/s/1LOUwFO_IHzaJIzH4QHmShQ) 提取码：lwxt
+- 《Linux鸟哥私房菜服务器架设篇 第三版 》[百度云链接](https://pan.baidu.com/s/15EIYc6zKkJAF1e236aishA) 提取码：ggbo
+
+### <span id="09 - 计算机网络">09 - 计算机网络</span>
+
+- 《计算机网络（第7版）-谢希仁》[百度云链接](https://pan.baidu.com/s/1wxUgFTx0NVt2aYEJnEXrmQ) 提取码：d00i
+- 《Http核心总结》[百度云链接](https://pan.baidu.com/s/1OH92q6i0BS_Kk4UfeI3utw) 提取码：ispf
+- 《HTTP权威指南》[百度云链接](https://pan.baidu.com/s/1svbPfMvFyD-hIe7cSuKkmw) 提取码：xiz0
+- 《TCP-IP详解卷一：协议》[百度云链接](https://pan.baidu.com/s/1R2-g0B1b8FU408--c4sIQQ) 提取码：zw1m
+- 《TCP-IP详解卷二：实现》[百度云链接](https://pan.baidu.com/s/14GhIqvNL7l4eb0O3wZyJxA) 提取码：7pim
+- 《TCP-IP详解卷三》[百度云链接](https://pan.baidu.com/s/1kb5ldMS5JEV91oiaqyB3YA) 提取码：udqs
+- 《UNIX网络编程卷1 API》[百度云链接](https://pan.baidu.com/s/11A3666MSoU1n9L_xkx2EKg) 提取码：yn2r
+- 《UNIX网络编程卷2：进程间通信》[百度云链接](https://pan.baidu.com/s/1XLNuHR0ayrEMXWGLvlfTvg) 提取码：js21
+- 《Linux_UNIX系统编程手册（上）》[百度云链接](https://pan.baidu.com/s/10Bsz4Q-dgzi4fp3D-jC-hg) 提取码：viaz
+- 《Linux_UNIX系统编程手册（下）》[百度云链接](https://pan.baidu.com/s/1VfDhh2XykJQq2W336_k47A) 提取码：uqxu
+- 《图解HTTP 》[百度云链接](https://pan.baidu.com/s/1hs4MB02DtIDU5XT-5R9JKg) 提取码：o0cg
+- 《图解TCPIP(第5版)》[百度云链接](https://pan.baidu.com/s/1gCchTTbxpBb4YVF9uTt7oA) 提取码：6o2c
 
 ## Contack
 
