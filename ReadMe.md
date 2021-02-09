@@ -85,7 +85,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《cookbook-LeetCode》[百度云链接](https://pan.baidu.com/s/1SOd9sJt5IGQy_ufUfL2lcg) 提取码：e113 
 - 《算法导论中文版》[百度云链接](https://pan.baidu.com/s/1Tk0JNuVa4e8fC8j99J5Pgg) 提取码：65n0
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
-
+- 《程序员内功修炼-V2.0》[百度云链接](https://pan.baidu.com/s/16bAKdTYNMOt_EYi9fkPNMw) 提取码：7e6w
 ### <span id="08 - Linux">08 - Linux</span>
 
 - 《Linux系统命令及shell脚本实践指南linuxunix技术丛书》[百度云链接](https://pan.baidu.com/s/1VB-LkMuJXtR1ub2fevrY-w) 提取码：a8me
