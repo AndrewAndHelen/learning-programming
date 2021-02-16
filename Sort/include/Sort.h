@@ -45,6 +45,9 @@ void CountSort(std::vector<Object>& SqList);
 template<typename Object, typename = std::enable_if_t<std::is_convertible_v<Object, int>>>
 void BucketSort(std::vector<Object>& SqList);
 
+template<typename Object, typename = std::enable_if_t<std::is_convertible_v<Object, int>>>
+void RadixSort(std::vector<Object>& SqList);
+
 template<typename Object>
 void swap(std::vector<Object>& SqList, int i, int j)
 {
@@ -300,6 +303,43 @@ void BucketSort(std::vector<Object>& SqList)
 
 }
 
+template<typename Object, typename = std::enable_if_t<std::is_convertible_v<Object, int>>>
+static void CountSort(std::vector<Object>& SqList,int exp)
+{
+	std::vector<Object> tmp_list(SqList.size());
+	std::vector<Object> bucket(10,0);
 
+	// 将数据出现的次数存储在buckets中
+	for (int i = 0; i < SqList.size(); i++)
+		bucket[(SqList[i] / exp) % 10]++;
+
+	// 更改buckets[i]。目的是让更改后的buckets[i]的值，是该数据在tmp_list中的位置。
+	for (int i = 1; i < 10; i++)
+		bucket[i] += bucket[i - 1];
+
+	for (int i = SqList.size() - 1; i >= 0; --i)
+	{
+		tmp_list[bucket[(SqList[i] / exp) % 10] - 1] = SqList[i];
+		bucket[(SqList[i] / exp) % 10]--;
+	}
+
+	for (int i = 0; i < SqList.size(); i++)
+		SqList[i] = tmp_list[i];
+}
+
+template<typename Object, typename = std::enable_if_t<std::is_convertible_v<Object, int>>>
+void RadixSort(std::vector<Object>& SqList)
+{
+	Object max = SqList[0];
+	//获取最大值
+	for (int i = 1; i < SqList.size(); i++)
+	{
+		if (SqList[i] > max)
+			max = SqList[i];
+	}
+
+	for (int exp = 1; max / exp > 0; exp *= 10)
+		CountSort(SqList, exp);
+}
 #endif // !SORT_H
 
