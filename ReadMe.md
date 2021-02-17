@@ -55,7 +55,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《点云库PCL学习教程》[百度云链接](https://pan.baidu.com/s/1ZhHomzFsHoWj07OJjnwLqA) 提取码：hgvh
 - 《计算机视觉中的多视图几何-第一版-中文完整版》[百度云链接](https://pan.baidu.com/s/16DLUesqg1KT54pCmpRnt-w) 提取码：tmws
 - 《OpenSceneGraph三维渲染引擎编程指南》[百度云链接](https://pan.baidu.com/s/1O4vrIm8MfxbDItgPIupmKg) 提取码：nua4
-
+- 《高翔slam十四讲及实例代码》[百度云链接](https://pan.baidu.com/s/16jjBWayAVkFYc5cl-_O5iQ) 提取码：rqg6
 
 ### <span id="04 - 数据库">04 - 数据库</span>
 
