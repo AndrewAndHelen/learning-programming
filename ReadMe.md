@@ -92,11 +92,14 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《算法导论中文版》[百度云链接](https://pan.baidu.com/s/1Tk0JNuVa4e8fC8j99J5Pgg) 提取码：65n0
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
 - 《程序员内功修炼-V2.0》[百度云链接](https://pan.baidu.com/s/16bAKdTYNMOt_EYi9fkPNMw) 提取码：7e6w
+
 ### <span id="08 - Linux">08 - Linux</span>
 
 - 《Linux系统命令及shell脚本实践指南linuxunix技术丛书》[百度云链接](https://pan.baidu.com/s/1VB-LkMuJXtR1ub2fevrY-w) 提取码：a8me
 - 《Linux鸟哥私房菜基础篇-第四版》[百度云链接](https://pan.baidu.com/s/1LOUwFO_IHzaJIzH4QHmShQ) 提取码：lwxt
 - 《Linux鸟哥私房菜服务器架设篇 第三版 》[百度云链接](https://pan.baidu.com/s/15EIYc6zKkJAF1e236aishA) 提取码：ggbo
+- 《Linux高性能服务器编程》[百度云链接](https://pan.baidu.com/s/1I4UNWEd0JElaj9zmPZse0A) 提取码：auaq
+- 《Linux多线程服务端编程：使用muduo C++网络库(陈硕)》[百度云链接](https://pan.baidu.com/s/1izijeZamyDfaa1bdbAye2Q) 提取码：jh3z
 
 ### <span id="09 - 计算机网络">09 - 计算机网络</span>
 
