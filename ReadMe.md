@@ -2,16 +2,20 @@
 
 This GitHub repo contains all of training content for  my scholastic life.
 
-- [Sort](./Sort/ReadMe.md)
+- [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
+- [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
 - [STL](./STL/ReadMe.md)
 
-
 ## Cloning this repository
+
 ```
 git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 ```
 
+
+
 ### Computer books
+
 - [00 - C语言](#00---C语言)
 - [01 - C++](#01---C++)
 - [02 - 计算机基础](#02---计算机基础)
@@ -22,6 +26,8 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - [07 - 刷题相关](#07---刷题相关)
 - [08 - Linux](#08---Linux)
 - [09 - 计算机网络](#09---计算机网络)
+
+
 
 ### <span id="00 - C语言">00 - C语言</span>
 
