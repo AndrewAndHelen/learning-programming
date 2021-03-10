@@ -46,6 +46,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《STL源码刨析》[百度云链接](https://pan.baidu.com/s/1DXHqfFiXCaM55yEIJdlXYg) 提取码：givv
 - 《Primer c++ 第5版》[百度云链接](https://pan.baidu.com/s/13G8sxF8spwbdrciKefH2Fg) 提取码：f5ks
 - 《qt实例》[百度云链接](https://pan.baidu.com/s/1ZLxRSzAayfNS2v4MlUjX6Q) 提取码：5a4u
+- 《modern-cpp-tutorial-zh-cn》[百度云链接](https://pan.baidu.com/s/1AD9mEvtlvXZeb3xn8rnoOg) 提取码：o2qv
 
 ### <span id="02 - 计算机基础">02 - 计算机基础</span>
 
