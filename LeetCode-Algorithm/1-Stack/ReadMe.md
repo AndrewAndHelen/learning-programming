@@ -163,6 +163,8 @@ public:
         int n = s.size();
         for (int i = 0; i < n; i++)
         {
+            if (!isdigit(s[i]) && i == 0 && s[i] != ' ')
+				pre_sign = s[i];			//如果第一个字符为运算符，如‘-’，需要修改默认值
             if (isdigit(s[i]))
                 num = num * 10 + static_cast<int>(s[i] - '0');
             if ((!isdigit(s[i]) && s[i] != ' ')||i==n-1)
