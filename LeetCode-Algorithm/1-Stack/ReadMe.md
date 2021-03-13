@@ -123,7 +123,7 @@ public:
 };
 ```
 
-227 基本计算器二
+227. 基本计算器二
 
 * 题目描述:给你一个字符串表达式 `s` ，请你实现一个基本计算器来计算并返回它的值。整数除法仅保留整数部分。
 
@@ -192,6 +192,179 @@ public:
 };
 ```
 >Tips:#include<string> #include <ctype.h> #include <vector> #include<numeric> #include<iostream>
+
+
+
+ 772. 计算器三
+* 实现一个基本的计算器来计算简单的表达式字符串。表达式字符串只包含非负整数，算符 +、-、*、/ ，左括号 ( 和右括号 ) 。整数除法需要 向下截断 。
+
+* 示例
+```
+输入：s = "2 * (5 + 5 * 2) / 3 + (6 / 2 + 8)"
+输出：21
+```
+
+* 题解
+```
+1.用string存储整行输入的中缀表达式；
+2.接着从string的0位置开始判断字符，如果是数字，那就要判断后面是否是数字，如果是就不断扫描组成一个整数（暂不考虑负数和小数），最终组成一个整数，然后输出这个数（因为不用计算，所以直接输出即可）；
+3.如果是左括号，直接进符号栈；
+4.如果是操作运算符，与符号栈的栈顶元素比较优先级：如果高就压入栈；低，就取出符号栈顶的元素输出；
+接着，再判断符号栈顶的元素和当前的运算符号继续比较优先级，重复前面步骤，直到栈空或者当前的符号优先级高；
+5.如果是右括号，把符号栈栈顶的元素取出，如果不是左括号，把取出的运算符输出，接着取符号栈栈顶的元素，直到符号栈中取出的符号是左括号；
+6.当扫描完字符数组时，判断符号栈是否为空：不为空，把符号栈栈顶的元素取出，输出到窗口，直到符号栈为空。
+```
+
+* 代码
+```
+void reduceSpace(std::string& str)
+{
+	std::string substr;
+	for (auto c : str)
+	{
+		if (c != ' ')
+			substr.push_back(c);
+	}
+
+	str.assign(substr.begin(), substr.end());
+}
+
+bool isOperator(char ch)
+{
+	if (ch == '+' || ch == '-' || ch == '*' || ch == '/')
+		return true;
+	else
+		return false;
+}
+
+int getPriority(char ch)
+{
+	int level = 0;
+	
+	switch (ch)
+	{
+	case '(': level = 1; break;
+	case '+': level = 2; break;
+	case  '-': level = 2; break;
+	case  '*': level = 3; break;
+	case '/':level = 3; break;
+
+	default:break;
+	}
+	
+	return level;
+}
+
+void infix2suffix(std::string infix, std::vector<std::string>& suffix)
+{
+	reduceSpace(infix);
+	std::string op_stack;			//操作符栈
+
+	int i = 0;
+	int len = infix.size();
+	
+	while (i<len)
+	{
+		int num = 0;
+
+		if (isdigit(infix[i]))
+		{
+			do {
+				num = num * 10 + (infix[i] - '0');
+				i++;
+			} while (isdigit(infix[i]));
+
+			suffix.push_back(std::to_string(num));
+		}
+		else if (infix[i] == '(')
+		{
+			op_stack.push_back(infix[i]);
+			i++;
+		}
+		else if (isOperator(infix[i]))
+		{
+			
+			while (op_stack.size() > 0)
+			{
+				if (getPriority(infix[i]) > getPriority(op_stack.back()))  //当前元素优先级高于栈顶元素，高，入栈，低，栈顶元素输出
+				{
+					op_stack.push_back(infix[i]);
+					break;
+				}
+				else
+				{
+					char tmp = op_stack.back();
+					suffix.push_back(std::string(1,tmp));
+
+					op_stack.pop_back();
+				}
+			}
+
+			if (op_stack.size() == 0)
+				op_stack.push_back(infix[i]);
+
+			i++;
+		}
+		else if (infix[i] == ')')
+		{
+			while (op_stack.back() != '(')
+			{
+				char tmp = op_stack.back();
+				op_stack.pop_back();
+				suffix.push_back(std::string(1,tmp));
+			}
+			op_stack.pop_back();					//左括号不要
+			i++;
+
+		}
+
+	}
+
+	while (op_stack.size()>0)
+	{
+		char tmp = op_stack.back();
+		op_stack.pop_back();
+		suffix.push_back(std::string(1, tmp));
+	}
+	
+}
+
+int calculate(std::string str)
+{
+	std::vector<std::string> suffix;
+	infix2suffix(str, suffix);
+
+	int num1, num2,result;
+	std::vector<int> num;
+
+	for (auto str : suffix)
+	{
+		if (str == "+" || str == "-" || str == "*" || str == "/")
+		{
+			num1 = num.back();
+			num.pop_back();
+			num2 = num.back();
+			num.pop_back();
+
+			if (str == "+")
+				result = num2 + num1;
+			if (str == "-")
+				result = num2 - num1;
+			if (str == "*")
+				result = num2 * num1;
+			if (str == "/")
+				result = num2 / num1;
+
+			num.push_back(result);
+		}
+		else
+			num.push_back(atoi(str.c_str()));
+	}
+
+	return num.back();
+
+}
+```
 
 ## Contack
 
