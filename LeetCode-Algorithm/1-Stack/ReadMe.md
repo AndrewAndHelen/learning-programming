@@ -1,80 +1,33 @@
 # 栈
 
-1047. **删除字符串S中所有相邻重复项**
+71. 简化路径
+* 题目描述：给你一个字符串 path ，表示指向某一文件或目录的 Unix 风格 绝对路径 （以 `/` 开头），请你将其转化为更加简洁的规范路径。
 
-* 题解
+在 Unix 风格的文件系统中，一个点`.`表示当前目录本身；此外，两个点 `..` 表示将目录切换到上一级（指向父目录）；两者都可以是复杂相对路径的组成部分。任意多个连续的斜杠（即，`//`）都被视为单个斜杠 `/` 。 对于此问题，任何其他格式的点（例如，`...`）均被视为文件/目录名称。
 
-```
-建立空字符串sub_str，遍历字符串S，分两种情况进行：
-(1)如果sub_str尾部字符与S当前字符c不相同，将c压入到sub_str尾部。
-(2)如果sub_str尾部字符与S当前字符c相同，sub_str尾部字符出栈。
-```
-* 代码
-```c++
-class Solution {
-public:
-    string removeDuplicates(string S) {
-        string sub_str;
-        for(auto c:S)
-        {
-            if(!sub_str.empty()&&new_S.back()==c)
-                sub_str.pop_back();
-            else
-                sub_str.push_back(c);
-        }
+* 请注意，返回的 规范路径 必须遵循下述格式：
 
-        return sub_str;
-    }
-};
-```
+  * 始终以斜杠 `'/'` 开头。
 
-1048. **最长字符串链**
+  * 两个目录名之间必须只有一个斜杠`'/'` 。
+  * 最后一个目录名（如果存在）不能 以`'/'`结尾。
+  * 此外，路径仅包含从根目录到目标文件或目录的路径上的目录（即，不含 `.` 或 `..`）。
+  * 返回简化后得到的 规范路径 。
 
-* 题目描述：从给定单词列表 `words` 中选择单词组成词链，返回词链的最长可能长度。
 * 示例
-
 ```
-输入：["a","b","ba","bca","bda","bdca"]
-输出：4
-解释：最长单词链之一为 "a","ba","bda","bdca"。
+输入：path = "/home/"
+输出："/home"
+解释：注意，最后一个目录名后面没有斜杠。 
 ```
-
-
-
-> **词链**：[word_1, word_2, ..., word_k] 组成的序列，k >= 1，其中 word_1 是 word_2 的前身，word_2 是 word_3 的前身，依此类推。
 
 * 题解
-
 ```
-伪代码：
- int longestStrChain(vector<string>& words)
- {
- 	sort(words);		//按照字符串大小升序排列words
- 	map<string, int> d;	//建立map存储词链中最长的字符串与词链的长度
- 	
- 	int max_list_size=0;//最大词链长度
- 	for i:= 0 To words.size()
- 	{
- 		将words[i]作为d的一个键；
- 		if(words[i]长度为1)
- 			d[words[i]]=1;
- 		else
- 		{
- 			for j:=0:words[i].size()
- 			{
- 				提取words[i]除去位置j的子字符串sub_str;
- 				
- 				if(d中存在sub_str)
- 					d[words[i]]=max(d[words[i]],d[sub_str]+1);
- 				else
- 					d[words[i]]=max(d[words[i]],1);
- 			}
- 		}
- 		
- 		max_list_size = max(max_list_size,d[words[i]]);
- 	}
- 	return max_list_size;
- }
+用/作为分隔，每次读取/之前的字符串内容，分情况谈论：
+1. 如果 ""或者"."，就跳过
+2. 否则，
+（1）如果".."且保存分割内容的vector不空，则将栈顶字符串出栈
+（2）否则push_back到vector
 ```
 
 * 代码
@@ -82,46 +35,39 @@ public:
 ```c++
 class Solution {
 public:
-    int longestStrChain(vector<string>& words) {
-        sort(words.begin(),words.end(),[&](string a,string b){return a.size()<b.size();});
-        int ans=0;
-        map<string, int> d;
+    string simplifyPath(string path) {
+       stringstream ss(path);
+       vector<string> strs;
+       string str;
 
+       while(getline(ss,str,'/'))
+       {
+           if(str!="."&&str!="")
+           {
+               if(str!="..")
+                strs.push_back(str);
+               else
+                if(!strs.empty())
+                    strs.pop_back();
+           }
+       }
 
-        for(int i=0;i<words.size();i++)
-        {
-            int& word_len=d[words[i]];
-            if(words[i].size()==1)
-                i_len=1;
-            else
+       if(!strs.empty())
+       {
+            string clean_path;
+            for(auto s:strs)
             {
-                for(int j=0;j<words[i].size();j++)
-                {
-                    string sub_str;
-                    if(j==0)
-                        sub_str = words[i].substr(1);
-                    else if(j==words[i].size()-1)
-                        sub_str = words[i].substr(0,j);
-                    else
-                    {
-                        sub_str += words[i].substr(0,j);
-                        sub_str += words[i].substr(j+1);
-                    }
-
-                    if(d.count(sub_str))
-                        word_len = max(word_len,d[sub_str]+1);
-                    else
-                        word_len = max(word_len,1);
-                }
+                clean_path.append("/");
+                clean_path.append(s);
             }
-            ans =max(ans,word_len);
-           
-        }
-
-        return ans;
+           return clean_path;
+       }
+       else
+            return "/";
     }
 };
 ```
+
 
 227. 基本计算器二
 
@@ -365,6 +311,134 @@ int calculate(std::string str)
 
 }
 ```
+
+
+
+1047. **删除字符串S中所有相邻重复项**
+
+* 题解
+
+```
+建立空字符串sub_str，遍历字符串S，分两种情况进行：
+(1)如果sub_str尾部字符与S当前字符c不相同，将c压入到sub_str尾部。
+(2)如果sub_str尾部字符与S当前字符c相同，sub_str尾部字符出栈。
+```
+* 代码
+```c++
+class Solution {
+public:
+    string removeDuplicates(string S) {
+        string sub_str;
+        for(auto c:S)
+        {
+            if(!sub_str.empty()&&new_S.back()==c)
+                sub_str.pop_back();
+            else
+                sub_str.push_back(c);
+        }
+
+        return sub_str;
+    }
+};
+```
+
+1048. **最长字符串链**
+
+* 题目描述：从给定单词列表 `words` 中选择单词组成词链，返回词链的最长可能长度。
+* 示例
+
+```
+输入：["a","b","ba","bca","bda","bdca"]
+输出：4
+解释：最长单词链之一为 "a","ba","bda","bdca"。
+```
+
+
+
+> **词链**：[word_1, word_2, ..., word_k] 组成的序列，k >= 1，其中 word_1 是 word_2 的前身，word_2 是 word_3 的前身，依此类推。
+
+* 题解
+
+```
+伪代码：
+ int longestStrChain(vector<string>& words)
+ {
+ 	sort(words);		//按照字符串大小升序排列words
+ 	map<string, int> d;	//建立map存储词链中最长的字符串与词链的长度
+ 	
+ 	int max_list_size=0;//最大词链长度
+ 	for i:= 0 To words.size()
+ 	{
+ 		将words[i]作为d的一个键；
+ 		if(words[i]长度为1)
+ 			d[words[i]]=1;
+ 		else
+ 		{
+ 			for j:=0:words[i].size()
+ 			{
+ 				提取words[i]除去位置j的子字符串sub_str;
+ 				
+ 				if(d中存在sub_str)
+ 					d[words[i]]=max(d[words[i]],d[sub_str]+1);
+ 				else
+ 					d[words[i]]=max(d[words[i]],1);
+ 			}
+ 		}
+ 		
+ 		max_list_size = max(max_list_size,d[words[i]]);
+ 	}
+ 	return max_list_size;
+ }
+```
+
+* 代码
+
+```c++
+class Solution {
+public:
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(),words.end(),[&](string a,string b){return a.size()<b.size();});
+        int ans=0;
+        map<string, int> d;
+
+
+        for(int i=0;i<words.size();i++)
+        {
+            int& word_len=d[words[i]];
+            if(words[i].size()==1)
+                i_len=1;
+            else
+            {
+                for(int j=0;j<words[i].size();j++)
+                {
+                    string sub_str;
+                    if(j==0)
+                        sub_str = words[i].substr(1);
+                    else if(j==words[i].size()-1)
+                        sub_str = words[i].substr(0,j);
+                    else
+                    {
+                        sub_str += words[i].substr(0,j);
+                        sub_str += words[i].substr(j+1);
+                    }
+
+                    if(d.count(sub_str))
+                        word_len = max(word_len,d[sub_str]+1);
+                    else
+                        word_len = max(word_len,1);
+                }
+            }
+            ans =max(ans,word_len);
+           
+        }
+
+        return ans;
+    }
+};
+```
+
+
+
 
 ## Contack
 
