@@ -1,5 +1,76 @@
 # 图
 
+**54** 旋转矩阵
+
+* 给你一个 `m` 行 `n` 列的矩阵 `matrix` ，请按照 **顺时针螺旋顺序** ，返回矩阵中的所有元素。
+
+* 示例
+```
+输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+输出：[1,2,3,6,9,8,7,4,5]
+```
+
+* 题解
+```
+可以将矩阵看成若干层，首先输出最外层的元素，其次输出次外层的元素，直到输出最内层的元素。
+
+定义矩阵的第k层是到最近边界距离为k的所有顶点。例如，下图矩阵最外层元素都是第1层，次外层元素都是第2层，剩下的元素都是第3层。
+
+对于每层，从左上方开始以顺时针的顺序遍历所有元素。假设当前层的左上角位于（top,left)，右下角位于 (bottom,right)，按照如下顺序遍历当前层的元素。
+
+从左到右遍历上侧元素，依次为(top,left)到(top,right)。
+
+从上到下遍历右侧元素，依次为(top+1,right)到(bottom,right)。
+
+如果top<bottom，则从右到左遍历下侧元素，依次为(bottom,right−1)到(bottom,left+1)，以及从下到上遍历左侧元素，依次为(bottom,left)到(top+1,left)。
+
+遍历完当前层的元素之后，将left和top分别增加1，将right和bottom 分别减少1，进入下一层继续遍历，直到遍历完所有元素为止。
+
+```
+
+* 代码
+```
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+
+        if(rows==0&&cols==0)
+            return {};
+        
+        int top,left,bottom,right;      //top bottom rows. left right cols
+        vector<int> order;
+        top=left=0;
+        bottom=rows-1;
+        right =cols-1;
+
+        while(top<=bottom&&left<=right)
+        {
+            for(int col=left;col<=right;col++)
+                order.push_back(matrix[top][col]);
+            for(int row=top+1;row<=bottom;row++)
+                order.push_back(matrix[row][right]);
+            
+            if(top<bottom&&left<right)
+            {
+                for(int col=right-1;col>=left+1;col--)
+                    order.push_back(matrix[bottom][col]);
+                for(int row=bottom;row>=top+1;row--)
+                    order.push_back(matrix[row][left]);
+            }
+            ++top;
+            ++left;
+            --bottom;
+            --right;
+        }
+
+        return order;
+    }
+};
+```
+
+
 **785** 判断二分图
 
 * 题目描述:存在一个 无向图 ，图中有 n 个节点。其中每个节点都有一个介于 0 到 n - 1 之间的唯一编号。给你一个二维数组 graph ，其中 graph[u] 是一个节点数组，由节点 u 的邻接节点组成。形式上，对于 graph[u] 中的每个 v ，都存在一条位于节点 u 和节点 v 之间的无向边。该无向图同时具有以下属性：
