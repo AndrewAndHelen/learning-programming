@@ -108,9 +108,8 @@ void DfsNoRecursive(Graph<VertexType, DataType> graph)
 		{
 			if (graph.adjacency_matrix[k][j] != 0 && !visit[j])
 			{
-				std::cout << graph.vertexes[j];
-				visit[j] = true;
 				stk.push(j);
+				break;
 			}
 		}
 	}
