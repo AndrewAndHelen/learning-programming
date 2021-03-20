@@ -68,6 +68,73 @@ public:
 };
 ```
 
+150. 逆波兰表达式求值
+* 题目描述：根据 逆波兰表示法，求表达式的值。有效的算符包括 `+`、`-`、`*`、`/` 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+
+* 说明
+	* 整数除法只保留整数部分。
+	* 给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+
+* 示例
+```
+输入：tokens = ["4","13","5","/","+"]
+输出：6
+解释：该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6
+```
+
+* 题解
+```
+使用栈的思想解决问题
+新建一个vector->result存储计算过程中的结果。
+遍历tokens，如果是数字，则压入result。
+如果是运算符，则将result出栈两个数，num1和num2，num2与num1进行运算，结果压入进栈。
+返回result[0]。
+```
+* 代码
+```
+class Solution {
+public:
+    bool isSign(string str)
+    {
+        if(str=="+"||str=="-"||str=="*"||str=="/")
+            return true;
+        else
+            return false;
+    }
+
+    int evalRPN(vector<string>& tokens) {
+        vector<int> num;
+        
+        for(auto str:tokens)
+        {
+            if(isSign(str))
+            {
+                int num1 = num.back();num.pop_back();
+                int num2 = num.back();num.pop_back();
+                int result;
+
+                if(str=="+")
+                    result = num2+num1;
+                else if(str=="-")
+                    result = num2-num1;
+                else if(str=="*")
+                    result = num2*num1;
+                else if(str=="/")
+                    result = num2/num1;
+                
+                num.push_back(result);
+            }
+            else
+            {
+                num.push_back(atoi(str.c_str()));
+            }
+        }
+
+        return num[0];
+    }
+};
+
+```
 
 227. 基本计算器二
 
