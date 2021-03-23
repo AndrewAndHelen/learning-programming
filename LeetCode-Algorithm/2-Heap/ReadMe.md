@@ -1,6 +1,6 @@
 # 堆
 
-**215. 数组中的第K个最大元素**
+## **215. 数组中的第K个最大元素**
 
 * 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 
@@ -39,5 +39,45 @@ public:
         return my_queue.top();
     }
 };
+```
+## **347. 前 K 个高频元素**
+* 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+* 示例:
+```
+输入: nums = [1,1,1,2,2,3], k = 2
+输出: [1,2]
+```
+* 题解
+```cpp
+struct cmp {
+     bool operator()(const pair<int, int>& a, const pair<int, int>& b) {
+        return a.second > b.second;
+    }
+};
+vector<int> topKFrequent(vector<int>& nums, int k) {
+    unordered_map<int, int> nums_map;
+    for (int i = 0; i < nums.size(); i++) {
+        nums_map[nums[i]]++;
+    }
+    vector<int> result;
+
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> temp;
+    for (auto iter : nums_map) {
+        if(k > 0) {
+            temp.push(iter);
+            k--;
+        }
+        else if(temp.top().second < iter.second) {
+            temp.pop();
+            temp.push(iter);
+        }
+    }
+    while (!temp.empty()) {
+        result.push_back(temp.top().first);
+        temp.pop();
+    }
+    return result;
+}
 ```
 
