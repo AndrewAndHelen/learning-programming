@@ -10,11 +10,15 @@
 ```
 ## 思路
 ```
+方法一：
 1.按照递归的中序遍历将所有的val存入一个vector<int>；
 2.按照vector的存取方法构造迭代器
+方法二：
+维护栈stack
 ```
 ## Code
 ```cpp
+//方法一：
 class BSTIterator {
 private:
     void middleRecursive(TreeNode *root,vector<int> &nums){
@@ -46,4 +50,31 @@ public:
         return n>nums.size()-1?false:true;
     }
 };
+//方法二：
+class BSTIterator {
+private:
+    TreeNode * current;
+    stack<TreeNode *> stackNode;
+public:
+    BSTIterator(TreeNode* root):current(root){
+    }
+    
+    int next() {
+        while(current!=nullptr){
+            stackNode.push(current);
+            current=current->left;
+        }
+
+        current=stackNode.top();
+        stackNode.pop();
+        int result=current->val;
+        current=current->right;
+        return result;
+    }
+    
+    bool hasNext() {
+        return current!=nullptr||!stackNode.empty()?true:false;
+    }
+};
+
 ```
