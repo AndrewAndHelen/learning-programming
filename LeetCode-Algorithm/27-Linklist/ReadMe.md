@@ -153,3 +153,62 @@ public:
     }
 };
 ```
+## 19. 删除链表的倒数第 N 个结点
+* 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+* 示例
+```
+输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
+```
+* Code
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        //方法一：采取分情况讨论的方法
+        /*
+        int nodeNums=0;
+        auto temp=head;
+        while(temp->next&&++nodeNums) temp=temp->next;//统计节点数量
+
+        temp=head;
+        //情况一：删除头结点
+        if(n==nodeNums){
+            return head->next;
+        }
+        else if(n==1){//删除尾结点
+            nodeNums-=1;
+            while(nodeNums--!=1) temp=temp->next;
+            temp->next=temp->next->next;
+        }
+        else{//普通情况
+            int key=nodeNums-n;
+            while(key--!=1) temp=temp->next;
+            temp->next=temp->next->next;
+        }
+        return head;
+        */
+        //方法二：快慢指针
+        if(head->next==nullptr) return nullptr;
+        auto slow=head,fast=head;
+        while(n--) fast=fast->next;
+        if(!fast) return head->next;
+        while(fast->next){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        slow->next=slow->next->next;
+        return head;
+    }
+};
+```
