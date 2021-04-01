@@ -212,3 +212,62 @@ public:
     }
 };
 ```
+## 2. 两数相加
+### 题目
+ >给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+请你将两个数相加，并以相同形式返回一个表示和的链表。
+你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+### 示例1
+![](https://img-blog.csdnimg.cn/img_convert/7d87baa243f73bac7930b19529e847c7.png)
+```
+输入：l1 = [2,4,3], l2 = [5,6,4]
+输出：[7,0,8]
+解释：342 + 465 = 807.
+```
+### 示例2
+```
+输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+输出：[8,9,9,9,0,0,0,1]
+```
+### Code
+```cpp
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* head=nullptr;
+        auto tempNode=head;
+        int remainder=0;  //保存每一次计算之后的余数
+        while(l1||l2){
+        	//获得节点的值
+            int num1=l1?l1->val:0;
+            int num2=l2?l2->val:0;
+            int temp=num1+num2+remainder;
+            //将节点值放入新节点
+            if(!head){
+                head=tempNode=new ListNode(temp%10);
+            }
+            else{
+                tempNode->next=new ListNode(temp%10);
+                tempNode=tempNode->next;
+            }
+            remainder=temp/10;
+            l1=l1?l1->next:l1;
+            l2=l2?l2->next:l2;
+        }
+        //若在最后一次计算之后还有余值，则说明需要进位，将余数保存至新节点
+        if(remainder>0) tempNode->next=new ListNode(remainder);
+        return head;
+    }
+};
+```
