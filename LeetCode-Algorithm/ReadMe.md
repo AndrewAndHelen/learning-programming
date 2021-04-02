@@ -1,10 +1,8 @@
 # LeetCode-Algorithm
 
-LeetCode source code
 
 
-
-
+来源：[力扣（LeetCode）](https://leetcode-cn.com/?utm_source=LCUS&utm_medium=ip_redirect_o_uns&utm_campaign=transfer2china)
 
 ## Contack
 
