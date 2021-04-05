@@ -80,8 +80,10 @@ public:
 ```
 **46** 全排列
 
- >给定一个 没有重复 数字的序列，返回其所有可能的全排列。
- ### 示例一
+* 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+
+* 示例
+
  ```
  输入: [1,2,3]
 输出:
@@ -94,7 +96,8 @@ public:
   [3,2,1]
 ]
  ```
-### Code
+* 代码
+
 ```cpp
 //第一种解法
 class Solution {
@@ -134,23 +137,65 @@ public:
 class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        int len = nums.size();
-
-        vector<vector<int>> result;
-        permuteAll(nums,0,len-1,result);
+        permuteAll(nums,0);
         return result;
     }
-    void permuteAll(vector<int>& nums,int left,int right,vector<vector<int>>& result)
+    void permuteAll(vector<int>& nums,int left)
     {
-        if(left==right)
+        int len=nums.size();
+        if(left==len-1)
             result.push_back(nums);
         
-        for(int i=left;i<=right;++i)
+        for(int i=left;i<len;++i)
         {
             swap(nums[left],nums[i]);
-            permuteAll(nums,left+1,right,result);
+            permuteAll(nums,left+1);
             swap(nums[left],nums[i]);
         }
     }
+private:
+	vector<vector<int>> result
+};
+```
+
+**47** 全排列II
+
+* 给定一个可包含重复数字的序列 `nums` ，**按任意顺序** 返回所有不重复的全排列。
+* 示例
+```
+输入：nums = [1,1,2]
+输出：
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
+```
+
+* 代码
+```
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        permuteAll(nums,0);
+        return result;
+    }
+    void permuteAll(vector<int>& nums,int left)
+    {
+        int len=nums.size();
+        if(left==len-1)
+            result.push_back(nums);
+
+        for(int i=left;i<len;++i)
+        {
+            sort(nums.begin() + left, nums.end());
+			if (i > left && nums[i] == nums[i - 1]) continue;
+            
+            swap(nums[left],nums[i]);
+            permuteAll(nums,left+1);
+            swap(nums[left],nums[i]);
+        }
+    }
+
+private:
+    vector<vector<int>> result;
 };
 ```
