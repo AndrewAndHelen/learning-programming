@@ -1,12 +1,14 @@
-## LeetCode78 子集
- >给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集不能包含重复的子集。你可以按任意顺序返回解集。
-### 示例一
+## 回溯
+**78** 子集
+* 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。解集不能包含重复的子集。你可以按任意顺序返回解集。
+
+* 示例
 ```
 输入：nums = [1,2,3]
 输出：[[ ],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
 ```
-![image](https://img-blog.csdnimg.cn/img_convert/a2061876fbbe33050b603b109b69945e.png)
-### Code
+* 代码
+
 ```cpp
 class Solution {
 private:
@@ -34,17 +36,20 @@ public:
     }
 };
 ```
-## 90. 子集 II
+**90** 子集 II
+
  >给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
  >解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
  >
  ![](https://img-blog.csdnimg.cn/img_convert/087abd6a71816a97cdd253407cfe0b3f.png)
-### 示例一：
+* 示例
+
 ```
 输入：nums = [1,2,2]
 输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
 ```
-### Code
+* 代码
+
 ```cpp
 class Solution {
 private:
@@ -73,7 +78,8 @@ public:
     }
 };
 ```
-## 46. 全排列
+**46** 全排列
+
  >给定一个 没有重复 数字的序列，返回其所有可能的全排列。
  ### 示例一
  ```
@@ -87,9 +93,10 @@ public:
   [3,1,2],
   [3,2,1]
 ]
-```
+ ```
 ### Code
 ```cpp
+//第一种解法
 class Solution {
 private:
     vector<vector<int>> result;
@@ -120,6 +127,30 @@ public:
         backtracking(nums,used);
         return result;
 
+    }
+};
+
+//第二种解法
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        int len = nums.size();
+
+        vector<vector<int>> result;
+        permuteAll(nums,0,len-1,result);
+        return result;
+    }
+    void permuteAll(vector<int>& nums,int left,int right,vector<vector<int>>& result)
+    {
+        if(left==right)
+            result.push_back(nums);
+        
+        for(int i=left;i<=right;++i)
+        {
+            swap(nums[left],nums[i]);
+            permuteAll(nums,left+1,right,result);
+            swap(nums[left],nums[i]);
+        }
     }
 };
 ```
