@@ -18,14 +18,15 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 - [00 - C语言](#00---C语言)
 - [01 - C++](#01---C++)
-- [02 - 计算机基础](#02---计算机基础)
-- [03 - 计算机视觉](#03---计算机视觉)
-- [04 - 数据库](#04---数据库)
-- [05 - Git版本控制](#05---Git版本控制)
-- [06 - CMake](#06---CMake)
-- [07 - 刷题相关](#07---刷题相关)
-- [08 - Linux](#08---Linux)
-- [09 - 计算机网络](#09---计算机网络)
+- [02 - Java](#02---Java)
+- [03 - 计算机基础](#03---计算机基础)
+- [04 - 计算机视觉](#04---计算机视觉)
+- [05 - 数据库](#05---数据库)
+- [06 - Git版本控制](#06---Git版本控制)
+- [07 - CMake](#07---CMake)
+- [08 - 刷题相关](#08---刷题相关)
+- [09 - Linux](#09---Linux)
+- [10 - 计算机网络](#10---计算机网络)
 
 
 
@@ -48,7 +49,18 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《qt实例》[百度云链接](https://pan.baidu.com/s/1ZLxRSzAayfNS2v4MlUjX6Q) 提取码：5a4u
 - 《modern-cpp-tutorial-zh-cn》[百度云链接](https://pan.baidu.com/s/1AD9mEvtlvXZeb3xn8rnoOg) 提取码：o2qv
 - 《Google开源项目风格指南》[网址](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
-### <span id="02 - 计算机基础">02 - 计算机基础</span>
+
+### <span id="02 - Java">02 - Java</span>
+- 《Java开发手册》v1.5.0 华山版[百度云链接](https://pan.baidu.com/s/1c2IOX575rNMKmwSIjoT1MA) 提取码：843n
+- 《Java设计模式及实践》[百度云链接](https://pan.baidu.com/s/10MYxJYGkgebeXmrncTtDeQ) 提取码：5fmr
+- 《Java编程思想》在线版[网址](https://lingcoder.github.io/OnJava8/#/sidebar)
+- 《Java编程思想(第4版)（带目录书签）》[百度云链接](https://pan.baidu.com/s/1vZDehq1KPKZp8tLmbIdX1g) 提取码：m7pp
+- 《SpringBoot实战(第4版)》[百度云链接](https://pan.baidu.com/s/1Ubcf846slIx6dfqTwHqsgA) 提取码：i7yb
+- 《Head+First+Java+中文高清版》[百度云链接](https://pan.baidu.com/s/1i7FkX5FfMECQ51NDKGwjlQ) 提取码：960d
+- 《Java核心技术 卷1 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1GKrw-Wnnx2UNw8aui0QZfA) 提取码：sir8
+- 《Java核心技术 卷2 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1Twu4_xsoTu0tyBeTN9N9yQ) 提取码：vj9h
+
+### <span id="03 - 计算机基础">03 - 计算机基础</span>
 
 - 《大话数据结构》[百度云链接](https://pan.baidu.com/s/1j8avVKTs0rv916Af6q_i0g) 提取码：0nlq
 - 《计算机组成原理（第2版）唐朔飞》[百度云链接](https://pan.baidu.com/s/1kA3Z3wnLGCL3soebdiqGcg) 提取码：1d9y
@@ -57,25 +69,28 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《数据结构与算法分析Java语言描述 原书第3版 》[百度云链接](https://pan.baidu.com/s/1mfUbNBRZ4byIZIFbJrrCCQ) 提取码：9sc1
 - 《现代操作系统 原书第4版 》[百度云链接](https://pan.baidu.com/s/1hhSGzCtWxMGLitTB_eIUxQ) 提取码：zcqd
 
-### <span id="03 - 计算机视觉">03 - 计算机视觉</span>
+### <span id="04 - 计算机视觉">04 - 计算机视觉</span>
 
 - 《学习OpenCV3中文版》[百度云链接](https://pan.baidu.com/s/1nRiNKR1tvSkn2w282wBqOA) 提取码：n6e4
 - 《点云库PCL学习教程》[百度云链接](https://pan.baidu.com/s/1ZhHomzFsHoWj07OJjnwLqA) 提取码：hgvh
 - 《计算机视觉中的多视图几何-第一版-中文完整版》[百度云链接](https://pan.baidu.com/s/16DLUesqg1KT54pCmpRnt-w) 提取码：tmws
 - 《OpenSceneGraph三维渲染引擎编程指南》[百度云链接](https://pan.baidu.com/s/1O4vrIm8MfxbDItgPIupmKg) 提取码：nua4
 - 《高翔slam十四讲及实例代码》[百度云链接](https://pan.baidu.com/s/16jjBWayAVkFYc5cl-_O5iQ) 提取码：rqg6
+- 《CS229-LinearAlgebra》[百度云链接](https://pan.baidu.com/s/18TAe26dIXNlzclFREheaAw) 提取码：7e4f
+- 《GN-LM算法》[百度云链接](https://pan.baidu.com/s/1U-8ApqA2OOzAKj5KB4TlCg) 提取码：a1qi
+- 《matrixcookbook》[百度云链接](https://pan.baidu.com/s/1IqzsusjrcfHCL8GOwE_caQ) 提取码：c7s7
 
-### <span id="04 - 数据库">04 - 数据库</span>
+### <span id="05 - 数据库">05 - 数据库</span>
 
 - 《Effective SQL：编写高质量SQL语句的61个有效方法》[百度云链接](https://pan.baidu.com/s/1_Vz6MwfSCZGYDLp14hlssQ) 提取码：ql2d
 - 《高性能mysql第三版》[百度云链接](https://pan.baidu.com/s/1Xa2cyz58qvWFxezQdWOcPA) 提取码：q84s
 
-### <span id="05 - Git版本控制">05 - Git版本控制</span>
+### <span id="06 - Git版本控制">06 - Git版本控制</span>
 
 - 《GitHub入门与实践》[百度云链接](https://pan.baidu.com/s/1gD71kGfkR1BMopEcaoYO3A) 提取码：klbd
 - 《Git的奇技淫巧》[百度云链接](https://pan.baidu.com/s/17KzilwwFKEnXf702-wVChg) 提取码：ansu
 
-### <span id="06 - CMake">06 - CMake</span>
+### <span id="07 - CMake">07 - CMake</span>
 
 - 《Professional CMake A Practical Guide (2018)》[百度云链接](https://pan.baidu.com/s/1f1U9m1dOW9s4Ubm3D3azWw) 提取码：hkdn
 - 《Modern CMake文档》[百度云链接](https://pan.baidu.com/s/1MiN4yRoCCe_JipQK4UK9kw) 提取码：19t7
@@ -86,7 +101,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《modern-cmake》[百度云链接](https://pan.baidu.com/s/1airD9SILTKPfhQSSCuKm6g) 提取码：rer3  
 - 《CMake 实践》[百度云链接](https://pan.baidu.com/s/1NkEDHpmGfPbZPaFc_BLcFA) 提取码：nwe4  
 
-### <span id="07 - 刷题相关">07 - 刷题相关</span>
+### <span id="08 - 刷题相关">08 - 刷题相关</span>
 
 - 《剑指offer》[百度云链接](https://pan.baidu.com/s/1OXgcU3hpNf7_wnq-d0V_lg) 提取码：eu85  
 - 《leetcode-solution》[百度云链接](https://pan.baidu.com/s/1oiixq2NCvX-a11NFxbtRWw) 提取码：z9nv 
@@ -95,7 +110,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
 - 《程序员内功修炼-V2.0》[百度云链接](https://pan.baidu.com/s/16bAKdTYNMOt_EYi9fkPNMw) 提取码：7e6w
 
-### <span id="08 - Linux">08 - Linux</span>
+### <span id="09 - Linux">09 - Linux</span>
 
 - 《Linux系统命令及shell脚本实践指南linuxunix技术丛书》[百度云链接](https://pan.baidu.com/s/1VB-LkMuJXtR1ub2fevrY-w) 提取码：a8me
 - 《Linux鸟哥私房菜基础篇-第四版》[百度云链接](https://pan.baidu.com/s/1LOUwFO_IHzaJIzH4QHmShQ) 提取码：lwxt
@@ -103,7 +118,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《Linux高性能服务器编程》[百度云链接](https://pan.baidu.com/s/1I4UNWEd0JElaj9zmPZse0A) 提取码：auaq
 - 《Linux多线程服务端编程：使用muduo C++网络库(陈硕)》[百度云链接](https://pan.baidu.com/s/1izijeZamyDfaa1bdbAye2Q) 提取码：jh3z
 
-### <span id="09 - 计算机网络">09 - 计算机网络</span>
+### <span id="10 - 计算机网络">10 - 计算机网络</span>
 
 - 《计算机网络（第7版）-谢希仁》[百度云链接](https://pan.baidu.com/s/1wxUgFTx0NVt2aYEJnEXrmQ) 提取码：d00i
 - 《Http核心总结》[百度云链接](https://pan.baidu.com/s/1OH92q6i0BS_Kk4UfeI3utw) 提取码：ispf
