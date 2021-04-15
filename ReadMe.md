@@ -101,6 +101,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《CMake Practice》[百度云链接](https://pan.baidu.com/s/1wnnGzc4WHOVTO33CJQ2gXQ) 提取码：gmrn  
 - 《modern-cmake》[百度云链接](https://pan.baidu.com/s/1airD9SILTKPfhQSSCuKm6g) 提取码：rer3  
 - 《CMake 实践》[百度云链接](https://pan.baidu.com/s/1NkEDHpmGfPbZPaFc_BLcFA) 提取码：nwe4  
+- 《CMake CookBook》[链接](https://github.com/xiaoweiChen/CMake-Cookbook/blob/master/SUMMARY.md)
 
 ### <span id="08 - 刷题相关">08 - 刷题相关</span>
 
