@@ -69,7 +69,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《数据结构与算法分析 C++语言描述.4th.Mark Allen Weiss.2016》[百度云链接](https://pan.baidu.com/s/1k096L2QoyxtL4mHpbSsSpQ) 提取码：r7x5
 - 《数据结构与算法分析Java语言描述 原书第3版 》[百度云链接](https://pan.baidu.com/s/1mfUbNBRZ4byIZIFbJrrCCQ) 提取码：9sc1
 - 《现代操作系统 原书第4版 》[百度云链接](https://pan.baidu.com/s/1hhSGzCtWxMGLitTB_eIUxQ) 提取码：zcqd
-
+- 《CSAPP中文第三版》[百度云链接](https://pan.baidu.com/s/1hhSGzCtWxMGLitTB_eIUxQ) 提取码：zcqd
 ### <span id="04 - 计算机视觉">04 - 计算机视觉</span>
 
 - 《学习OpenCV3中文版》[百度云链接](https://pan.baidu.com/s/1nRiNKR1tvSkn2w282wBqOA) 提取码：n6e4
@@ -79,7 +79,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《高翔slam十四讲及实例代码》[百度云链接](https://pan.baidu.com/s/16jjBWayAVkFYc5cl-_O5iQ) 提取码：rqg6
 - 《CS229-LinearAlgebra》[百度云链接](https://pan.baidu.com/s/18TAe26dIXNlzclFREheaAw) 提取码：7e4f
 - 《GN-LM算法》[百度云链接](https://pan.baidu.com/s/1U-8ApqA2OOzAKj5KB4TlCg) 提取码：a1qi
-- 《matrixcookbook》[百度云链接](https://pan.baidu.com/s/1IqzsusjrcfHCL8GOwE_caQ) 提取码：c7s7
+- 《matrixcookbook》[百度云链接](https://pan.baidu.com/s/17JLMG3VyBJhXtb2TvpkUuA) 提取码：k5rg
 
 ### <span id="05 - 数据库">05 - 数据库</span>
 
