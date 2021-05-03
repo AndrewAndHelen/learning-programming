@@ -1,6 +1,6 @@
-# 树
+## 树
 
-**114** 二叉树的前序遍历
+### 114 二叉树的前序遍历
 
 * 给定一个二叉树的根节点 `root` ，返回它的 **前序** 遍历。
 
@@ -78,7 +78,7 @@ public:
 ```
 
 
-**94** 二叉树的中序遍历
+### 94 二叉树的中序遍历
 
 * 给定一个二叉树的根节点 `root` ，返回它的 **中序** 遍历。
 
@@ -232,7 +232,7 @@ public:
 };
 ```
 
-**102** 二叉树的层序遍历
+### 102 二叉树的层序遍历
 * 给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
 * 示例
 ```
@@ -305,7 +305,118 @@ public:
 };
 ```
 
+### 236 二叉树的最近公共祖先
+* 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+>*Tips: 中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”*
 
+* 示例
+![img](https://assets.leetcode.com/uploads/2018/12/14/binarytree.png)
+```
+输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+输出：3
+解释：节点 5 和节点 1 的最近公共祖先是节点 3 。
+```
+
+* 题解
+```
+递归解法：
+给定两个节点p和q:
+	如果p和q都存在，则返回它们的公共祖先；
+	如果只存在一个，则返回存在的一个；
+	如果p和q都不存在，则返回NULL
+具体思路：
+（1）如果当前结点root等于NULL，则直接返回 NULL
+（2）如果root等于p或者q ，那这棵树一定返回p或者q
+（3）然后递归左右子树，因为是递归，使用函数后可认为左右子树已经算出结果，用left和right表示
+（4）此时若left为空，那最终结果只要看right；若right 为空，那最终结果只要看left
+（5）如果left和right都非空，因为只给了p和q两个结点，都非空，说明一边一个，因此 root是他们的最近公共祖先
+（6）如果left和right都为空，则返回空（其实已经包含在前面的情况中了）
+
+非递归解法：
+使用后序遍历可以获取某一节点的所有祖先节点，在获取俩个节点的所有祖先节点后，从后往前遍历取最后一个相同节点作为最近公共祖先节点。
+```
+
+* 代码
+```
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        std::vector<TreeNode*> road_p,road_q;
+        getPath(root,road_p,p);
+        getPath(root,road_q,q);
+
+        int length = min(road_p.size(),road_q.size());
+
+        for(int i=length-1;i>=0;--i)
+        {
+           if(road_p[i]==road_q[i])
+                return road_p[i];
+        }
+
+        return nullptr;
+    }
+
+    bool getPath(TreeNode* root,std::vector<TreeNode*>& road,TreeNode* end)
+    {
+        TreeNode* node=root;
+        TreeNode* pre_visit=nullptr;
+
+        while(node!=nullptr||!road.empty())
+        {
+            while(node!=nullptr)
+            {
+                road.push_back(node);
+                if(node == end) return true;
+                node=node->left;
+            }
+
+            node=road.back();
+            if(node->right==nullptr||node->right==pre_visit)
+            {
+                pre_visit = node;
+                node = nullptr;
+                road.pop_back();
+            }
+            else{
+                node = node->right;
+            }
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL)
+            return NULL;
+        if(root == p || root == q) 
+            return root;
+            
+        TreeNode* left =  lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+       
+        if(left == NULL)
+            return right;
+        if(right == NULL)
+            return left;      
+        if(left && right) // p和q在两侧
+            return root;
+        
+        return NULL; // 必须有返回值
+    }
+};
+```
 ## Contack
 
 If you found bugs or have new ideas,please pull requests😄   
