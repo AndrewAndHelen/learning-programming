@@ -4,6 +4,7 @@ This GitHub repo contains all of training content for  my scholastic life.
 
 - [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
+- [Effective-Modern-C++](./Effective-modern-c++/ReadMe.md)
 - [STL](./STL/ReadMe.md)
 
 ## Cloning this repository
