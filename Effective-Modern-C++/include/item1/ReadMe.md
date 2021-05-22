@@ -74,6 +74,7 @@ f3(x); //T和param都是int
 f3(cx); //T和param都是int
 f3(rx); //T和param都是int
 
+//，对于形参来说指向const的指针或者指向const的引⽤在类型推导时const都会被保留
 const char* const ptr = //ptr是⼀个常量指针，指向常量对象
 " Fun with pointers";
 f3(ptr); //T和param 为const char*
