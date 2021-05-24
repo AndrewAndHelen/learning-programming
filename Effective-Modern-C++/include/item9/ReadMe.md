@@ -18,4 +18,10 @@ MyAllocList<Widget> lw;
 如果你在⼀个模板内部使⽤类型参数，你也需要在它们前⾯加上typename。
 template <class T>
 using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
+
+声明一个函数指针
+// FP是⼀个指向函数的指针的同义词，它指向的函数带有int和const std::string&形参，不返回任何东
+西
+typedef void (*FP)(int, const std::string&); // typedef
+using FP = void (*)(int, const std::string&); // 别名声明
 ```
