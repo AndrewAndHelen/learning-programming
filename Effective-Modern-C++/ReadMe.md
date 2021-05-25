@@ -28,12 +28,14 @@ A summary for Effective-modern-c++
 * [Item17:理解特殊成员函数的⽣成](./include/item17/ReadMe.md)
 
 4.智能指针
-* [Item 18:对于独占资源使⽤std::unique_ptr](./include/item18/ReadMe.md)
-* [Item 19:对于共享资源使⽤std::shared_ptr]
-* [Item 20: 当std::shard_ptr可能悬空时使⽤std::weak_ptr]
-* [Item 21:优先考虑使⽤std::make_unique和std::make_shared而⾮new]
+
+* [Item18:对于独占资源使⽤std::unique_ptr](./include/item18/ReadMe.md)
+* [Item19:对于共享资源使⽤std::shared_ptr](./include/item19/ReadMe.md)
+* [Item20: 当std::shard_ptr可能悬空时使⽤std::weak_ptr](./include/item20/ReadMe.md)
+* [Item21:优先考虑使⽤std::make_unique和std::make_shared而⾮new](./include/item21/ReadMe.md)
 
 5.右值引用，移动语义，完美转发
+
 * [Item23: 理解std::move和std::forward]
 * [Item24: 区分通⽤引⽤与右值引⽤]
 * [Item25: 对右值引⽤使⽤std::move，对通⽤引⽤使⽤std::forward]
