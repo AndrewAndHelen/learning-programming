@@ -33,6 +33,7 @@ A summary for Effective-modern-c++
 * [Item19:对于共享资源使⽤std::shared_ptr](./include/item19/ReadMe.md)
 * [Item20: 当std::shard_ptr可能悬空时使⽤std::weak_ptr](./include/item20/ReadMe.md)
 * [Item21:优先考虑使⽤std::make_unique和std::make_shared而⾮new](./include/item21/ReadMe.md)
+* [Item22:当使⽤Pimpl惯⽤法，请在实现⽂件中定义特殊成员函数](./include/item22/ReadMe.md)
 
 5.右值引用，移动语义，完美转发
 
@@ -46,10 +47,10 @@ A summary for Effective-modern-c++
 * [Item30:熟悉完美转发的失败情况]
 
 6.Lambda表达式
-* [避免使⽤默认捕获模式]
-* [使⽤初始化捕获来移动对象到闭包中]
-* [对于std::forward的auto&&形参使⽤decltype]
-* [考虑lambda表达式而⾮std::bind]
+* [Item31:避免使⽤默认捕获模式]
+* [Item32:使⽤初始化捕获来移动对象到闭包中]
+* [Item33:对于std::forward的auto&&形参使⽤decltype]
+* [Item34:考虑lambda表达式而⾮std::bind]
 
 7.并发API
 * [Item 35:优先考虑基于任务的编程而⾮基于线程的编程]
@@ -60,5 +61,7 @@ A summary for Effective-modern-c++
 * [Item 40:对于并发使⽤std::atomic，volatile⽤于特殊内存区]
 
 8.微调
+
 * [Item 41:对于那些可移动总是被拷⻉的形参使⽤传值⽅式]
 * [Item 42:考虑就地创建而⾮插⼊]
+
