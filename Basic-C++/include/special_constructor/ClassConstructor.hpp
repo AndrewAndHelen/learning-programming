@@ -29,13 +29,7 @@ public:
 		m_data = new char[strlen(str.m_data) + 1];
 		strcpy(m_data, str.m_data);
 	}
-	// 移动构造函数
-	MyString(MyString&& str) noexcept
-		:m_data(str.m_data) {
-		MCtor++;
-		str.m_data = nullptr; //不再指向之前的资源了
-	}
-
+	
 	// 拷贝赋值函数 =号重载
 	MyString& operator=(const MyString& str) {
 		CAsgn++;
@@ -46,6 +40,13 @@ public:
 		m_data = new char[strlen(str.m_data) + 1];
 		strcpy(m_data, str.m_data);
 		return *this;
+	}
+	
+	// 移动构造函数
+	MyString(MyString&& str) noexcept
+		:m_data(str.m_data) {
+		MCtor++;
+		str.m_data = nullptr; //不再指向之前的资源了
 	}
 
 	// 移动赋值函数 =号重载

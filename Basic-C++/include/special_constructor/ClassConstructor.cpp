@@ -29,6 +29,5 @@ int main()
 	cout << "CAsgn = " << MyString::CAsgn << endl;
 	cout << "MAsgn = " << MyString::MAsgn << endl;
 	
-	std::cin.get();
 	return 0;
 }

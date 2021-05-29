@@ -1,11 +1,5 @@
 # STL
 
-The content of this part
-
-- Utility
-
-
-
 ## 一. 了解typename的双重意义
 
 - **声明template类型参数**

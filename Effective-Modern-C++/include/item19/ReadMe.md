@@ -89,6 +89,12 @@ count: 3v = 100
 count : 3v = 100
 count : 4v = 20
 count : 3v = 20*/
+
+2.shared_ptr管理裸数组
+//第一种
+shared_ptr<int> p(new int[10],[](int *p) {delete[] p;});
+//第二种
+shared_ptr<int> p(new int[10],default_delete<int[]>());
 ```
 
 * 18.3 自定义删除器
@@ -173,4 +179,3 @@ void Widget::process()
 shared_from_this查找当前对象控制块，然后创建⼀个新的std::shared_ptr指向这
 个控制块。要想符合设计依据的情况，必须已经存在⼀个指向当前对象的std::shared_ptr (即调⽤shared_from_this的成员函数外⾯已经存在⼀个std::shared_ptr )。如果没有std::shared_ptr指向当前对象（即当前对象没有关联控制块），⾏为是未定义的。shared_from_this通常抛出⼀个异常。
 ```
-

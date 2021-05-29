@@ -53,15 +53,15 @@ A summary for Effective-modern-c++
 * [Item34:考虑lambda表达式而⾮std::bind]
 
 7.并发API
-* [Item 35:优先考虑基于任务的编程而⾮基于线程的编程]
-* [Item 36:如果有异步的必要请指定std::launch::threads]
-* [Item 37:从各个⽅⾯使得std::threads unjoinable]
-* [Item 38:关注不同线程句柄析构⾏为]
-* [Item 39:考虑对于单次事件通信使⽤void]
-* [Item 40:对于并发使⽤std::atomic，volatile⽤于特殊内存区]
+* [Item35:优先考虑基于任务的编程而⾮基于线程的编程]
+* [Item36:如果有异步的必要请指定std::launch::threads]
+* [Item37:从各个⽅⾯使得std::threads unjoinable]
+* [Item38:关注不同线程句柄析构⾏为]
+* [Item39:考虑对于单次事件通信使⽤void]
+* [Item40:对于并发使⽤std::atomic，volatile⽤于特殊内存区]
 
 8.微调
 
-* [Item 41:对于那些可移动总是被拷⻉的形参使⽤传值⽅式]
-* [Item 42:考虑就地创建而⾮插⼊]
+* [Item41:对于那些可移动总是被拷⻉的形参使⽤传值⽅式]
+* [Item42:考虑就地创建而⾮插⼊]
 
