@@ -18,4 +18,6 @@ C++基础
 * [weak_ptr](./include/weak_ptr/ReadMe.md)
 * [special_constructor](./include/special_constructor/ReadMe.md)
 * [numeric_limits](./include/numeric_limits/ReadMe.md)
+* [Lambda](./include/Lambda/ReadMe.md)
+* [functional](./include/functional/ReadMe.md)
 
