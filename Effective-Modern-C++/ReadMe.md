@@ -5,19 +5,20 @@ A summary for Effective-modern-c++
 ### catalog
 
 1.类型推导
-* [Item1 :Understand template type deduction](./include/item1/ReadMe.md)
-* [Item2:Understand auto type deduction](./include/item2/ReadMe.md)
-* [Item 3: Understand decltype](./include/item3/ReadMe.md)
-* [Item 4:Know how to view deduced types](./include/item4/ReadMe.md)
+* [Item1:理解模板类型推导](./include/item1/ReadMe.md)
+* [Item2:理解auto类型推导](./include/item2/ReadMe.md)
+* [Item 3:理解decltype](./include/item3/ReadMe.md)
+* [Item 4:学会查看类型推导结果](./include/item4/ReadMe.md)
 
 2.auto
-* [Item 5:Prefer auto to explicit type declarations](./include/item5/ReadMe.md)
-* [Item 6:Use the explicitly typed initializer idiom when auto deduces undesired types](./include/item6/ReadMe.md)
+
+* [Item 5:优先考虑auto而非显式类型转换](./include/item5/ReadMe.md)
+* [Item 6:auto推导若非己愿，使用显示类型初始化惯用法](./include/item6/ReadMe.md)
 
 3.移步现代C++
-* [Item 7:Distinguish between () and {} when creatingobjects](./include/item7/ReadMe.md)
-* [Item 8: Prefer nullptr to 0 and NULL](./include/item8/ReadMe.md)
-* [Item 9:Prefer alias declarations to typedefs](./include/item9/ReadMe.md)
+* [Item 7:区分使用()和{}创建对象](./include/item7/ReadMe.md)
+* [Item 8: 优先考虑nullptr而非0和NULL](./include/item8/ReadMe.md)
+* [Item 9:优先考虑别名声明而非typedef](./include/item9/ReadMe.md)
 * [Item 10:优先考虑限域枚举而⾮未限域枚举](./include/item10/ReadMe.md)
 * [Item 11:优先考虑使⽤deleted函数而⾮使⽤未定义的私有声明](./include/item11/ReadMe.md)
 * [Item 12:使⽤override声明重载函数](./include/item12/ReadMe.md)
