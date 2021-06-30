@@ -106,7 +106,7 @@ DOG* dog4 = dynamic_cast<DOG*>(ani4);
 
 //基类指针转为派生类指针，且该基类指针指向派生类对象
 ANIMAL * ani5 = new DOG;
-DOG* dog5 = static_cast<DOG*>(ani5);
+DOG* dog5 = dynamic_cast<DOG*>(ani5);
 dog5->OutPutname(); //正确
 ```
 
