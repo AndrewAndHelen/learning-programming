@@ -134,8 +134,10 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《UNIX网络编程卷2：进程间通信》[百度云链接](https://pan.baidu.com/s/1XLNuHR0ayrEMXWGLvlfTvg) 提取码：js21
 - 《Linux_UNIX系统编程手册（上）》[百度云链接](https://pan.baidu.com/s/10Bsz4Q-dgzi4fp3D-jC-hg) 提取码：viaz
 - 《Linux_UNIX系统编程手册（下）》[百度云链接](https://pan.baidu.com/s/1VfDhh2XykJQq2W336_k47A) 提取码：uqxu
-- 《图解HTTP 》[百度云链接](https://pan.baidu.com/s/1hs4MB02DtIDU5XT-5R9JKg) 提取码：o0cg
+- 《网络是怎样连接的》[百度云链接](https://pan.baidu.com/s/1bwk6Lox8tzBe6e751VwVqQ) 提取码：jzer
 - 《图解TCPIP(第5版)》[百度云链接](https://pan.baidu.com/s/1gCchTTbxpBb4YVF9uTt7oA) 提取码：6o2c
+- 《图解HTTP 》[百度云链接](https://pan.baidu.com/s/1hs4MB02DtIDU5XT-5R9JKg) 提取码：o0cg
+
 
 ## Contack
 
