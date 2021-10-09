@@ -60,6 +60,14 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《Head+First+Java+中文高清版》[百度云链接](https://pan.baidu.com/s/1i7FkX5FfMECQ51NDKGwjlQ) 提取码：960d
 - 《Java核心技术 卷1 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1GKrw-Wnnx2UNw8aui0QZfA) 提取码：sir8
 - 《Java核心技术 卷2 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1Twu4_xsoTu0tyBeTN9N9yQ) 提取码：vj9h
+- 《深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）周志明》[百度云链接](https://pan.baidu.com/s/1nt3cXv1xcLHTpEez2mgQ3A) 提取码：5tjo
+- 《实战JAVA虚拟机》[百度云链接](https://pan.baidu.com/s/1Awypiu94KfA0INJgOcbEjw) 提取码：iprf
+- 《自己动手写Java虚拟机 (Java核心技术系列)》[百度云链接](https://pan.baidu.com/s/1bEVljLPCVyyyCHpICQ93qg) 提取码：jrss
+- 《Java并发编程的艺术》[百度云链接](https://pan.baidu.com/s/161Wc3DEXGHKe2yLSQZhRRQ) 提取码：3fzh
+- 《JAVA并发编程实践中文-高清-带书签-完整版》[百度云链接](https://pan.baidu.com/s/1mkd8pddJMBS68R4W9LvIvQ) 提取码：fwjj
+- 《Java并发编程之美》[百度云链接](https://pan.baidu.com/s/1wiI1F7wOfeWa4L7RGJ8gew) 提取码：la4f
+- 《Java高并发编程详解》[百度云链接](https://pan.baidu.com/s/1a08ETRfwH-0SdV52BWeQ4Q) 提取码：6xbk
+- 《实战Java高并发程序设计》[百度云链接](https://pan.baidu.com/s/1X2AWk_hf1uYPzfCm2bdwHA) 提取码：aggf
 
 ### <span id="03 - 计算机基础">03 - 计算机基础</span>
 
