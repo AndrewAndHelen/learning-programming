@@ -1,6 +1,4 @@
-# Alogrithm Training
-
-This GitHub repo contains all of training content for  my scholastic life.
+# AlogrithmTrain
 
 - [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
@@ -87,6 +85,12 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 - 《Effective SQL：编写高质量SQL语句的61个有效方法》[百度云链接](https://pan.baidu.com/s/1_Vz6MwfSCZGYDLp14hlssQ) 提取码：ql2d
 - 《高性能mysql第三版》[百度云链接](https://pan.baidu.com/s/1Xa2cyz58qvWFxezQdWOcPA) 提取码：q84s
+- 《redis设计与实现(第二版)》[百度云链接](https://pan.baidu.com/s/1fWBo-l0_aHywRz9LR_Bu4g) 提取码：u6co
+- 《MySQL必知必会》[百度云链接](https://pan.baidu.com/s/1HGS3O495EVFdE6-maKEDcw) 提取码：c24u
+- 《Redis实战》[百度云链接](https://pan.baidu.com/s/1UIowB5w0vuOBpwFGP8JwCg) 提取码：e8ag
+- 《Redis开发与运维》[百度云链接](https://pan.baidu.com/s/1m5adk7st59WVx0vYZwt4Fw) 提取码：f0ww
+- 《MySQL技术内幕  InnoDB存储引擎  第2版》[百度云链接](https://pan.baidu.com/s/1-i4rEC7ehLlxam3wf3T59g) 提取码：6du7
+- 《数据库索引设计与优化》[百度云链接](https://pan.baidu.com/s/1PVaFN342vKLpOZ_ONNDRWw) 提取码：ovce
 
 ### <span id="06 - Git版本控制">06 - Git版本控制</span>
 
