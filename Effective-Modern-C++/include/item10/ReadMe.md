@@ -26,7 +26,9 @@ array[black] = 1;//等价array[0]
 * 10.2 enum class的优点
 ```
 1.不会导致枚举名泄漏
-enum class Color { black, white, red }; // black, white, red
+enum class Color:std::uint32_t
+{ black, white, red }; // black, white, red
+using Color_Type = std::underlying_type<Color>::type;
 // 限制在Color域内
 auto white = false; // 没问题，同样域内没有这个名字
 Color c = white; //错误，这个域中没有white
@@ -37,4 +39,5 @@ auto c = Color::white; // 也没问题（也符合条款5的建议）
 enum class Color { black, white, red }; // black, white, red
 int array[10] = { 0,0 };
 array[black] = 1;//error
+array[static_cast<Color_Type>(Color::black)]=1;//没问题
 ```
