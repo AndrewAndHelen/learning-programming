@@ -3,6 +3,7 @@
 - [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
 - [Effective-Modern-C++](./Effective-Modern-C++/ReadMe.md)
+- [Design-Pattern](./Design-Pattern/ReadMe.md)
 - [Basic-C++](./Basic-C++/ReadMe.md)
 - [STL](./STL/ReadMe.md)
 
@@ -165,5 +166,3 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 If you found bugs or have new ideas,please pull requests😄   
 If you have trouble compiling or using this software,email to [15313326374@163.com](mailto:15313326374@163.com)  
-
-[电子工业出版社]: 
