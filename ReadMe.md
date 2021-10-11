@@ -14,7 +14,7 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 
 
-### Computer books
+## Computer books
 
 - [00 - C语言](#00---C语言)
 - [01 - C++](#01---C++)
@@ -56,7 +56,6 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《Java设计模式及实践》[百度云链接](https://pan.baidu.com/s/10MYxJYGkgebeXmrncTtDeQ) 提取码：5fmr
 - 《Java编程思想》在线版[网址](https://lingcoder.github.io/OnJava8/#/sidebar)
 - 《Java编程思想(第4版)（带目录书签）》[百度云链接](https://pan.baidu.com/s/1vZDehq1KPKZp8tLmbIdX1g) 提取码：m7pp
-- 《SpringBoot实战(第4版)》[百度云链接](https://pan.baidu.com/s/1Ubcf846slIx6dfqTwHqsgA) 提取码：i7yb
 - 《Head+First+Java+中文高清版》[百度云链接](https://pan.baidu.com/s/1i7FkX5FfMECQ51NDKGwjlQ) 提取码：960d
 - 《Java核心技术 卷1 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1GKrw-Wnnx2UNw8aui0QZfA) 提取码：sir8
 - 《Java核心技术 卷2 基础知识 原书第10版》[百度云链接](https://pan.baidu.com/s/1Twu4_xsoTu0tyBeTN9N9yQ) 提取码：vj9h
@@ -68,6 +67,17 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 - 《Java并发编程之美》[百度云链接](https://pan.baidu.com/s/1wiI1F7wOfeWa4L7RGJ8gew) 提取码：la4f
 - 《Java高并发编程详解》[百度云链接](https://pan.baidu.com/s/1a08ETRfwH-0SdV52BWeQ4Q) 提取码：6xbk
 - 《实战Java高并发程序设计》[百度云链接](https://pan.baidu.com/s/1X2AWk_hf1uYPzfCm2bdwHA) 提取码：aggf
+- 《研磨设计模式》[百度云链接](https://pan.baidu.com/s/1hmhBj6romQRBGTBuGEPfqw) 提取码：54u1
+- 《大话设计模式》[百度云链接](https://pan.baidu.com/s/1qs3YBjzGXaxOFzdMLtmFRQ) 提取码：xlty
+- 《设计模式_可复用面向对象软件的基础》[百度云链接](https://pan.baidu.com/s/1nPGFU0l_ecQZkWFg2w8rcA) 提取码：gnav
+- 《图解设计模式》[百度云链接](https://pan.baidu.com/s/1E9ZJhP9Qbgtbge8IxQ7Eyg) 提取码：pfo5
+- 《SpringBoot实战(第4版)》[百度云链接](https://pan.baidu.com/s/1Ubcf846slIx6dfqTwHqsgA) 提取码：i7yb
+- 《Spring技术内幕：深入解析Spring架构与设计原理（第2版）.计文柯.扫描版》[百度云链接](https://pan.baidu.com/s/1b8C7hYoANIkS6Obs9-wD6g) 提取码：xyvz
+- 《Spring源码深度解析》[百度云链接](https://pan.baidu.com/s/1ltAaj4gM9gZMSgViTGSoXw) 提取码：ckn0
+- 《Spring MVC+MYBatis企业应用实战》[百度云链接](https://pan.baidu.com/s/10YqeAmRulkVZo9hjswrITg) 提取码：tg65
+- 《从Paxos到Zookeeper  分布式一致性原理与实践 倪超》[百度云链接](https://pan.baidu.com/s/1a7qXe9_aeNZTEkDDfNAewA) 提取码：gem8
+- 《RabbitMQ实战指南》[百度云链接](https://pan.baidu.com/s/186_3TDc0TNQ2N5MNuy8knQ) 提取码：fpkr
+- 《tomcat内核设计剖析》[百度云链接](https://pan.baidu.com/s/1IpNnOB6-U8G0oPu2NyzRxw) 提取码：ecj2
 
 ### <span id="03 - 计算机基础">03 - 计算机基础</span>
 
@@ -155,3 +165,5 @@ git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
 
 If you found bugs or have new ideas,please pull requests😄   
 If you have trouble compiling or using this software,email to [15313326374@163.com](mailto:15313326374@163.com)  
+
+[电子工业出版社]: 
