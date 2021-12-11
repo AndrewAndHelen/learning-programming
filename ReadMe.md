@@ -1,4 +1,4 @@
-# AlogrithmTrain
+# learni-cpp
 
 - [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
@@ -10,7 +10,7 @@
 ## Cloning this repository
 
 ```
-git clone https://github.com/AndrewAndJenny/AlgorithmTrain.git
+git clone https://github.com/AndrewAndJenny/learning-cpp.git
 ```
 
 
