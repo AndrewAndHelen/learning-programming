@@ -1,4 +1,4 @@
-# learni-cpp
+# learning-cpp
 
 - [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
