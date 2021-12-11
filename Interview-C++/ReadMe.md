@@ -27,9 +27,26 @@
   * [3.4 static的作用](#3-4)
   * [3.5 const的作用](#3-5)
   * [3.6 define和typedef的区别](#3-6)
-* 类相关
-* 语言特性相关
-* 设计模式
+  * [3.7 inline的作用](#3-7)
+  * [3.8 new和delete的作用](#3-8)
+  * [3.9 struct和union的作用](#3-9)
+  * [3.10 volatile的作用](#3-10)
+  * [3.11 extern C的作用](#3-11)
+  * [3.12 memmove 和 memcpy的区别以及处理内存重叠问题](#3-12)
+  * [3.13 strcpy 函数有什么缺陷](#3-13)
+  * [3.14 default和delete在类中的作用](#3-14)
+  * [3.15 enable_if的作用](#3-15)
+  * [3.16 四种cast的作用](#3-16)
+  * [3.17 tuple的作用](#3-17)
+  * [3.18 numeric_limits的作用](#3-18)
+  * [3.19 functional的作用](#3-19)
+  * [3.20 condition_variable的作用](#3-20)
+* 4 类相关
+* 5 语言特性相关
+* [6 设计模式](#6-1)
+	* [6.1 单例模式](#6-1)
+	* [6.2 观察者模式](#6-2)
+	* [6.3 工厂模式](#6-3)
 
 -------------------------------
 
@@ -1838,4 +1855,880 @@ int main()
     return 0;
 }
 ```
+
+### <span id="3-7">3.7 inline的作用</span>
+
+* **内联函数的作用**：
+1. 消除函数调用的开销。
+在内联函数出现之前，程序员通常用 #define 定义一些“函数”来消除调用这些函数的开销。内联函数设计的目的之一，就是取代 #define 的这项功能（因为使用 #define 定义的那些“函数”，编译器不会检查其参数的正确性等，而使用 inline 定义的函数，和普通函数一样，可以被编译器检查，这样有利于尽早发现错误）。
+2. 去除函数只能定义一次的限制。
+内联函数可以在头文件中被定义，并被多个 .cpp 文件 include，而不会有重定义错误。这也是设计内联函数的主要目的之一。
+* **关于减少函数调用的开销**：
+1. 内联函数一定会被编译器在调用点展开吗？
+错，inline 只是对编译器的建议，而非命令。编译器可以选择忽视 inline。当程序员定义的 inline 函数包含复杂递归，或者 inlinie 函数本身比较长，编译器一般不会将其展开，而仍然会选择函数调用。
+2. “调用”普通函数时，一定是调用吗？
+错，即使是普通函数，编译器也可以选择进行优化，将普通函数在“调用”点展开。
+3. 既然内联函数在编译阶段已经在调用点被展开，那么程序运行时，对应的内存中不包含内联函数的定义，对吗？
+错。首先，如第一点所言，编译器可以选择调用内联函数，而非展开内联函数。因此，内存中仍然需要一份内联函数的定义，以供调用。
+而且，一致性是所有语言都应该遵守的准则。普通函数可以有指向它的函数指针，那么，内敛函数也可以有指向它的函数指针，因此，内存中需要一份内联函数的定义，使得这样的函数指针可以存在。
+* **关于去除函数只能定义一次的限制**：
+
+下述程序会报错：
+```
+// 文件1
+#include <iostream>
+
+using namespace std;
+
+void myPrint() {
+	cout << "function 1";
+}
+
+// 文件2
+#include <iostream>
+
+using namespace std;
+
+void myPrint() {
+	cout << "function 2";
+}
+
+int main() {
+	myPrint();  // error，会出现链接时错误， myPrint 函数被定义了两次。
+}
+```
+ 而下述程序不会报错
+```
+// 文件1
+#include <iostream>
+
+using namespace std;
+
+inline void myPrint() {
+	cout << "inline function 1";
+}
+
+// 文件2
+#include <iostream>
+
+using namespace std;
+
+inline void myPrint() {
+	cout << "inline function 2";
+}
+
+int main() {
+	myPrint()	// 正常运行;
+}
+```
+> 可见，内联函数可以在头文件中定义（即多个 .cpp 源文件可以定义函数名、参数都一样的内联函数，而不会有重定义错误）。
+
+* **类成员函数如何变为内联函数**
+1. 类成员函数同时声明并定义默认是内联函数
+```
+#include <iostream>
+using namespace std;
+
+class A{
+public:
+    int var;
+    A(int tmp){ 
+      var = tmp;
+    }    
+    void fun(){ 
+        cout << var << endl;
+    }
+};
+
+int main()
+{    
+    return 0;
+}
+```
+2. 类外定义成员函数，若想定义为内联函数，需用关键字声明
+```
+#include <iostream>
+using namespace std;
+
+class A{
+public:
+    int var;
+    A(int tmp){ 
+      var = tmp;
+    }    
+    void fun();
+};
+
+inline void A::fun(){
+    cout << var << endl;
+}
+
+int main()
+{    
+    return 0;
+}
+```
+> 另外，可以在声明函数和定义函数的同时加上 `inline`；也可以只在函数声明时加 `inline`，而定义函数时不加 `inline`。只要确保在调用该函数之前把 `inline` 的信息告知编译器即可。
+
+
+### <span id="3-8">3.8 new和delete的作用</span>
+转载于：https://www.jianshu.com/p/d2d5cdd7aa1d
+* new和delete的内部实现
+C++中如果要在堆内存中创建和销毁对象需要借助关键字new和delete来完成。比如下面的代码
+```
+class CA
+{
+    public:
+       CA():m_a(0){}
+       CA(int a):m_a(a){}
+
+       virtual void foo(){ cout<<m_a<<endl;}
+       int m_a;
+};
+
+void main()
+{
+       CA *p1 = new CA;
+       CA *p2 = new CA(10);
+       CA *p3 = new CA[20];
+
+       delete p1;
+       delete p2;
+       delete[] p3;
+}
+```
+new和delete既是C++中的关键字也是一种特殊的运算符。
+```
+void* operator new(size_t size);
+void* operator new[](size_t size);
+void  operator delete(void *p);
+void  operator delete[](void *p);
+```
+new和delete不仅承载着内存分配的功能还承载着对象构造函数的调用功能，因此上面的对象创建代码其实在编译时会转化为如下的实现：
+```
+      CA *p1 = operator new(sizeof(CA));  //分配堆内存
+      CA::CA(p1);   //调用构造函数
+
+      CA *p2 = operator new(sizeof(CA));  //分配堆内存
+      CA::CA(p2, 10);   //调用构造函数
+     
+      CA *p3 = operator new[](20 * sizeof(CA));
+      CA *pt = p3;
+      for (int i = 0; i < 20; i++)
+     {
+         CA::CA(pt);
+         pt += 1;
+     }
+
+     CA::~CA(p1);
+     operator delete(p1);
+     
+     CA::~CA(p2);
+     operator delete(p2);
+
+     CA *pt = p3;
+     for (int i = 0; i < 20; i++)
+     {
+          CA::~CA(pt);
+          pt += 1;
+     }
+     operator delete[](p3);
+```
+看到上面的代码也许你会感到疑惑，怎么在编译时怎么会在源代码的基础上插入这么多的代码。这也是很多C程序员吐槽C++语言的原因：`C++编译器会偷偷插入很多未知的代码或者对源代码进行修改和处理，而这些插入和修改动作对于程序员来说是完全不可知的！`
+
+言归正传，我们还能从上面的代码中看出new和delete操作其实是分别进行了2步操作：1.内存的分配，2.构造函数的调用；3.析构函数的调用，4.内存的销毁。所以当对象是从堆内存分配时，构造函数执前内存就已经完成分配，同样当析构函数执行完成后内存才会被销毁。
+
+这里面一个有意思的问题就是当我们分配或者销毁的是数组对象时，系统又是如何知道应该调用多少次构造函数以及调用多少次析构函数的呢？答案就是在内存分配里面。当我们调用operator new[]来分配数组对象时，编译器时系统内部会增加4或者8字节的分配空间用来保存所分配的数组对象的数量。当对数组对象调用构造和析构函数时就可以根据这个数量值来进行循环处理了。因此上面对数组对象的分配和销毁的真实代码其实是按如下方式处理的：
+```
+//  CA *p3 = new CA[20]; 这句代码在编译时其实会转化为如下的代码片段
+unsigned long *p = operator new[](20 * sizeof(CA) + sizeof(unsigned long));  //64位系统多分配8字节
+*p = 20;   //这里保存分配的对象的数量。
+CA *p3 = (CA*)(p + 1);
+CA *pt = p3;
+for (int i = 0; i < *p; i++)
+{
+    CA::CA(pt);
+    pt += 1;
+}
+
+
+// delete[] p3;   这句代码在编译时其实会转化为如下的代码片段
+unsigned long *p =  ((unsigned long*)p3)  - 1;
+CA *pt = p3;
+for (int i = 0; i < *p; i++)
+{
+    CA::~CA(pt);
+    pt += 1;
+}
+operator delete[](p);
+```
+可见C++中为我们隐藏了多少细节啊！ 这里需要注意的是分配数组内存时会增加额外的存储空间来保存数量的情况只会发生在对类进行内存分配的情况，而对于基础类型进行内存分配则不会增加额外的空间来保存数量，比如下面的代码：
+```
+int *p = new int[30];
+```
+之所以会有这种差异的原因是因为类对象的构建和销毁时存在着构造函数和析构函数的调用，因此必须要保存数量来对每个元素进行函数调用的遍历处理，而普通类型则没有这个步骤。这也是编译器对各种类型数据的构建和销毁的一个优化处理。
+
+既然new和delete操作默认是从堆中进行内存分配，而且new和delete又是一个普通的运算符函数，那么他内部是如何实现呢？其实也很简单。我们知道C语言中堆内存分配和销毁的函数是malloc/free。因此C++中对系统默认的new和delete运算符函数就可以按如下的方法实现：
+```
+void * operator new(size_t size)
+{
+     return malloc(size);
+} 
+
+void * operator new[](size_t size)
+{
+     return malloc(size);
+}
+
+void operator delete(void *p)
+{
+     free(p);
+}
+
+void operator delete[](void *p)
+{
+    free(p);
+}
+```
+这里需要注意的是你在代码里面使用new关键字和使用operator new操作符所产生的效果是不一样的。如果你在代码里面使用的是new关键字那么系统内部除了会调用operator new操作符来分配内存还会调用构造函数，而如果你直接使用operator new时则只会进行内存分配而不会执行任何构造就比如下面的代码：
+```
+CA *p1 = new CA;   //这里会分配内存和执行构造函数
+CA *p2 = operator new(sizeof(CA));   //这里只是执行了普通的堆内存分配而不会调用构造函数
+```
+* placement技术
+
+系统默认的new关键字除了分配堆内存外还进行构造函数的调用。而实际中我们可能有一些已经预先分配好的内存区域，我们想在这些已经分配好的内存中来构建一个对象。还有一种情况是不希望进行频繁的堆内存分配和释放而只是对同一块内存进行重复的对象构建和销毁。就如下面的代码：
+```
+
+char buf1[100];
+CA *p1 = (CA*)buf1;
+CA::CA(p1);
+p1->foo();
+p1->m_a = 10;
+
+
+char *buf2 = new char[sizeof(CA)];
+CA *p2 = (CA*)buf2;
+CA::CA(p2);
+p2->foo();
+p2->m_a = 20;
+
+
+p1->~CA();
+p2->~CA();
+
+delete[] buf2;
+```
+可以看出代码中buf1是栈内存而buf2是堆内存，这两块内存区域都是已经分配好了的内存，现在我们想把这些内存来当做CA类的对象来使用，因此我们需要对内存调用类的构造函数CA::CA()才可以，构造函数的内部实现会为内存区域填充虚表指针，这样对象才可以调用诸如foo虚函数。但是这样写代码不够优雅，那么有没有比较优雅的方法来实现在一块已经存在的内存上来构建对象呢？ 答案就是 placement技术。 C++中的仍然是使用new和delete来实现这种技术。new和delete除了实现默认的操作符外还重载实现了如下的操作符函数：
+
+```
+void* operator new(size_t  size, void *p)
+{
+   return p;
+}
+
+void* operator new[](size_t size, void *p)
+{
+   return p;
+}
+
+void operator delete(void *p1, void *p2)
+{
+   // do nothing..
+}
+
+void operator delete[](void *p1, void *p2)
+{
+   // do nothing..
+}
+```
+
+我们称这四个运算符为 placement new 和 placement delete 。通过这几个运算符我们就可以优雅的实现上述的功能：
+```
+char buf1[100];
+CA *p1 = new(buf1) CA(10)   //调用 operator new(size_t, void*)
+p1->foo();
+
+
+char *buf2 = new char[sizeof(CA)];
+CA *p2 = new(buf2) CA(20);     //调用 operator new(size_t, void*)
+p2->foo();
+
+
+p1->~CA();
+operator delete(p1, buf1);  //调用 operator delete(void*, void*)
+
+p2->~CA();
+operator delete(p2, buf2);  //调用 operator delete(void*, void*)
+
+delete[] buf2;
+```
+上面的例子里面发现通过placement new可以很优雅的在现有的内存中构建对象，而析构时不能直接调用delete p1, delete p2来销毁对象，必须人为的调用析构函数以及placement delete 函数。并且从上面的placement delete的实现来看里面并没有任何代码，既然如此为什么还要定义一个placement delete呢？ 答案就是C++中的规定对new和delete的运算符重载必须是要成对实现的。而且前面曾经说过对delete的使用如果带了operator前缀时就只是一个普通的函数调用。因此为了完成析构以及和new操作符的匹配，就必须要人为的调用对象的析构函数以及placement delete函数。
+除了上面举的例子外placement技术的使用还可以减少内存的频繁分配以及提升系统的性能。
+```
+void main()
+{
+      for (int i = 0; i < 10000; i++)
+      {
+           CA *p = new CA(i);
+           p->foo();
+           delete p;
+      }
+}
+```
+例子里面循环10000次，每次循环都创建一个堆内存对象，然后调用虚函数foo后再进行销毁。最终的结果是程序运行时会进行10000次的频繁的堆内存分配和销毁。很明显这是有可能会影响系统性能的而且还有可能发生堆内存分配失败的情况。而如果我们借助placement 技术就可以很简单的解决这些问题。
+```
+void main()
+{
+      char *buf = new[](sizeof(CA));
+      for (int i = 0; i < 10000; i++)
+      {
+            CA *p = new(buf) CA(i);
+            p->foo();
+            p->~CA();
+            operator delete(p, buf);
+      }
+      delete[] buf;
+}
+```
+* new和delete运算符重载
+
+发现一个很有意思的事情就是越高级的语言就越会将一些系统底层的东西进行封装并形成一个语言级别的关键字来使用。比如C++中的new和delete是用于构建和释放堆内存对象的关键字，又比如go语言中chan关键字是用于进行同步或者异步的队列数据传输通道。
+
+C++语言内置默认实现了一套全局new和delete的运算符函数以及placement new/delete运算符函数。不管是类还是内置类型都可以通过new/delete来进行堆内存对象的分配和释放的。对于一个类来说，当我们使用new来进行构建对象时，首先会检查这个类是否重载了new运算符，如果这个类重载了new运算符那么就会调用类提供的new运算符来进行内存分配，而如果没有提供new运算符时就使用系统提供的全局new运算符来进行内存分配。内置类型则总是使用系统提供的全局new运算符来进行内存的分配。对象的内存销毁流程也是和分配一致的。
+
+new和delete运算符既支持全局的重载又支持类级别的函数重载。下面是这种运算符的定义的格式：
+```
+//全局运算符定义格式
+void * operator new(size_t size [, param1, param2,....]);
+void operator delete(void *p [, param1, param2, ...]);
+
+//类内运算符定义格式
+class CA
+{
+  void * operator new(size_t size [, param1, param2,....]);
+  void operator delete(void *p [, param1, param2, ...]);
+};
+```
+
+对于new/delete运算符重载我们总有如何下规则：
+
+* new和delete运算符重载必须成对出现
+* new运算符的第一个参数必须是size_t类型的，也就是指定分配内存的size尺寸；delete运算符的第一个参数必须是要销毁释放的内存对象。其他参数可以任意定义。
+* 系统默认实现了new/delete、new[]/delete[]、 placement new / delete 6个运算符函数。它们都有特定的意义。
+* 你可以重写默认实现的全局运算符，比如你想对内存的分配策略进行自定义管理或者你想监测堆内存的分配情况或者你想做堆内存的内存泄露监控等。但是你重写的全局运算符一定要满足默认的规则定义。
+* 如果你想对某个类的堆内存分配的对象做特殊处理，那么你可以重载这个类的new/delete运算符。当重载这两个运算符时虽然没有带static属性，但是不管如何对类的new/delete运算符的重载总是被认为是静态成员函数。
+* 当delete运算符的参数>=2个时，就需要自己负责对象析构函数的调用，并且以运算符函数的形式来调用delete运算符。
+* 一般情况下你不需要对new/delete运算符进行重载，除非你的整个应用或者某个类有特殊的需求时才会如此。下面的例子你可以看到我的各种运算符的重载方法以及使用方法：
+```
+//CA.h
+
+class CA
+{
+public:
+    //类成员函数
+    void * operator new(size_t size);
+    void * operator new[](size_t size);
+    void * operator new(size_t size, void *p);
+    void * operator new(size_t size, int a, int b);
+    
+    void operator delete(void *p);
+    void operator delete[](void *p);
+    void operator delete(void *p, void *p1);
+    void operator delete(void *p, int a, int b);
+};
+
+class CB
+{
+public:
+    CB(){}
+};
+
+
+//全局运算符函数，请谨慎重写覆盖全局运算符函数。
+void * operator new(size_t size);
+void * operator new[](size_t size);
+void * operator new(size_t size, void *p) noexcept;
+void * operator new(size_t size, int a, int b);
+
+void operator delete(void *p);
+void operator delete[](void *p);
+void operator delete(void *p, void *p1);
+void operator delete(void *p, int a, int b);
+
+.......................................................
+//CA.cpp
+
+
+void * CA::operator new(size_t size)
+{
+    return malloc(size);
+}
+
+void * CA::operator new[](size_t size)
+{
+    return malloc(size);
+}
+
+void * CA::operator new(size_t size, void *p)
+{
+    return p;
+}
+
+void* CA::operator new(size_t size, int a, int b)
+{
+    return malloc(size);
+}
+
+void CA::operator delete(void *p)
+{
+    free(p);
+}
+
+void CA::operator delete[](void *p)
+{
+    free(p);
+}
+
+void CA::operator delete(void *p, void *p1)
+{
+    
+}
+
+void CA::operator delete(void *p, int a, int b)
+{
+    free(p);
+}
+
+
+void * operator new(size_t size)
+{
+    return  malloc(size);
+}
+
+void * operator new[](size_t size)
+{
+    return malloc(size);
+}
+
+void * operator new(size_t size, void *p) noexcept
+{
+    return p;
+}
+
+void* operator new(size_t size, int a, int b)
+{
+    return malloc(size);
+}
+
+void operator delete(void *p)
+{
+    free(p);
+}
+
+void operator delete[](void *p)
+{
+    free(p);
+}
+
+void operator delete(void *p, void *p1)
+{
+    
+}
+
+void operator delete(void *p, int a, int b)
+{
+    free(p);
+}
+
+..................................
+//main.cpp
+
+int main(int argc, const char * argv[]) {
+    
+    char buf[100];
+
+    CA *a1 = new CA();   //调用void * CA::operator new(size_t size)
+    
+    CA *a2 = new CA[10];  //调用void * CA::operator new[](size_t size)
+    
+    CA *a3 = new(buf)CA();  //调用void * CA::operator new(size_t size, void *p)
+    
+    CA *a4 = new(10, 20)CA();  //调用void* CA::operator new(size_t size, int a, int b)
+    
+    
+    delete a1;  //调用void CA::operator delete(void *p)
+    
+    delete[] a2;  //调用void CA::operator delete[](void *p)
+    
+    //a3用的是placement new的方式分配，因此需要自己调用对象的析构函数。
+    a3->~CA();
+    CA::operator delete(a3, buf);  //调用void CA::operator delete(void *p, void *p1)，记得要带上类命名空间。
+
+    //a4的运算符参数大于等于2个所以需要自己调用对象的析构函数。
+    a4->~CA();
+    CA::operator delete(a4, 10, 20); //调用void CA::operator delete(void *p, int a, int b)
+    
+    //CB类没有重载运算符，因此使用的是全局重载的运算符。
+    
+    CB *b1 = new CB();  //调用void * operator new(size_t size)
+ 
+    
+    CB *b2 = new CB[10]; //调用void * operator new[](size_t size)
+    
+    //这里你可以看到同一块内存可以用来构建CA类的对象也可以用来构建CB类的对象
+    CB *b3 = new(buf)CB();  //调用void * operator new(size_t size, void *p)
+    
+    CB *b4 = new(10, 20)CB(); //调用void* operator new(size_t size, int a, int b)
+    
+
+    delete b1;  //调用void operator delete(void *p)
+
+    
+    delete[] b2;   //调用void operator delete[](void *p)
+    
+    
+    //b3用的是placement new的方式分配，因此需要自己调用对象的析构函数。
+    b3->~CB();
+    ::operator delete(b3, buf);  //调用void operator delete(void *p, void *p1)
+    
+    //b4的运算符参数大于等于2个所以需要自己调用对象的析构函数。
+    b4->~CB();
+    ::operator delete(b4, 10, 20);  //调用void operator delete(void *p, int a, int b)
+   
+   return 0;
+} 
+```
+> 我是在XCODE上测试上面的代码的，因为重写了全局的new/delete运算符，并且内部是通过malloc来实现堆内存分配的， malloc函数申明了不能返回NULL的返回结果检测:
+void *malloc(size_t __size) __result_use_check __alloc_size(1);
+因此有可能你在测试时会发生崩溃的问题。如果出现这个问题你可以尝试着注释掉对全局new/delete重写的代码，再运行查看结果。 可见如果你尝试着覆盖重写全局的new/delete时是有可能产生风险的。
+
+* 对象的自动删除技术
+
+一般来说系统对new/delete的默认实现就能满足我们的需求，我们不需要再去重载这两个运算符。那为什么C++还提供对这两个运算符的重载支持呢？答案还是在运算符本身具有的缺陷所致。我们知道用new关键字来创建堆内存对象是分为了2步：1.是堆内存分配，2.是对象构造函数的调用。而这两步中的任何一步都有可能会产生异常。如果说是在第一步出现了问题导致内存分配失败则不会调用构造函数，这是没有问题的。如果说是在第二步构造函数执行过程中出现了异常而导致无法正常构造完成，那么就应该要将第一步中所分配的堆内存进行销毁。C++中规定如果一个对象无法完全构造那么这个对象将是一个无效对象，也不会调用析构函数。**为了保证对象的完整性，当通过new分配的堆内存对象在构造函数执行过程中出现异常时就会停止构造函数的执行并且自动调用对应的delete运算符来对已经分配的堆内存执行销毁处理，这就是所谓的对象的自动删除技术。**正是因为有了对象的自动删除技术才能解决对象构造不完整时会造成内存泄露的问题。
+> 当对象构造过程中抛出异常时，C++的异常处理机制会在特定的地方插入代码来实现对对象的delete运算符的调用，如果想要具体了解情况请参考C++对异常处理实现的相关知识点。
+
+全局delete运算符函数所支持的对象的自动删除技术虽然能解决对象本身的内存泄露问题，但是却不能解决对象构造函数内部的数据成员的内存分配泄露问题，我们来看下面的代码：
+```
+class CA
+{
+  public:
+    CA()
+    {
+          m_pa  = new int;
+          throw 1;
+    }
+
+  ~CA()
+   {
+         delete m_pa;
+         m_pa = NULL;
+   }
+
+ private:
+      int *m_pa;
+};
+
+void main()
+{
+     try
+     {
+           CA *p = new CA();
+           delete p;  //这句代码永远不会执行
+     }
+     catch(int)
+    {
+          cout << "oops!" << endl;
+    }
+}
+```
+上面的代码中可以看到类CA中的对象在构造函数内部抛出了异常，虽然系统会对p对象执行自动删除技术来销毁分配好的内存，但是对于其内部的数据成员m_pa来说，因为构造不完整就不会调用析构函数来销毁分配的堆内存，这样就导致了m_pa这块内存出现了泄露。怎么解决这类问题呢？ 答案你是否想到了？ 那就是重载CA类的new/delete运算符。我们来看通过对CA重载运算符解决问题的代码：
+```
+class CA
+{
+public:
+    CA(){
+        m_pa = new int;
+        throw 1;
+    }
+    //因为对象构造未完成所以析构函数永远不会被调用
+    ~CA()
+    {
+        delete m_pa;
+        m_pa = NULL;
+    }
+    
+    void * operator new(size_t size)
+    {
+        return malloc(size);
+    }
+    //重载delete运算符，把已经分配的内存销毁掉。
+    void operator delete(void *p)
+    {
+        CA *pb = (CA*)p;
+        if (pb->m_pa != NULL)
+            delete pb->m_pa;
+        
+        free(p);
+    }
+    
+private:
+    int *m_pa;
+};
+```
+因为C++对自动删除技术的支持，当CA对象在构造过程中发生异常时，我们就可以通过重载delete运算符来解决那些在构造函数中分配的数据成员内存但又不会调用析构函数来销毁的数据成员的内存问题。这我想就是为什么C++中要支持对new/delete运算符在类中重载的原因吧。
+
+## <span id="6-1">6 设计模式</span>
+
+### <span id="6-1">6.1 单例模式</span>
+```
+单例模式，即一个类只有一个实例对象。一般的实现方法是将构造函数、拷贝构造函数与赋值操作函数声明为private，该类提供一个静态public方法，通过该方法获取该类唯一一个实例对象。
+分类：
+饿汉式：即类产生的时候就创建好实例对象，这是一种空间换时间的方式
+懒汉式：即在需要的时候，才创建对象，这是一种时间换空间的方式
+```
+
+- 1.1 饿汉式实现方法一
+
+```
+class CSingleton
+{
+public:
+	static CSingleton* getInstance()
+	{
+		return &myInstatnce;
+	}
+
+private:
+	CSingleton() { std::cout << "CSingleton construct\n"; };
+	~CSingleton() { std::cout << "CSingleton destruct\n"; };
+	CSingleton(const CSingleton& other);
+	CSingleton& operator=(const CSingleton&);
+
+	static CSingleton myInstatnce;
+};
+
+CSingleton CSingleton::myInstatnce;
+
+int main()
+{
+	CSingleton *ct1 = CSingleton::getInstance();
+	CSingleton *ct2 = CSingleton::getInstance();
+	CSingleton *ct3 = CSingleton::getInstance();
+	return 0;
+}
+
+输出：
+CSingleton construct
+CSingleton destruct
+```
+
+- 1.2 饿汉式实现方法二
+
+```
+class CSingleton1
+{
+public:
+	static std::shared_ptr<CSingleton1> getInstance()
+	{
+		return myInstatnce;
+	}
+
+private:
+	CSingleton1() { std::cout << "CSingleton1 construct\n"; };
+	~CSingleton1() { std::cout << "CSingleton1 destruct\n"; };
+	CSingleton1(const CSingleton1& other);
+	CSingleton1& operator=(const CSingleton1&);
+
+	static std::shared_ptr<CSingleton1> myInstatnce;
+
+	static void destory(CSingleton1*){ std::cout << "this CSingleton1 destruct\n"; }
+};
+
+std::shared_ptr<CSingleton1> CSingleton1::myInstatnce(new CSingleton1(), CSingleton1::destory);
+
+int main()
+{
+	std::shared_ptr<CSingleton1>  ct1 = CSingleton1::getInstance();
+	std::shared_ptr<CSingleton1>  ct2 = CSingleton1::getInstance();
+	std::shared_ptr<CSingleton1>  ct3 = CSingleton1::getInstance();
+	return 0;
+}
+
+/*
+删除器声明时（即static void Destory(CSingleton *)），需要传入该对象的指针，否则编译出错。目的是为了让shared_ptr能够正确析构该指针
+*/
+
+输出：
+CSingleton1 construct
+this CSingleton1 destruct
+```
+
+- 1.3 总结
+
+```
+饿汉式的两种实现方法均为线程安全
+```
+
+- 2.1 懒汉式实现方法一
+
+```
+class CSingleton2
+{
+private:
+	CSingleton2() { std::cout << "CSingleton2 construct\n" ; };
+	CSingleton2(const CSingleton2 &);
+	CSingleton2& operator=(const CSingleton2 &);
+	~CSingleton2() { std::cout << "CSingleton2 destruct\n"; };
+
+	
+public:
+	static CSingleton2 * getInstance()
+	{
+		static CSingleton2 myInstance;
+		return &myInstance;
+	}
+	void print()
+	{
+		std::cout << "我的实例内存地址是:" << this << std::endl;
+	}
+};
+
+void printHello()
+{
+	std::cout << "Hi, 我是线程 ID:[" << std::this_thread::get_id() << "]" << std::endl;
+	CSingleton2::getInstance()->print();
+}
+
+int main()
+{
+	int max_num = 4;
+	std::vector<std::thread> thread_pool;
+
+	for (int i = 0; i < max_num; ++i)
+		thread_pool.emplace_back(printHello);
+
+	for (auto& item : thread_pool)
+		item.join();
+
+	return 0;
+}
+
+输出：
+Hi, 我是线程 ID:[15840]
+Hi, 我是线程 ID:[29608]
+CSingleton2 construct
+我的实例内存地址是:Hi, 我是线程 ID:[30152]
+我的实例内存地址是:00007FF706BA74C0
+00007FF706BA74C0
+Hi, 我是线程 ID:[5016]
+我的实例内存地址是:00007FF706BA74C0
+我的实例内存地址是:00007FF706BA74C0
+CSingleton2 destruct
+```
+
+- 懒汉式实现方法二
+
+```
+class CSingleton3
+{
+public:
+	static CSingleton3* getInstance()
+	{
+		if (nullptr == myInstatnce)
+		{
+			std::unique_lock<std::mutex> lock(myMutex);
+			if (nullptr == myInstatnce)
+				myInstatnce = new(std::nothrow)CSingleton3;
+		}
+		return myInstatnce;
+	}
+
+	static void deleteInstance()
+	{
+		std::unique_lock<std::mutex> lock(myMutex);
+		if (myInstatnce)
+		{
+			delete myInstatnce;
+			myInstatnce = nullptr;
+		}
+	}
+
+	void print()
+	{
+		std::cout << "我的实例内存地址是:" << this << std::endl;
+	}
+private:
+	class Deleter {
+	public:
+		Deleter() {};
+		~Deleter()
+		{
+			if (nullptr != myInstatnce)
+			{
+				delete myInstatnce;
+				myInstatnce = nullptr;
+			}
+		}
+	};
+
+	static Deleter myDeleter;
+private:
+	CSingleton3() { std::cout << "CSingleton3 construct\n"; };
+	~CSingleton3() { std::cout << "CSingleton3 destruct\n"; };
+	CSingleton3(const CSingleton3& other);
+	CSingleton3& operator=(const CSingleton3&);
+
+	static CSingleton3* myInstatnce;
+	static std::mutex myMutex;
+};
+
+CSingleton3* CSingleton3::myInstatnce = nullptr;
+std::mutex CSingleton3::myMutex;
+CSingleton3::Deleter CSingleton3::myDeleter;
+
+void printHello()
+{
+	std::cout << "Hi, 我是线程 ID:[" << std::this_thread::get_id() << "]" << std::endl;
+	CSingleton3::getInstance()->print();
+}
+
+int main()
+{
+	int max_num = 4;
+	std::vector<std::thread> thread_pool;
+
+	for (int i = 0; i < max_num; ++i)
+		thread_pool.emplace_back(printHello);
+
+	for (auto& item : thread_pool)
+		item.join();
+
+	return 0;
+}
+
+输出：
+Hi, 我是线程 ID:[5312]
+Hi, 我是线程 ID:[27784]
+Hi, 我是线程 ID:[30284]
+Hi, 我是线程 ID:[29584]
+CSingleton3 construct
+我的实例内存地址是:我的实例内存地址是:000001F4EC328FF0
+000001F4EC328FF0
+我的实例内存地址是:000001F4EC328FF0
+我的实例内存地址是:000001F4EC328FF0
+CSingleton3 destruct
+```
+
+- 2.3 总结
+
+```
+懒汉式实现方法一是线程安全的
+懒汉式实现方法二需要加锁才能保证线程安全，原因在于不加锁多个线程会多次申请堆内存，而析构时只能释放最后一次申请的内存空间，造成内存泄漏。
+```
+### <span id="6-2">6.2 观察者模式</span>
+
+
+
+### <span id="6-3">6.3 工厂模式</span>
 

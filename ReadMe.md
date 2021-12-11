@@ -4,7 +4,6 @@
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
 - [Effective-Modern-C++](./Effective-Modern-C++/ReadMe.md)
 - [Interview-C++](./Interview-C++/ReadMe.md)
-- [Design-Pattern](./Design-Pattern/ReadMe.md)
 - [Basic-C++](./Basic-C++/ReadMe.md)
 - [STL](./STL/ReadMe.md)
 
