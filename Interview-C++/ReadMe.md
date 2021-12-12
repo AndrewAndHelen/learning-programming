@@ -41,7 +41,11 @@
   * [3.18 numeric_limits的作用](#3-18)
   * [3.19 functional的作用](#3-19)
   * [3.20 condition_variable的作用](#3-20)
-* 4 类相关
+  * [3.21 typename的作用](#3-21)
+  * [3.22 using的作用](#3-22)
+* [4 类相关](#4)
+    * [4.1 调用模板类的模板函数注意事项](#4-1)
+    * [4.2 类的六大特殊成员函数](#4-2)
 * 5 语言特性相关
 * [6 设计模式](#6-1)
 	* [6.1 单例模式](#6-1)
@@ -1096,7 +1100,7 @@ int main()
 
 
 
-## <span id="3">关键字库函数</span>
+## <span id="3">3 关键字库函数</span>
 
 ### <span id="3-1">3.1 sizeof和strlen的区别</span>
 
@@ -1435,11 +1439,11 @@ Welcome to Apple!
 
 ### <span id="3-5">3.5 const的作用</span>
 
-#### 1.const含义
+1. const含义
 
 常类型是指使用类型修饰符**const**说明的类型，常类型的变量或对象的值是不能被更新的。
 
-#### 2.const作用
+2. const作用
 
 - 可以定义常量
 
@@ -1456,7 +1460,7 @@ Welcome to Apple!
 2. 可调式。
 3. 占用较少的空间。
 
-#### 3.const对象默认为文件局部变量
+3. const对象默认为文件局部变量
 
 注意：非const变量默认为extern。要使const变量能够在其他文件中访问，必须在文件中显式地指定它为extern。
 
@@ -1490,7 +1494,7 @@ int main(){
 > 小结：
 > 可以发现未被const修饰的变量不需要extern显式声明！而const常量需要显式声明extern，并且需要做初始化！因为常量在定义后就不能被修改，所以定义时必须初始化。
 
-#### 4.定义常量
+4. 定义常量
 
 ```
 const int b = 10;
@@ -1504,7 +1508,7 @@ const int i,j=0 // error: uninitialized const ‘i’
 - b 为常量，不可更改！
 - i 为常量，必须进行初始化！(因为常量在定义后就不能被修改，所以定义时必须初始化。)
 
-#### 5.指针与const
+5. 指针与const
 
 与指针相关的const有四种：
 
@@ -1607,7 +1611,7 @@ const int * const ptr = &p;
 
 ptr是一个const指针，然后指向了一个int 类型的const对象。
 
-#### 6.函数中使用const
+6. 函数中使用const
 
 > const修饰函数返回值
 
@@ -1686,7 +1690,7 @@ void func(const A &a)
 - 如果函数需要传入一个指针，是否需要为该指针加上const，把const加在指针不同的位置有什么区别；
 - 如果写的函数需要传入的参数是一个复杂类型的实例，传入值参数或者引用参数有什么区别，什么时候需要为传入的引用参数加上const。
 
-#### 7.类中使用const
+7. 类中使用const
 
 在一个类中，任何不会修改数据成员的函数都应该声明为const类型。如果在编写const成员函数时，不慎修改 数据成员，或者调用了其它非const成员函数，编译器将指出错误，这无疑会提高程序的健壮性。
 
@@ -2477,6 +2481,1346 @@ private:
 };
 ```
 因为C++对自动删除技术的支持，当CA对象在构造过程中发生异常时，我们就可以通过重载delete运算符来解决那些在构造函数中分配的数据成员内存但又不会调用析构函数来销毁的数据成员的内存问题。这我想就是为什么C++中要支持对new/delete运算符在类中重载的原因吧。
+
+### <span id="3-9">3.9 struct和union的作用</span>
+
+说明：`union` 是联合体，`struct` 是结构体。
+区别：
+
+* 联合体和结构体都是由若干个数据类型不同的数据成员组成。使用时，联合体只有一个有效的成员；而结构体所有的成员都有效。
+
+* 对联合体的不同成员赋值，将会对覆盖其他成员的值，而对结构体不同成员赋值时，相互不影响。
+
+* 联合体的大小为其内部所有变量的最大值，按照最大类型的倍数进行分配大小；结构体分配内存的大小遵循内存对齐原则。
+```
+#include <iostream>
+using namespace std;
+
+typedef union
+{
+    char c[10];
+    char cc1; // char 1 字节，按该类型的倍数分配大小
+} u11;
+
+typedef union
+{
+    char c[10];
+    int i; // int 4 字节，按该类型的倍数分配大小
+} u22;
+
+typedef union
+{
+    char c[10];
+    double d; // double 8 字节，按该类型的倍数分配大小
+} u33;
+
+typedef struct s1
+{
+    char c;   // 1 字节
+    double d; // 1（char）+ 7（内存对齐）+ 8（double）= 16 字节
+} s11;
+
+typedef struct s2
+{
+    char c;   // 1 字节
+    char cc;  // 1（char）+ 1（char）= 2 字节
+    double d; // 2 + 6（内存对齐）+ 8（double）= 16 字节
+} s22;
+
+typedef struct s3
+{
+    char c;   // 1 字节
+    double d; // 1（char）+ 7（内存对齐）+ 8（double）= 16 字节
+    char cc;  // 16 + 1（char）+ 7（内存对齐）= 24 字节
+} s33;
+
+int main()
+{
+    cout << sizeof(u11) << endl; // 10
+    cout << sizeof(u22) << endl; // 12
+    cout << sizeof(u33) << endl; // 16
+    cout << sizeof(s11) << endl; // 16
+    cout << sizeof(s22) << endl; // 16
+    cout << sizeof(s33) << endl; // 24
+
+    cout << sizeof(int) << endl;    // 4
+    cout << sizeof(double) << endl; // 8
+    return 0;
+}
+```
+
+### <span id="3-10">3.10 volatile的作用</span>
+
+* volatile作用：
+
+（1）阻止编译器为了提高速度将一个变量缓存到寄存器内而不写回；（缓存一致性协议、轻量级同步）
+
+（2）阻止编译器调整操作volatile变量的指令排序。
+
+即使volatile能够阻止编译器调整顺序，也无法阻止CPU动态调度换序。
+
+```
+即使volatile能够阻止编译器调整顺序，也无法阻止CPU动态调度换序。
+
+要保证线程安全，阻止CPU换序是必须的。遗憾的是，现在并不存在可移植的阻止换序的方法。
+通常情况下是调用CPU提供的一条指令，这条指令常常被称为barrier。
+一条barrier指令会阻止CPU将该指令之前的指令交换到barrier之后。
+```
+* 使用 volatile 关键字的场景：
+
+（1）当多个线程都会用到某一变量，并且该变量的值有可能发生改变时，需要用 volatile 关键字对该变量进行修饰；
+（2）中断服务程序中访问的变量或并行设备的硬件寄存器的变量，最好用 volatile 关键字修饰。
+volatile 关键字和 const 关键字可以同时使用，某种类型可以既是 volatile 又是 const ，同时具有二者的属性。
+
+### <span id="3-11">3.11 extern C的作用</span>
+
+```
+C++和C语言编译函数签名方式不一样， extern关键字可以让两者保持统一。
+如果在c++中调用一个使用c语言编写的模块中的某个函数，那么c++是根据c++的名称修饰方式来查找并链接这个函数，那么就会发生链接错误。
+```
+
+```
+// 可能出现在 C++ 头文件<cstring>中的链接指示
+extern "C"{
+    int strcmp(const char*, const char*);
+}
+```
+
+### <span id="3-12">3.12 memmove 和 memcpy的区别以及处理内存重叠问题</span>
+
+[链接](https://blog.csdn.net/li_ning_/article/details/51418400)
+
+### <span id="3-13">3.13 strcpy 函数有什么缺陷</span>
+
+`strcpy` 函数的缺陷：`strcpy` 函数不检查目的缓冲区的大小边界，而是将源字符串逐一的全部赋值给目的字符串地址起始的一块连续的内存空间，同时加上字符串终止符，会导致其他变量被覆盖。
+
+```
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+    int var = 0x11112222;
+    char arr[10];
+    cout << "Address : var " << &var << endl;
+    cout << "Address : arr " << &arr << endl;
+    strcpy(arr, "hello world!");
+    cout << "var:" << hex << var << endl; // 将变量 var 以 16 进制输出
+    cout << "arr:" << arr << endl;
+    return 0;
+}
+
+/*
+Address : var 0x23fe4c
+Address : arr 0x23fe42
+var:11002164
+arr:hello world!
+*/
+```
+说明：从上述代码中可以看出，变量 `var` 的后六位被字符串 `"hello world!"` 的 `"d!\0"` 这三个字符改变，这三个字符对应的 ascii 码的十六进制为：`\0`(0x00)，`!`(0x21)，`d`(0x64)。
+
+原因：变量 `arr` 只分配的 10 个内存空间，通过上述程序中的地址可以看出 `arr` 和 `var` 在内存中是连续存放的，但是在调用 `strcpy` 函数进行拷贝时，源字符串 `"hello world!"` 所占的内存空间为 13，因此在拷贝的过程中会占用 `var` 的内存空间，导致 `var`的后六位被覆盖。
+
+![img](./res/2-13-1.png)
+
+### <span id="3-14">3.14 default和delete在类中的作用</span>
+
+* default
+
+```
+C++11允许添加“=default”说明符到函数声明的末尾，以将该函数声明为显示默认构造函数。这就使得编译器为显示默认函数生成了默认实现，它比手动编程函数更加有效。
+```
+
+* 使用方法
+
+```
+// use of defaulted functions
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    // A user-defined
+    A(int x){
+        cout << "This is a parameterized constructor";
+    }
+
+    // Using the default specifier to instruct
+    // the compiler to create the default implementation of the constructor.
+    A() = default;
+};
+
+int main(){
+    A a;          //call A()
+    A x(1);       //call A(int x)
+    cout<<endl;
+    return 0;
+} 
+
+```
+
+>*Tips:我们不必指定构造函数A()的主体，因为通过附加说明符’= default’，编译器将创建此函数的默认实现。*
+
+* 限制条件
+
+```
+默认函数需要用于特殊的成员函数（默认构造函数，复制构造函数，析构函数等），或者没有默认参数。
+```
+
+```
+// non-special member functions can't be defaulted(非特殊成员函数不能使用default) 
+class B { 
+public: 
+    // Error, func is not a special member function. 
+    int func() = default;  
+      
+    // Error, constructor B(int, int) is not a special member function. 
+    B(int, int) = default;  
+  
+    // Error, constructor B(int=0) has a default argument. 
+    B(int = 0) = default;  
+}; 
+int main() { 
+    return 0; 
+} 
+
+```
+
+* 空函数体与default的区别
+
+```
+1.给用户定义的构造函数，即使它什么也不做，使得类型不是聚合，也不是微不足道的。如果您希望您的类是聚合类型或普通类型（或通过传递性，POD类型），那么需要使用’=default’。
+2.使用’= default’也可以与复制构造函数和析构函数一起使用。例如，空拷贝构造函数与默认拷贝构造函数（将执行其成员的复制副本）不同。对每个特殊成员函数统一使用’=default’语法使代码更容易阅读。
+```
+
+* delete
+
+```
+1.释放已动态分配的内存
+2.禁用成员函数的使用
+```
+
+* 禁用拷贝构造函数
+
+```
+// copy-constructor using delete operator 
+#include <iostream> 
+using namespace std; 
+  
+class A { 
+public: 
+    A(int x): m(x) { } 
+      
+    // Delete the copy constructor 
+    A(const A&) = delete;      
+    // Delete the copy assignment operator 
+    A& operator=(const A&) = delete;  
+    int m; 
+}; 
+  
+int main() { 
+    A a1(1), a2(2), a3(3); 
+    // Error, the usage of the copy assignment operator is disabled 
+    a1 = a2;   
+    // Error, the usage of the copy constructor is disabled 
+    a3 = A(a2);  
+    return 0; 
+} 
+
+```
+
+* 禁用不需要的参数转换
+```
+// type conversion using delete operator 
+#include <iostream> 
+using namespace std; 
+class A { 
+public: 
+    A(int) {} 
+
+    // Declare the conversion constructor as a  deleted function. Without this step,  
+    // even though A(double) isn't defined,  the A(int) would accept any double value
+    //  for it's argumentand convert it to an int 
+    A(double) = delete;  
+}; 
+int main() { 
+    A A1(1); 
+    // Error, conversion from  double to class A is disabled. 
+    A A2(100.1);  
+    return 0; 
+} 
+```
+### <span id="3-15">3.15 enable_if的作用</span>
+
+* 引言
+```
+1.如果这个表达式结果为true，它的type 成员会返回一个类型：
+-- 如果没有第二个模板参数，返回类型是void。
+-- 否则，返回类型是其第二个参数的类型。
+2.如果表达式结果false，则其成员类型是未定义的。根据模板的一个叫做SFINAE（substitute failure is not an error，替换失败不是错误）的规则，这会导致包含std::enable_if<>表达式的函数模板被忽略掉。
+
+template<bool Cond, class T = void> 
+struct enable_if {
+};
+
+template<class T> 
+struct enable_if<true, T> { 
+	typedef T type; 
+};
+```
+
+* 用法一：校验函数模板参数类型
+```
+有时定义的模板函数，只希望特定的类型可以调用
+// 1. 返回类型（布尔）仅在T为整数类型时有效：
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value,bool>::type
+is_odd (T i) {
+    return bool(i%2);
+}
+
+// 2. 第二个模板参数仅在T为整数类型时有效：
+template < typename T,
+		   typename = typename std::enable_if<std::is_integral<T>::value>::type>
+bool is_even (T i) {
+    return !bool(i%2);
+}
+
+int main() {
+  int i = 1;    // 如果i的类型不是整数，则代码无法编译
+  std::cout << "i is odd: " << is_odd(i) << std::endl;
+  std::cout << "i is even: " << is_even(i) << std::endl;
+
+  return 0;
+}
+//一个通过返回值，一个通过默认模板参数，都可以实现校验模板参数是整型的功能。
+```
+
+* 用法二：类模板的偏特化
+```
+在使用模板编程时，经常会用到根据模板参数的某些特性进行不同类型的选择，或者在编译时校验模板参数的某些特性。例如：
+template <typename T, typename Enable=void>
+struct check{
+};
+
+template <typename T>
+struct check<T, typename std::enable_if<T::value,XXX>::type> {
+  //static constexpr bool value = T::value;
+};
+
+上述的 check 只希望选择 T::value==true 的 T，否则就报编译时错误，即在特化时进行了条件筛选。
+这里需要注意的是模板特化的优先级较高，即使使用了缺省值，依然是特化版本优先！！！
+```
+
+* 用法三：控制函数的返回类型
+```
+std::tuple 的获取第 k 个元素的 get 函数：
+template <std::size_t k, class T, class... Ts>
+typename std::enable_if<k==0, typename element_type_holder<0, T, Ts...>::type&>::type
+get(tuple<T, Ts...> &t) {
+  return t.tail; 
+}
+ 
+template <std::size_t k, class T, class... Ts>
+typename std::enable_if<k!=0, typename element_type_holder<k, T, Ts...>::type&>::type
+get(tuple<T, Ts...> &t) {
+  tuple<Ts...> &base = t;
+  return get<k-1>(base); 
+}
+```
+
+* 用法四：禁用某些成员函数
+```
+不能通过使用enable_if<>来禁用copy/move 构造函数以及赋值构造函数
+这是因为成员函数模板不会被算作特殊成员函数（依然会生成默认构造函数），而且在需要使用copy 构造函数的地方，相应的成员函数模板会被忽略掉。因此即使像下面这样定义类板：
+class C {
+public:
+    template<typename T>
+    C (T const&) {
+    	std::cout << "tmpl copy constructor\n";}
+		…
+};
+
+在需要copy 构造函数的地方依然会使用预定义的copy 构造函数：
+C x;
+C y{x}; // still uses the predefined copy constructor (not the member template)
+
+删掉copy 构造函数也不行，因为这样在需要copy 构造函数的地方会报错说该函数被删除了。
+
+但是也有一个办法：可以定义一个接受const volatile 的copy 构造函数并将其标示为delete。这样做就不会再隐式声明一个接受const 参数的copy 构造函数。在此基础上，可以定义一个构造函数模板，对于nonvolatile 的类型，它会优选被选择（相较于已删除的copy 构造函数）：
+class C
+{
+public:
+    …
+    // user-define the predefined copy constructor as deleted
+    // (with conversion to volatile to enable better matches)
+    C(C const volatile&) = delete;
+    // implement copy constructor template with better match:
+    template<typename T>
+    C (T const&) {
+   		std::cout << "tmpl copy constructor\n";
+    }
+    …
+};
+这样即使对常规copy，也会调用模板构造函数：
+C x;
+C y{x}; // uses the member template
+
+于是就可以给这个模板构造函数添加enable_if<>限制。比如可以禁止对通过int 类型参数实例化出来的C<>模板实例进行copy：
+template<typename T>
+class C
+{
+public:
+…
+	// user-define the predefined copy constructor as deleted(with conversion to volatile to enable better matches)
+	C(C const volatile&) = delete;
+	// if T is no integral type, provide copy constructor template with better match:
+
+    template<typename U,
+    typename = std::enable_if_t<!std::is_integral<U>::value>>
+   	C (C<U> const&) {
+    …
+    }
+…
+};
+```
+
+### <span id="3-16">3.16 四种cast的作用</span>
+
+* 引言
+```
+1.static_cast
+2.dynamic_cast
+3.reinterpret_cast
+4.const_cast
+```
+
+* 1.static_cast
+```
+用法： static_cast<type-id>(expression)
+说明：
+	将expression转换为type-id类型，但没有运行时类型检查保证转换安全性
+用法1：
+    用于类层次结构中基类和子类之间指针或引用的转换。
+    进行上行转换（把子类的指针或引用转换成基类表示）是安全的；
+    进行下行转换（把基类指针或引用转换成子类指针或引用）时，由于没有动态类型检查，所以是不安全的。
+用法2：
+	用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。
+用法3：
+	把void指针转换成目标类型的指针(不安全!!)
+用法4：
+	把任何类型的表达式转换成void类型。
+Tips:
+	static_cast不能转换掉expression的const、volitale、或者__unaligned属性。
+```
+```
+class ANIMAL {
+public:
+	ANIMAL() :_type("ANIMAL") {};
+	virtual void OutPutname() { std::cout << "ANIMAL"; };
+private:
+	std::string _type;
+};
+class DOG :public ANIMAL {
+public:
+	DOG() :_name("大黄"), _type("DOG") {};
+	void OutPutname() { std::cout << _name<<std::endl;};
+	void OutPuttype() { std::cout << _type<< std::endl; };
+private:
+	std::string _name;
+	std::string _type;
+};
+
+//基类与派生类指针或引用类型之间的转换，派生类转基类安全，反之不安全
+//基类指针转为派生类指针,且该基类指针指向基类对象。
+ANIMAL * ani1 = new ANIMAL;
+DOG * dog1 = static_cast<DOG*>(ani1);
+//dog1->OutPuttype();//错误，在ANIMAL类型指针不能调用方法OutPutType（）；在运行时出现错误。
+
+//派生类指针转为基类指针，且该派生类指针指向派生类对象
+DOG *dog2 = new DOG;
+ANIMAL *ani2 = static_cast<DOG*>(dog2);
+ani2->OutPutname(); //动态绑定， 基类指针指向派生类，调用虚函数时会调用指向类型的方法（大黄）
+
+//基类指针转为派生类指针，且该基类指针指向派生类对象
+ANIMAL * ani3 = new DOG;
+DOG* dog3 = static_cast<DOG*>(ani3);
+dog3->OutPutname(); //大黄
+```
+```
+//基本数据类型之间的转换
+double da = 1.999;
+int ia = static_cast<int>(da);
+
+//使用static_cast可以找回存放在void*指针中的值
+double a = 1.999;
+void * vptr = &a;
+double * dptr = static_cast<double*>(vptr);
+std::cout << *dptr << std::endl;//输出1.999
+```
+
+* 2.dynamic_cast
+```
+dynamic_cast主要用于类层次间的上行转换和下行转换，还可以用于类之间的交叉转换。
+在类层次间进行上行转换时，dynamic_cast和static_cast的效果是一样的；
+在进行下行转换时，dynamic_cast具有类型检查的功能，比static_cast更安全。
+
+用法：dynamic_cast < type-id > ( expression )
+说明：
+    dynamic_cast< type* >(e)
+    type必须是一个类类型且必须是一个有效的指针
+    dynamic_cast< type& >(e)
+    type必须是一个类类型且必须是一个左值
+    dynamic_cast< type&& >(e)
+    type必须是一个类类型且必须是一个右值
+
+    e的类型必须符合以下三个条件中的任何一个：
+    1、e的类型是目标类型type的公有派生类（派生类转基类-安全）
+    2、e的类型是目标type的共有基类（基类转为派生类-存在类型检查）
+    3、e的类型就是目标type的类型。
+	
+e能成功转换为type*类型的情况有三种：
+	e的类型是目标type的公有派生类：派生类向基类转换一定会成功。
+	e的类型是目标type的基类，当e是指针指向派生类对象，或者基类引用引用派生类对象时，类型转换才会成功，当e指向基类对象，试图转换为派生类对象时，转换失败。
+	e的类型就是type的类型时，一定会转换成功。
+```
+
+```
+//基类指针转为派生类指针,且该基类指针指向基类对象。
+ANIMAL* ani4 = new ANIMAL;
+DOG* dog4 = dynamic_cast<DOG*>(ani4);
+//dog4->OutPutname();//dynamic_cast语句的转换目标是指针类型并且转换失败了，会返回一个空指针
+
+//基类指针转为派生类指针，且该基类指针指向派生类对象
+ANIMAL * ani5 = new DOG;
+DOG* dog5 = dynamic_cast<DOG*>(ani5);
+dog5->OutPutname(); //正确
+```
+
+* 3.reinterpret_cast
+```
+用法：reinpreter_cast<type-id> (expression)
+说明：
+	type-id必须是一个指针、引用、算术类型、函数指针或者成员指针。它可以把一个指针转换成一个整数，也可以把一个整数转换成一个指针（先把一个指针转换成一个整数，在把该整数转换成原类型的指针，还可以得到原先的指针值）。
+```
+
+```
+class A {
+public:
+	A(int a = 0, int b = 0) : m_a(a), m_b(b) {}
+private:
+	int m_a;
+	int m_b;
+};
+
+//将 char* 转换为 float*
+char str[] = "A";
+float *p1 = reinterpret_cast<float*>(str);
+std::cout << *p1 << std::endl;
+char* p2 = reinterpret_cast<char*>(p1);
+std::cout << *p2 << std::endl;
+
+//将 int 转换为 int*
+int *p = reinterpret_cast<int*>(100);
+//将 A* 转换为 int*
+p = reinterpret_cast<int*>(new A(25, 96));
+std::cout << *p << std::endl;
+```
+
+* const_cast
+```
+用法：const_cast<type_id> (expression)
+说明：它用来去掉表达式的 const 修饰或 volatile 修饰
+```
+
+```
+（1）const_cast只能改变运算对象的底层const，也就是说：
+	常量指针转化为非常量的指针，并且仍然指向原来的对象
+	常量引用转化为非常量的引用，并且仍然指向原来的对象
+	
+const int value=12;
+int new_value=const_cast<int>(value); 
+//错误：const_cast只能改变运算对象的底层const，而对顶层const无能为力（编译信息：[Error] invalid use of const_cast with type 'int', which is not a pointer, reference, nor a pointer-to-data-member type）
+
+const int* value_ptr=&value;
+int *ptr=const_cast<int*>(value_ptr);//正确：将常量指针转化为非常量指针，并仍然指向原来的对象
+
+const int& value_re=value;
+int& re=const_cast<int&>(value_re);//正确：将常量引用转化为非常量引用，并仍然指向原来的对象
+```
+
+```
+(2) 不能用const_cast改变表达式的类型
+const char* cp;
+const_cast<string>(cp); //错误：const_cast不能改变表达式类型，只能改变常量属性
+```
+
+```
+使用场景：
+1.一个函数的参数不是const对象，并且编程者事先已经知道在这个函数中不会对参数进行修改，但需要传递的实参却是已经定义好的const对象。为了成功调用这个函数，就需要利用到const_cast在实参传递前对其进行处理，从而使函数能够成功接收这个实参
+
+#include<iostream>
+using namespace std;
+void Function(int *val){
+    cout<<*val<<endl;
+}
+int main(){
+    const int value=21;
+    Function(const_cast<int*>(&value));
+    return 0;
+}
+
+2.如果我们定义了一个非const的变量，却使用了一个指向const对象的指针来指向它，而在程序的某处希望改变这个变量时发现只有指针可用，此时就可以const_cast进行处理
+
+const int value=21;
+const int* const_ptr=&value;
+int* ptr=const_cast<int*>(const_ptr); 
+*ptr=3;
+
+std::cout << "value:" << value << std::endl;
+std::cout << "*const_ptr:" << *const_ptr << std::endl;
+std::cout << "*ptr:" << *ptr << std::endl;
+
+value:21
+*const_ptr:3
+*ptr:3
+```
+
+### <span id="3-17">3.17 tuple的作用</span>
+
+* 引言
+```
+tuple容器, 可以使用直接初始化, 和"make_tuple()"初始化, 访问元素使用"get<>()"方法, 注意get里面的位置信息, 必须是常量表达式(const expression);
+
+可以通过"std::tuple_size<decltype(t)>::value"获取元素数量; "std::tuple_element<0, decltype(t)>::type"获取元素类型;
+
+如果tuple类型进行比较, 则需要保持元素数量相同, 类型可以比较, 如相同类型, 或可以相互转换类型(int&double);
+
+无法通过普通的方法遍历tuple容器, 因为"get<>()"方法, 无法使用变量获取值;
+```
+
+* 使用方法
+```
+#include <iostream>  
+#include <vector>  
+#include <string>  
+#include <tuple>  
+
+template<typename Tuple, size_t N>
+struct tuple_show
+{
+	static void show(const Tuple &t, std::ostream& os)
+	{
+		tuple_show<Tuple, N - 1>::show(t, os);
+		os << ", " << std::get<N - 1>(t);
+	}
+};
+
+
+// 偏特性，可以理解为递归的终止
+template<typename Tuple>
+struct tuple_show < Tuple, 1>
+{
+	static void show(const Tuple &t, std::ostream &os)
+	{
+		os << std::get<0>(t);
+	}
+};
+
+
+
+// 自己写个函数，调用上面的递归展开，
+template<typename... Args>
+std::ostream& operator << (std::ostream &os, const std::tuple<Args...>& t)
+{
+	os << "[";
+	tuple_show<decltype(t), sizeof...(Args)>::show(t, os);
+	os << "]";
+
+	return os;
+}
+
+std::tuple<std::string, int> giveName(void)
+{
+	std::string cw("Caroline");
+	int a(2013);
+	std::tuple<std::string, int> t = std::make_tuple(cw, a);
+	return t;
+}
+
+int main()
+{
+	/* tuple初始化*/
+	std::tuple<int, double, std::string> t(64, 128.0, "Caroline");
+	std::tuple<std::string, std::string, int> t2 =
+		std::make_tuple("Caroline", "Wendy", 1992);
+
+	/*返回元素个数 */ 
+	size_t num = std::tuple_size<decltype(t)>::value;
+	std::cout << "num = " << num << std::endl;
+
+	/*获取第1个值的元素类型*/  
+	std::tuple_element<1, decltype(t)>::type cnt;
+	cnt = std::get<1>(t);
+	std::cout << "cnt = " << cnt << std::endl;
+
+	/*比较大小*/  
+	std::tuple<int, int> ti(24, 48);
+	std::tuple<double, double> td(28.0, 56.0);
+	bool b = (ti < td);
+	std::cout << "b = " << b << std::endl;
+
+	/*tuple作为返回值*/  
+	auto a = giveName();
+	std::cout << "name: " << std::get<0>(a)
+		<< " years: " << std::get<1>(a) << std::endl;
+
+	/*std::tie解包*/
+	std::tuple<char, int, long, std::string> fourth('A', 2, 3, "4");
+
+	// 定义变量，保存解包结果
+	char tuple_0 = '0';
+	int tuple_1 = 0;
+	long tuple_2 = 0;
+	std::string tuple_3("");
+
+	// 使用std::tie, 依次传入对应的解包变量
+	std::tie(tuple_0, tuple_1, tuple_2, tuple_3) = fourth;
+	// 使用占位符
+	// std::tie(tuple_0, std::ignore, tuple_2, std::ignore) = fourth;
+	// 输出解包结果
+	std::cout << "tuple_0 = " << tuple_0 << "\n";
+	std::cout << "tuple_1 = " << tuple_1 << "\n";
+	std::cout << "tuple_2 = " << tuple_2 << "\n";
+	std::cout << "tuple_3 = " << tuple_3.c_str() << "\n";
+
+	/*std::tuple_cat 执行拼接*/
+	std::tuple<char, int, double> first('A', 1, 2.2f);
+
+	// 组合到一起, 使用auto， 自动推导
+	auto second = std::tuple_cat(first, std::make_tuple('B', std::string("-=+")));
+	// 组合到一起，可以知道每一个元素的数据类型时什么 与 auto推导效果一样
+	std::tuple<char, int, double, char, std::string> third = std::tuple_cat(first, std::make_tuple('B', std::string("-=+")));
+
+	// 输出合并后的元组内容
+	int index = 0;
+	std::cout << index++ << " = " << std::get<0>(second) << "\n";
+	std::cout << index++ << " = " << std::get<1>(second) << "\n";
+	std::cout << index++ << " = " << std::get<2>(second) << "\n";
+
+	std::cout << index++ << " = " << std::get<3>(second) << "\n";
+	std::cout << index++ << " = " << std::get<4>(second).c_str() << "\n";
+
+	/* 递归遍历*/
+	auto t1 = std::make_tuple(1, 'A', "-=+", 2);
+	std::cout << t1;
+	return 0;
+}
+```
+
+### <span id="3-18">3.18 numeric_limits的作用</span>
+
+* 引言
+```
+c++标准程序库通过template numeric_limits提供这些极值，取代传统C语言所采用的预处理常数。你仍然可以使用后者，其中整数常数定义于<climits>和<limits.h>,浮点常数定义于<cfloat>和<float.h>，新的极值概念有两个优点，一是提供了更好的类型安全性，二是程序员可借此写出一些template以核定这些极值。
+```
+![img](./res/3-18-1.jpg)
+* 下面是参数的解释
+
+| digits10          | 返回目标类型在十进制下可以表示的最大位数                     |
+| ----------------- | ------------------------------------------------------------ |
+| epsilon           | 返回目标数据类型能表示的最逼近1的正数和1的差的绝对值         |
+| has_denorm        | 测试目标类型是不是可以非规范化表示示                         |
+| has_denorm_loss   | 测试所有类型是不是能测出因为非规范化而造成的精度损失（不是因为结果本身的不精确） |
+| has_infinity      | 测试目标类型是不是能表示无限（比如被0除，或者其他一些情况）  |
+| has_quiet_NaN     | 检查目标类型是不是支持安静类型的NaN                          |
+| has_signaling_NaN | 检查目标类型是不是支持信号类型的NaN                          |
+| infinity          | 检查目标类型的无限类型（如果支持无限表示）                   |
+| is_bounded        | 检查目标类型的取值是否有限                                   |
+| is_exact          | 测试目标类型的计算结果是不是**不会**造成舍入误差（比如float是0） |
+| is_iec559         | 测试目标类型是不是符合IEC559标准                             |
+| is_integer        | 测试目标类型是不是可以用整型来表示（比如char是1，float是0）  |
+| is_modulo         | Tests if a type has a modulo representation.                 |
+| is_signed         | 测试目标类型是否是带符号的                                   |
+| is_specialized    | 测试目标类型是不是在**numeric_limits** .模板类中有特殊定义   |
+| max               | 返回可取的有限最大值                                         |
+| max_exponent      | Returns the maximum positive integral exponent that the floating-point type can represent as a finite value when a base of radix is raised to that power. |
+| max_exponent10    | Returns the maximum positive integral exponent that the floating-point type can represent as a finite value when a base of ten is raised to that power. |
+| min               | 返回可取的最小值（规范化）                                   |
+| min_exponent      | Returns the maximum negative integral exponent that the floating-point type can represent as a finite value when a base of radix is raised to that power. |
+| min_exponent10    | Returns the maximum negative integral exponent that the floating-point type can represent as a finite value when a base of ten is raised to that power. |
+| quiet_NaN         | 返回目标类型的安静NAN的表示                                  |
+| radix             | Returns the integral base, referred to as radix, used for the representation of a type. |
+| round_error       | 返回目标类型的最大可能的舍入误差                             |
+| round_style       | Returns a value that describes the various methods that an implementation can choose for rounding a floating-point value to an integer value. |
+| signaling_NaN     | 返回目标类型关于信号NAN的表示                                |
+| tinyness_before   | 测试目标类型是不是能测定出微小的舍入误差                     |
+| traps             | Tests whether trapping that reports on arithmetic exceptions is implemented for a type. |
+
+* 基本使用方法
+```
+#include<iostream>
+#include<limits>
+#include<string>
+
+using namespace std;
+
+int main()
+{
+	cout << boolalpha;
+
+	cout << "max(short):" << numeric_limits<short>::max() << endl;
+	cout << "max(int):" << numeric_limits<int>::max() << endl;
+	cout << "max(long):" << numeric_limits<long>::max() << endl;
+
+	cout << "max(float):" << numeric_limits<float>::max() << endl;
+	cout << "max(double):" << numeric_limits<double>::max() << endl;
+	cout << "max(long double):" << numeric_limits<long double>::max() << endl;
+
+	cout << "is_signed(char):" << numeric_limits<char>::is_signed << endl;
+
+	cout << "is_specialized(string):" << numeric_limits<string>::is_specialized << endl;
+}
+```
+
+### <span id="3-19">3.19 functional的作用</span>
+
+* std::functional
+```
+C++11 std::function 是一种通用、多态的函数封装，它的实例可以对任何可以调用的目标实体进
+行存储、复制和调用操作，它也是对C++ 中现有的可调用实体的一种类型安全的包裹（相对来说，函数
+指针的调用不是类型安全的），换句话说，就是函数的容器。当我们有了函数的容器之后便能够更加方便
+的将函数、函数指针作为对象进行处理。例如：
+
+#include <functional>
+#include <iostream>
+int foo(int para) {
+	return para;
+}
+int main() {
+    // std::function 包装了一个返回值为int, 参数为int 的函数
+    std::function<int(int)> func = foo;
+    int important = 10;
+    std::function<int(int)> func2 = [&](int value) -> int {
+    return 1+value+important;
+    };
+    std::cout << func(10) << std::endl;
+    std::cout << func2(10) << std::endl;
+}
+```
+
+* std::bind 和std::placeholder
+
+```
+而std::bind 则是用来绑定函数调用的参数的，它解决的需求是我们有时候可能并不一定能够一次
+性获得调用某个函数的全部参数，通过这个函数，我们可以将部分调用参数提前绑定到函数身上成为一
+个新的对象，然后在参数齐全后，完成调用。例如：
+
+int foo(int a, int b, int c) {
+...
+}
+
+int main() {
+// 将参数1,2 绑定到函数foo 上，但是使用std::placeholders::_1 来对第一个参数进行占位
+auto bindFoo = std::bind(foo, std::placeholders::_1, 1,2);
+// 这时调用bindFoo 时，只需要提供第一个参数即可
+bindFoo(1);
+}
+
+提示：注意auto 关键字的妙用。有时候我们可能不太熟悉一个函数的返回值类型，但是我们
+却可以通过auto 的使用来规避这一问题的出现。
+```
+
+### <span id="3-20">3.20 condition_variable的作用</span>
+
+* std::condition_variable
+
+```
+条件变量（condition_variable）实现多个线程间的同步操作,当条件不满足时，相关线程被一直阻塞，直到某种条件出现，这些线程才会被唤醒。
+```
+
+* 成员函数
+![img](./res/3-20-1.png)
+
+* 分析
+```
+1.作用
+当需要死循环判断某个条件成立与否时【true or false】，我们往往需要开一个线程死循环来判断，这样非常消耗CPU。使用条件变量，可以让当前线程wait，释放CPU，如果条件改变时，我们再notify退出线程，再次进行判断。
+
+2.必备条件
+想要修改共享变量（即“条件”）的线程必须：
+	(1)获得一个std::mutex
+	(2)持有锁时，执行修改动作
+	(3)对std::condition_variable执行notify_one或notify_all(当做notify动作时，不必持有锁)
+
+任意要等待std::condition_variable的线程必须：
+	(1)获取std::unique_lock<std::mutex>，这个mutex正是用来保护共享变量（即“条件”）
+	(2)执行wait, wait_for或者wait_until. 这些等待动作原子性地释放mutex，并使得线程的执行暂停
+	(3)当获得【条件变量的通知，或者超时，或者一个虚假的唤醒】，那么线程就会被唤醒，并且获得mutex. 然后线程应该检查条件是否成立，如果是虚假唤醒，就继续等待。
+```
+
+* 例子
+```
+#include<condition_variable>
+#include <mutex>
+#include <thread>
+#include <list>
+#include <chrono>
+
+class Task {
+public:
+	Task(int Id)
+	{
+		taskId = Id;
+	}
+	void doWork()
+	{
+		std::cout << "handle a task, task id: " << taskId << " ,thread id: " << std::this_thread::get_id() << std::endl;
+	}
+private:
+	int taskId;
+};
+
+std::mutex mu;
+std::list<Task*> tasks;
+std::condition_variable cv;
+
+void* consumer_thread()
+{
+	Task* pTask = nullptr;
+	while (true)
+	{
+		std::unique_lock<std::mutex> guard(mu);
+		/*while (tasks.empty())
+		{
+			cv.wait(guard);
+		}*/
+
+		cv.wait(guard, []() {return !tasks.empty(); });//上面的wait与这行的wait作用相同
+		pTask = tasks.front();
+		tasks.pop_front();
+
+		guard.unlock();
+
+		if(pTask==nullptr)
+			continue;
+
+		pTask->doWork();
+		delete pTask;
+
+		pTask = nullptr;
+	}
+
+	return nullptr;
+}
+
+void* producer_thread()
+{
+	int taskId = 0;
+	Task* task = nullptr;
+	while (true)
+	{
+		task = new Task(taskId);
+		{
+			std::lock_guard<std::mutex> guard(mu);
+			tasks.push_back(task);
+			std::cout << "produce a task, task id: " << taskId << " ,thread id: " << std::this_thread::get_id() << std::endl;
+		}
+
+		cv.notify_one();
+
+		taskId++;
+
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+
+	return nullptr;
+}
+int main()
+{
+	std::thread consumer1(consumer_thread);
+	std::thread consumer2(consumer_thread);
+	std::thread consumer3(consumer_thread);
+	std::thread consumer4(consumer_thread);
+	std::thread consumer5(consumer_thread);
+
+	std::thread producer(producer_thread);
+
+	producer.join();
+	consumer1.join();
+	consumer2.join();
+	consumer3.join();
+	consumer4.join();
+	consumer5.join();
+	return 0;
+}
+```
+
+* 解释
+
+```
+1.wait(unique_lock<mutex>& _Lck)方法：
+判断是否收到信号，否->释放锁,阻塞当前线程，直到被唤醒；是->重新获取互斥锁
+存在问题：可能出现虚假唤醒（存在没有其他线程向条件变量发送信号，但等待此条件变量的线程醒来的情况）。
+如何避免：使用while循环对消费者线程被唤醒前后进行条件判断，当满足条件下并且被唤醒，才会进行下一步操作。
+
+2.wait(unique_lock<mutex>& _Lck, _Predicate _Pred)方法：
+等同于 
+while(!_Pred()) 
+	wait(_Lck);
+
+按执行顺序：
+(1)当(!_Pred()==true)
+(2)未被唤醒->释放锁,阻塞当前线程，直到被唤醒进入步骤(1)；被唤醒->重新获取互斥锁。进入步骤(3)
+(3)当(!_Pred()==false)时进行跳出循环，执行下一步操作。当(!_Pred()==true)，释放锁，阻塞。直到收到信号，获取锁，进入步骤(1)
+
+注意事项：
+wait(unique_lock<mutex>& _Lck)方法在阻塞时，会释放绑定的互斥体并阻塞线程。因此在调用该函数前应对互斥体有个加锁操作。
+收到信号时，wait(unique_lock<mutex>& _Lck)方法会返回并对其绑定的互斥体进行加锁，因此下面必须有对互斥体解锁的操作。
+```
+
+### <span id="3-21">3.21 typename的作用</span>
+* **声明template类型参数**
+* **验明嵌套从属类型**
+
+1. 声明template类型参数
+
+```c++
+template<class T>class Widget;			//其中class与typename意义相同。
+template<typename T>class Widget;		
+```
+
+
+2. 验明嵌套从属类型
+
+**从属名称（dependent names）**：template内出现的名称如果相依于某个template参数，称之为从属名称（dependent names）。
+
+**嵌套从属名称（nested dependent names）**:如果从属名称在class内呈嵌套状，我们称它为嵌套从属名称（nested dependent names）。
+
+```c++
+template<typename C>
+void print2nd(const C& container)
+{
+	if(container.size()>2){
+		C::const_iterator iter(container.begin());
+		++iter;
+		int value = *iter;
+		std::cout << value;
+	}
+}
+```
+
+* C::const_iterator也是一个类型，则C::const_iterator是一个嵌套类，也叫嵌套从属名称，此时我们必须要告诉c++说C::const_iterator是个类型，所以在它之前放置关键字typename即可。
+
+```c++
+template<typename C>
+void print2nd(const C& container)
+{
+	if(container.size()>2){
+		typename C::const_iterator iter(container.begin());
+		++iter;
+		int value = *iter;
+		std::cout << value;
+	}
+}
+```
+
+* 使用关键字**typename**标识嵌套从属类型名称时，不能在**base class lists**（基类列）或**member initialization list**（成员初始列）内以他作为base class修饰符。
+
+```c++
+template<typename T>
+class Derived: public Base<T>::Nested{			//base class list 不允许“typename”
+public:
+    explict Derived(int x)
+        :Base<T>::Nested(x)						//member initialization list不允许“typename”
+        {
+            typename Base<T>::Nested temp;		//嵌套从属类型名称
+            ...								//即不在base class lists或member initialization list
+        }  									//作为一个base class修饰符需加上“typename”
+    ...
+}
+```
+### <span id="3-22">3.22 using的作用</span>
+* **配合命名空间，对命名空间权限进行管理**
+* **类型重命名**
+* **继承体系中，改变部分接口的继承权限**
+
+1. **配合命名空间，对命名空间权限进行管理**
+
+```c++
+using namespace std;//释放整个命名空间到当前作用域
+using std::cout;    //释放某个变量到当前作用域
+```
+
+2. **类型重命名**
+
+```
+#include <iostream>
+using namespace std;
+#define DString std::string    //! 不建议使用！
+
+typedef std::string TString;   //! 使用typedef的方式
+
+using Ustring = std::string;   //！使用 using typeName_self = stdtypename;
+
+//更直观
+typedef void (tFunc*)(void);
+using uFunc = void(*)(void);
+
+int main(int argc, char *argv[])
+{
+
+    TString ts("String!");
+    Ustring us("Ustring!");    
+    string s("sdfdfsd");　　 cout<<ts<<endl;
+    cout<<us<<endl;
+    cout<<s<<endl;
+    return 0;
+}
+```
+
+3. **继承体系中，改变部分接口的继承权限**
+
+* 应用场景1，我们需要私有继承一个基类，然后又想将基类中的某些public接口在子类对象实例化后对外开放直接使用。
+
+```c++
+#include <iostream>
+#include <typeinfo>
+
+using namespace std;
+
+class Base
+{
+public:
+    Base()
+    {}
+    ~Base(){}
+
+    void dis1()
+    {
+        cout<<"dis1"<<endl;
+    }
+    void dis2()
+    {
+        cout<<"dis2"<<endl;
+    }
+};
+
+class BaseA:private Base
+{
+public:
+    using Base::dis1;				//需要在BaseA的public下释放才能对外使用，
+    void dis2show()
+    {
+        this->dis2();
+    }
+};
+
+int main(int argc, char *argv[])
+{
+
+    BaseA ba;
+    ba.dis1();						//如果不使用	using Base::dis1；子类无法使用dis1()方法
+    ba.dis2show();
+
+    return 0;
+}
+```
+
+* 应用场景2，子类如果想重写父类函数，就会隐藏父类中所有同名函数。此时只有通过显示方式调用父类同名函数
+
+```c++
+class Base
+{
+    public:
+        void func() { // some code}
+        int func(int n) { // some code}
+}
+
+class Sub : public Base
+{
+    public:
+        using Base::func;
+        void func() { // some code}
+        
+}
+
+int main()
+{
+    Sub s;
+    s.func();
+    s.func(1); // Success!
+}
+
+```
+
+## <span id="4">4 类相关</span>
+### <span id="4-1">4.1 调用模板类的模板函数注意事项</span>
+> According to C++'03 Standard 14.2/4:
+>
+> When the name of a member template specialization appears after `.` or `->` in a postfix-expression, or after nested-name-specifier in a qualified-id, and the postfix-expression or qualified-id explicitly depends on a template-parameter (14.6.2), the member template name must be prefixed by the keyword `template`. Otherwise the name is assumed to name a non-template.
+
+> 翻译：当成员模板专门化名称出现在后缀表达式中的`.`或者`->`后面，或者在定义的变量中嵌套名称说明符后面，并且后缀表达式或者变量显式的依赖一个模板参数，成员模板名称必须显式的加入前缀`template`。否则该成员被声明为一个非模板成员。
+
+```c++
+template<typename PointSource, typename PointTarget>
+class LsqRegistration : public pcl::Registration<PointSource, PointTarget, float> {
+public:
+  using Scalar = float;
+  using Matrix4 = typename pcl::Registration<PointSource, PointTarget, Scalar>::Matrix4;		//Matrix4是一个模板类
+  ...
+}
+
+template<typename PointTarget, typename PointSource>
+void LsqRegistration<PointTarget, PointSource>::computeTransformation(PointCloudSource& output, const Matrix4& guess) {
+	Eigen::Isometry3d x0 = Eigen::Isometry3d(guess.template cast<double>());					//cast是Matrix4模板类中模板成员函数
+	...																							//调用时需要加template
+}
+```
+
+### <span id="4-2">4.2 类的六大特殊成员函数</span>
+
+* 引言
+```
+六大特殊成员函数：
+1.默认构造函数
+2.析构函数
+3.复制构造函数
+4.赋值操作符
+5.移动构造函数
+6.移动赋值操作符
+```
+>*Tips:具体用法请看[Effective Modern C++](https://github.com/AndrewAndJenny/learning-cpp/tree/master/Effective-Modern-C%2B%2B)
+
+* 使用例子
+```
+//ClassConstructor.hpp
+
+#pragma once
+#include<iostream>
+#include<vector>
+using namespace std;
+class MyString
+{
+public:
+	static size_t CCtor; //统计调用拷贝构造函数的次数
+	static size_t MCtor; //统计调用移动构造函数的次数
+	static size_t CAsgn; //统计调用拷贝赋值函数的次数
+	static size_t MAsgn; //统计调用移动赋值函数的次数
+
+public:
+	// 构造函数
+	MyString(const char* cstr = 0) {
+		if (cstr) {
+			m_data = new char[strlen(cstr) + 1];
+			strcpy(m_data, cstr);
+		}
+		else {
+			m_data = new char[1];
+			*m_data = '\0';
+		}
+	}
+
+	// 拷贝构造函数
+	MyString(const MyString& str) {
+		CCtor++;
+		m_data = new char[strlen(str.m_data) + 1];
+		strcpy(m_data, str.m_data);
+	}
+	
+	// 拷贝赋值函数 =号重载
+	MyString& operator=(const MyString& str) {
+		CAsgn++;
+		if (this == &str) // 避免自我赋值!!
+			return *this;
+
+		delete[] m_data;
+		m_data = new char[strlen(str.m_data) + 1];
+		strcpy(m_data, str.m_data);
+		return *this;
+	}
+	
+	// 移动构造函数
+	MyString(MyString&& str) noexcept
+		:m_data(str.m_data) {
+		MCtor++;
+		str.m_data = nullptr; //不再指向之前的资源了
+	}
+
+	// 移动赋值函数 =号重载
+	MyString& operator=(MyString&& str) noexcept {
+		MAsgn++;
+		if (this == &str) // 避免自我赋值!!
+			return *this;
+
+		delete[] m_data;
+		m_data = str.m_data;
+		str.m_data = nullptr; //不再指向之前的资源了
+		return *this;
+	}
+
+	~MyString() {
+		delete[] m_data;
+	}
+
+	char* get_c_str() const { return m_data; }
+private:
+	char* m_data;
+};
+size_t MyString::CCtor = 0;
+size_t MyString::MCtor = 0;
+size_t MyString::CAsgn = 0;
+size_t MyString::MAsgn = 0;
+```
+
+```
+ClassConstructor.cpp
+
+#include"ClassConstructor.hpp"
+
+int main()
+{
+	vector<MyString> vecStr;
+	vecStr.reserve(1000); //先分配好1000个空间
+	for (int i = 0; i < 1000; i++) {
+		MyString tmp("hello");
+		vecStr.push_back(tmp); //调用的是拷贝构造函数
+	}
+	cout << "CCtor = " << MyString::CCtor << endl;
+	cout << "MCtor = " << MyString::MCtor << endl;
+	cout << "CAsgn = " << MyString::CAsgn << endl;
+	cout << "MAsgn = " << MyString::MAsgn << endl;
+
+	cout << endl;
+	MyString::CCtor = 0;
+	MyString::MCtor = 0;
+	MyString::CAsgn = 0;
+	MyString::MAsgn = 0;
+	vector<MyString> vecStr2;
+	vecStr2.reserve(1000); //先分配好1000个空间
+	for (int i = 0; i < 1000; i++) {
+		MyString tmp("hello");
+		vecStr2.push_back(std::move(tmp)); //调用的是移动构造函数
+	}
+	cout << "CCtor = " << MyString::CCtor << endl;
+	cout << "MCtor = " << MyString::MCtor << endl;
+	cout << "CAsgn = " << MyString::CAsgn << endl;
+	cout << "MAsgn = " << MyString::MAsgn << endl;
+	
+	return 0;
+}
+
+CCtor = 1000
+MCtor = 0
+CAsgn = 0
+MAsgn = 0
+
+CCtor = 0
+MCtor = 1000
+CAsgn = 0
+MAsgn = 0
+```
 
 ## <span id="6-1">6 设计模式</span>
 

@@ -4,8 +4,6 @@
 - [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
 - [Effective-Modern-C++](./Effective-Modern-C++/ReadMe.md)
 - [Interview-C++](./Interview-C++/ReadMe.md)
-- [Basic-C++](./Basic-C++/ReadMe.md)
-- [STL](./STL/ReadMe.md)
 
 ## Cloning this repository
 
@@ -42,7 +40,7 @@ git clone https://github.com/AndrewAndJenny/learning-cpp.git
 - 《C++标准库(第2版)》[百度云链接](https://pan.baidu.com/s/1e9FzgQ5mkK3J5IXdUH0u2g) 提取码：ovng
 - 《C++并发第二版》[在线](https://www.bookstack.cn/read/CPP-Concurrency-In-Action-2ed-2019/README.md)
 - 《C++并发第二版》[百度云链接](https://pan.baidu.com/s/1idp4ao6TkNChW876qX8z1w) 提取码：2jtm
-- 《C++模板 第二版》[百度云链接](https://pan.baidu.com/s/1aNMMZoYd_tTDgrDsGZcrwQ) 提取码：hi2p
+- 《C++模板 第二版》[百度云链接](https://pan.baidu.com/s/1_SBRVGLq1lpE-a2rB-FqZA) 提取码：gdjw
 - 《Effective C++中文版(第三版)》[百度云链接](https://pan.baidu.com/s/1MjpQ3Lq1TWTJgsRuzglUhQ) 提取码：78q9
 - 《Effective modern c++ zh》[百度云链接](https://pan.baidu.com/s/1-aEQwTDZeOeK3EO3xqVvQQ) 提取码：my4n
 - 《Effective STL中文版》[百度云链接](https://pan.baidu.com/s/1h9C6bwFe_MNwv9DguleS_w) 提取码：o2ux
