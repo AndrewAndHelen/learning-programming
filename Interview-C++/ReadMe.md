@@ -46,7 +46,19 @@
 * [4 类相关](#4)
     * [4.1 调用模板类的模板函数注意事项](#4-1)
     * [4.2 类的六大特殊成员函数](#4-2)
-* 5 语言特性相关
+    * [4.3 虚函数与纯虚函数](#4.3)
+    * [4.4 虚函数的实现机制](#4-4)
+    * [4.5 单继承和多继承的虚函数表结构](#4-5)
+    * [4.6 构造函数、析构函数是否需要定义成虚函数？](#4-6)
+    * [4.7 多重继承会出现什么状态？如何解决？](#4-7)
+    * [4.8 为什么拷贝构造函数必须为引用？](#4-8)
+    * [4.9 为什么用成员初始化列表会快一些？](#4-9)
+    * [4.10 实例化一个对象需要哪几个阶段](#4-10)
+    * [4.11 友元函数的作用及使用场景](#4-11)
+    * [4.12 静态绑定和动态绑定是怎么实现的？](#4-12)
+    * [4.13 编译期多态和运行期多态的区别](#4-13)
+    * [4.14 如何让类不能被继承](#4-14)
+* [5 语言特性相关](#5)
 * [6 设计模式](#6-1)
 	* [6.1 单例模式](#6-1)
 	* [6.2 观察者模式](#6-2)
@@ -3821,6 +3833,211 @@ MCtor = 1000
 CAsgn = 0
 MAsgn = 0
 ```
+### <span id="4.3">4.3 虚函数与纯虚函数</span>
+虚函数：被 virtual 关键字修饰的成员函数，就是虚函数。
+```
+#include <iostream>
+using namespace std;
+
+class A
+{
+public:
+    virtual void v_fun() // 虚函数
+    {
+        cout << "A::v_fun()" << endl;
+    }
+};
+class B : public A
+{
+public:
+    void v_fun()
+    {
+        cout << "B::v_fun()" << endl;
+    }
+};
+int main()
+{
+    A *p = new B();
+    p->v_fun(); // B::v_fun()
+    return 0;
+}
+```
+纯虚函数：
+* 纯虚函数在类中声明时，加上 =0；
+* 含有纯虚函数的类称为抽象类（只要含有纯虚函数这个类就是抽象类），类中只有接口，没有具体的实现方法；
+* 继承纯虚函数的派生类，如果没有完全实现基类纯虚函数，依然是抽象类，不能实例化对象。
+
+* 抽象类对象不能作为函数的参数，不能创建对象，不能作为函数返回类型；
+* 可以声明抽象类指针，可以声明抽象类的引用；
+* 子类必须继承父类的纯虚函数，并全部实现后，才能创建子类的对象。
+
+两者的区别
+* 虚函数和纯虚函数可以出现在同一个类中，该类称为抽象基类。（含有纯虚函数的类称为抽象基类）
+* 使用方式不同：虚函数可以直接使用，纯虚函数必须在派生类中实现后才能使用
+* 定义形式不同：虚函数在定义时在普通函数的基础上加上 virtual 关键字，纯虚函数定义时除了加上virtual 关键字还需要加上 =0
+* 虚函数必须实现，否则编译器会报错
+* 对于实现纯虚函数的派生类，该纯虚函数在派生类中被称为虚函数，虚函数和纯虚函数都可以在派生类中重写
+* 析构函数最好定义为虚函数，特别是对于含有继承关系的类；析构函数可以定义为纯虚函数，此时，其所在的类为抽象基类，不能创建实例化对象
+
+### <span id="4-4">4.4 虚函数的实现机制</span>
+**实现机制**:虚函数通过虚函数表来实现。虚函数的地址保存在虚函数表中，在类的对象所在的内存空间中，保存了指向虚函数表的指针（称为“虚表指针”），通过虚表指针可以找到类对应的虚函数表。虚函数表解决了基类和派生类的继承问题和类中成员函数的覆盖问题，当用基类的指针来操作一个派生类的时候，这张虚函数表就指明了实际应该调用的函数。
+
+**虚函数表相关知识点**:
+* 虚函数表存放的内容：类的虚函数的地址。
+* 虚函数表建立的时间：编译阶段，即程序的编译过程中会将虚函数的地址放在虚函数表中。
+* 虚表指针保存的位置：虚表指针存放在对象的内存空间中最前面的位置，这是为了保证正确取到虚函数的偏移量。
+> 注：虚函数表和类绑定，虚表指针和对象绑定。即类的不同的对象的虚函数表是一样的，但是每个对象都有自己的虚表指针，来指向类的虚函数表。
+
+实例：
+
+无虚函数覆盖的情况：
+```
+#include <iostream>
+using namespace std;
+
+class Base
+{
+public:
+    virtual void B_fun1() { cout << "Base::B_fun1()" << endl; }
+    virtual void B_fun2() { cout << "Base::B_fun2()" << endl; }
+    virtual void B_fun3() { cout << "Base::B_fun3()" << endl; }
+};
+
+class Derive : public Base
+{
+public:
+    virtual void D_fun1() { cout << "Derive::D_fun1()" << endl; }
+    virtual void D_fun2() { cout << "Derive::D_fun2()" << endl; }
+    virtual void D_fun3() { cout << "Derive::D_fun3()" << endl; }
+};
+int main()
+{
+    Base *p = new Derive();
+    p->B_fun1(); // Base::B_fun1()
+    return 0;
+}
+```
+基类和派生类的继承关系：
+<div align="center"><img src="./res/4-4-1.png"></div>
+基类的虚函数表：
+<div align="center"><img src="./res/4-4-2.png"></div>
+派生类的虚函数表：
+<div align="center"><img src="./res/4-4-3.png"></div>
+
+> 主函数中基类的指针 p 指向了派生类的对象，当调用函数 B_fun1() 时，通过派生类的虚函数表找到该函数的地址，从而完成调用。
+
+### <span id="4-5">4.5 单继承和多继承的虚函数表结构</span>
+* 单继承（父类含虚函数）
+
+1. 子类与父类拥有各自的一个虚函数表
+2. 若子类并无overwrite父类虚函数，用父类虚函数
+3. 若子类重写（overwrite）了父类的虚函数，则子类虚函数将覆盖虚表中对应的父类虚函数
+4. 若子声明了自己新的虚函数，则该虚函数地址将扩充到虚函数表最后
+```
+#include <iostream>
+using namespace std;
+
+class Base
+{
+public:
+    virtual void fun1() { cout << "Base::fun1()" << endl; }
+    virtual void B_fun2() { cout << "Base::B_fun2()" << endl; }
+    virtual void B_fun3() { cout << "Base::B_fun3()" << endl; }
+};
+
+class Derive : public Base
+{
+public:
+    virtual void fun1() { cout << "Derive::fun1()" << endl; }
+    virtual void D_fun2() { cout << "Derive::D_fun2()" << endl; }
+    virtual void D_fun3() { cout << "Derive::D_fun3()" << endl; }
+};
+int main()
+{
+    Base *p = new Derive();
+    p->fun1(); // Derive::fun1()
+    return 0;
+}
+```
+<div align="center"><img src="./res/4-5-1.png"></div>
+
+* 一般多继承(不考虑虚函数)
+
+1. 若子类新增虚函数，放在声明的第一个父类的虚函数表中
+2. 若子类重写了父类的虚函数，所有父类的虚函数表都要改变
+3. 内存布局中，父类按照其声明顺序排列
+```
+#include <iostream>
+using namespace std;
+
+class Base1
+{
+public:
+    virtual void fun1() { cout << "Base1::fun1()" << endl; }
+    virtual void B1_fun2() { cout << "Base1::B1_fun2()" << endl; }
+    virtual void B1_fun3() { cout << "Base1::B1_fun3()" << endl; }
+};
+class Base2
+{
+public:
+    virtual void fun1() { cout << "Base2::fun1()" << endl; }
+    virtual void B2_fun2() { cout << "Base2::B2_fun2()" << endl; }
+    virtual void B2_fun3() { cout << "Base2::B2_fun3()" << endl; }
+};
+class Base3
+{
+public:
+    virtual void fun1() { cout << "Base3::fun1()" << endl; }
+    virtual void B3_fun2() { cout << "Base3::B3_fun2()" << endl; }
+    virtual void B3_fun3() { cout << "Base3::B3_fun3()" << endl; }
+};
+
+class Derive : public Base1, public Base2, public Base3
+{
+public:
+    virtual void fun1() { cout << "Derive::fun1()" << endl; }
+    virtual void D_fun2() { cout << "Derive::D_fun2()" << endl; }
+    virtual void D_fun3() { cout << "Derive::D_fun3()" << endl; }
+};
+
+int main(){
+    Base1 *p1 = new Derive();
+    Base2 *p2 = new Derive();
+    Base3 *p3 = new Derive();
+    p1->fun1(); // Derive::fun1()
+    p2->fun1(); // Derive::fun1()
+    p3->fun1(); // Derive::fun1()
+    return 0;
+}
+```
+基类和派生类的关系：
+<div align="center"><img src="./res/4-5-2.png"></div>
+派生类的虚函数表：（基类的顺序和声明的顺序一致）
+<div align="center"><img src="./res/4-5-3.png"></div>
+
+* 虚继承（具体请看这两篇博文）：
+[链接1](https://www.oschina.net/translate/cpp-virtual-inheritance)
+[链接2](https://www.cnblogs.com/raichen/p/5744300.html)
+
+### <span id="4-6">4.6 构造函数、析构函数是否需要定义成虚函数？</span>
+
+### <span id="4-7">4.7 多重继承会出现什么状态？如何解决？</span>
+
+### <span id="4-8">4.8 为什么拷贝构造函数必须为引用？</span>
+
+### <span id="4-9">4.9 为什么用成员初始化列表会快一些？</span>
+
+### <span id="4-10">4.10 实例化一个对象需要哪几个阶段</span>
+
+### <span id="4-11">4.11 友元函数的作用及使用场景</span>
+
+### <span id="4-12">4.12 静态绑定和动态绑定是怎么实现的？</span>
+
+### <span id="4-13">4.13 编译期多态和运行期多态的区别</span>
+
+### <span id="4-14">4.14 如何让类不能被继承</span>
+
+
 
 ## <span id="6-1">6 设计模式</span>
 
