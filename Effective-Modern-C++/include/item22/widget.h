@@ -14,8 +14,8 @@ public:
 	Widget& operator=(Widget&& rhs);
 
 private:
-	struct Impl; //声明⼀个 实现结构体
-	std::unique_ptr<Impl> pImpl; //使⽤智能指针而不是原始指针
+	struct Impl; //声明一个 实现结构体
+	std::unique_ptr<Impl> pImpl; //使用智能指针而不是原始指针
 };
 
 #endif

@@ -38,31 +38,31 @@ A summary for Effective-modern-c++
 
 5.右值引用，移动语义，完美转发
 
-* [Item23: 理解std::move和std::forward]
-* [Item24: 区分通⽤引⽤与右值引⽤]
-* [Item25: 对右值引⽤使⽤std::move，对通⽤引⽤使⽤std::forward]
-* [Item26: 避免在通⽤引⽤上重载]
-* [Item27:熟悉通⽤引⽤重载的替代⽅法]
-* [Item28:理解引⽤折叠]
-* [Item29:认识移动操作的缺点]
-* [Item30:熟悉完美转发的失败情况]
+* [Item23: 理解std::move和std::forward](./include/item23/ReadMe.md)
+* [Item24: 区分通用引用与右值引用](./include/item24/ReadMe.md)
+* [Item25: 对右值引用使用std::move，对通用引用使用std::forward](./include/item25/ReadMe.md)
+* [Item26: 避免在通用引用上重载](./include/item26/ReadMe.md)
+* [Item27:熟悉通用引用重载的替代方法](./include/item27/ReadMe.md)
+* [Item28:理解引用折叠](./include/item28/ReadMe.md)
+* [Item29:认识移动操作的缺点](./include/item29/ReadMe.md)
+* [Item30:熟悉完美转发的失败情况](./include/item30/ReadMe.md)
 
 6.Lambda表达式
-* [Item31:避免使⽤默认捕获模式]
-* [Item32:使⽤初始化捕获来移动对象到闭包中]
-* [Item33:对于std::forward的auto&&形参使⽤decltype]
-* [Item34:考虑lambda表达式而⾮std::bind]
+* [Item31:避免使用默认捕获模式](./include/item31/ReadMe.md)
+* [Item32:使用初始化捕获来移动对象到闭包中](./include/item32/ReadMe.md)
+* [Item33:对于std::forward的auto&&形参使用decltype](./include/item33/ReadMe.md)
+* [Item34:考虑lambda表达式而非std::bind](./include/item34/ReadMe.md)
 
 7.并发API
-* [Item35:优先考虑基于任务的编程而⾮基于线程的编程]
-* [Item36:如果有异步的必要请指定std::launch::threads]
-* [Item37:从各个⽅⾯使得std::threads unjoinable]
-* [Item38:关注不同线程句柄析构⾏为]
-* [Item39:考虑对于单次事件通信使⽤void]
-* [Item40:对于并发使⽤std::atomic，volatile⽤于特殊内存区]
+* [Item35:优先考虑基于任务的编程而非基于线程的编程](./include/item35/ReadMe.md)
+* [Item36:如果有异步的必要请指定std::launch::async](./include/item36/ReadMe.md)
+* [Item37:从各个方面使得std::threads unjoinable](./include/item37/ReadMe.md)
+* [Item38:关注不同线程句柄析构行为](./include/item38/ReadMe.md)
+* [Item39:考虑对于单次事件通信使用void](./include/item39/ReadMe.md)
+* [Item40:对于并发使用std::atomic，volatile用于特殊内存区](./include/item40/ReadMe.md)
 
 8.微调
 
-* [Item41:对于那些可移动总是被拷⻉的形参使⽤传值⽅式]
-* [Item42:考虑就地创建而⾮插⼊]
+* [Item41:对于那些可移动总是被拷贝的形参使用传值方式](./include/item41/ReadMe.md)
+* [Item42:考虑就地创建而非插入](./include/item42/ReadMe.md)
 
