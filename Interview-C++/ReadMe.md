@@ -4020,24 +4020,548 @@ int main(){
 [链接2](https://www.cnblogs.com/raichen/p/5744300.html)
 
 ### <span id="4-6">4.6 构造函数、析构函数是否需要定义成虚函数？</span>
+构造函数一般不定义为虚函数，原因：
+
+* 从存储空间的角度考虑：构造函数是在实例化对象的时候进行调用，如果此时将构造函数定义成虚函数，需要通过访问该对象所在的内存空间才能进行虚函数的调用（因为需要通过指向虚函数表的指针调用虚函数表，虽然虚函数表在编译时就有了，但是没有虚函数的指针，虚函数的指针只有在创建了对象才有），但是此时该对象还未创建，便无法进行虚函数的调用。所以构造函数不能定义成虚函数。
+* 从使用的角度考虑：虚函数是基类的指针指向派生类的对象时，通过该指针实现对派生类的虚函数的调用，构造函数是在创建对象时自动调用的。
+* 从实现上考虑：虚函数表指针是在创建对象之后才有的，因此构造函数不能定义成虚函数。
+
+析构函数一般定义成虚函数，原因：
+* 析构函数定义成虚函数是为了防止内存泄漏，因为当基类的指针或者引用指向或绑定到派生类的对象时，如果未将基类的析构函数定义成虚函数，会直接调用基类的析构函数，那么只能将基类的成员所占的空间释放掉，派生类中特有的就会无法释放内存空间导致内存泄漏。
 
 ### <span id="4-7">4.7 多重继承会出现什么状态？如何解决？</span>
+多重继承（多继承）：是指从多个直接基类中产生派生类。
+
+多重继承容易出现的问题：命名冲突和数据冗余问题。
+
+* 棱形继承
+```
+#include <iostream>
+using namespace std;
+
+// 间接基类
+class Base1
+{
+public:
+    int var1;
+};
+
+// 直接基类
+class Base2 : public Base1
+{
+public:
+    int var2;
+};
+
+// 直接基类
+class Base3 : public Base1
+{
+public:
+    int var3;
+};
+
+// 派生类
+class Derive : public Base2, public Base3
+{
+public:
+    void set_var1(int tmp) { var1 = tmp; } // error: reference to 'var1' is ambiguous. 命名冲突
+    void set_var2(int tmp) { var2 = tmp; }
+    void set_var3(int tmp) { var3 = tmp; }
+    void set_var4(int tmp) { var4 = tmp; }
+
+private:
+    int var4;
+};
+
+int main()
+{
+    Derive d;
+    return 0;
+}
+```
+![](./res/4-7-1.png)
+对于派生类中继承的的成员变量 var1 ，从继承关系来看，实际上保存了两份，一份是来自基类 Base2，一份来自基类 Base3。因此，出现了命名冲突。
+
+解决方法 1： 声明出现冲突的成员变量来源于哪个类
+```
+#include <iostream>
+using namespace std;
+
+// 间接基类
+class Base1
+{
+public:
+    int var1;
+};
+
+// 直接基类
+class Base2 : public Base1
+{
+public:
+    int var2;
+};
+
+// 直接基类
+class Base3 : public Base1
+{
+public:
+    int var3;
+};
+
+// 派生类 
+class Derive : public Base2, public Base3
+{
+public:
+    void set_var1(int tmp) { Base2::var1 = tmp; } // 这里声明成员变量来源于类 Base2，当然也可以声明来源于类 Base3
+    void set_var2(int tmp) { var2 = tmp; }
+    void set_var3(int tmp) { var3 = tmp; }
+    void set_var4(int tmp) { var4 = tmp; }
+
+private:
+    int var4;
+};
+
+int main()
+{
+    Derive d;
+    return 0;
+}
+```
+
+解决方法 2： 虚继承
+
+使用虚继承的目的：保证存在命名冲突的成员变量在派生类中只保留一份，即使间接基类中的成员在派生类中只保留一份。在菱形继承关系中，间接基类称为虚基类，直接基类和间接基类之间的继承关系称为虚继承。
+
+实现方式：在继承方式前面加上 virtual 关键字。
+```
+#include <iostream>
+using namespace std;
+
+// 间接基类，即虚基类
+class Base1
+{
+public:
+    int var1;
+};
+
+// 直接基类 
+class Base2 : virtual public Base1 // 虚继承
+{
+public:
+    int var2;
+};
+
+// 直接基类 
+class Base3 : virtual public Base1 // 虚继承
+{
+public:
+    int var3;
+};
+
+// 派生类
+class Derive : public Base2, public Base3
+{
+public:
+    void set_var1(int tmp) { var1 = tmp; } 
+    void set_var2(int tmp) { var2 = tmp; }
+    void set_var3(int tmp) { var3 = tmp; }
+    void set_var4(int tmp) { var4 = tmp; }
+
+private:
+    int var4;
+};
+
+int main()
+{
+    Derive d;
+    return 0;
+}
+```
+![](./res/4-7-2.png)
+
 
 ### <span id="4-8">4.8 为什么拷贝构造函数必须为引用？</span>
+原因：避免拷贝构造函数无限制的递归，最终导致栈溢出。
+拷贝构造函数的标准写法如下：
+```
+class Base
+{
+public:
+  Base(){}
+  Base(const Base &b){..}
+  //
+}
+```
+上述写法见得最多，甚至你认为理所当然。
+那么如果我们不写成引用传递呢，而是值传递，那么会怎样？
+```
+class Base
+{
+public:
+  Base(){}
+  Base(const Base b){}
+  //
+}
+```
+编译出错：error C2652: 'Base' : illegal copy constructor: first parameter must not be a 'Base'
+事实上，你可以从这个小小的问题认真搞清楚2件事：
+1) 拷贝构造函数的作用就是用来复制对象的，在使用这个对象的实例来初始化这个对象的一个新的实例。其实，个人认为不应该叫这些constructor(default constructor, copy constructor....)为构造函数，更佳的名字应该是"初始化函数"
 
+2) 参数传递过程到底发生了什么？
+    将地址传递和值传递统一起来，归根结底还是传递的是"值"(地址也是值，只不过通过它可以找到另一个值)！
+i)值传递:
+    对于内置数据类型的传递时，直接赋值拷贝给形参(注意形参是函数内局部变量)；
+    对于类类型的传递时，需要首先调用该类的拷贝构造函数来初始化形参(局部对象)；如void foo(class_type obj_local){}, 如果调用foo(obj);  首先class_type obj_local(obj) ,这样就定义了局部变量obj_local供函数内部使用
+ii)引用传递:
+    无论对内置类型还是类类型，传递引用或指针最终都是传递的地址值！而地址总是指针类型(属于简单类型), 显然参数传递时，按简单类型的赋值拷贝，而不会有拷贝构造函数的调用(对于类类型).
+
+上述1) 2)回答了为什么拷贝构造函数使用值传递会产生无限递归调用...
+
+3) 如果不显式声明拷贝构造函数的时候，编译器也会生成一个默认的拷贝构造函数，而且在一般的情况下运行的也很好。但是在遇到类有指针数据成员时就出现问题了：因为默认的拷贝构造函数是按成员拷贝构造，这导致了两个不同的指针(如ptr1=ptr2)指向了相同的内存。当一个实例销毁时，调用析构函数free(ptr1)释放了这段内存，那么剩下的一个实例的指针ptr2就无效了，在被销毁的时候free(ptr2)就会出现错误了, 这相当于重复释放一块内存两次。这种情况必须显式声明并实现自己的拷贝构造函数，来为新的实例的指针分配新的内存。
+
+上述3)回答了在类中有指针数据成员时，拷贝构造函数使用值传递等于白显式定义了拷贝构造函数，因为默认的拷贝构造函数就是这么干的...
 ### <span id="4-9">4.9 为什么用成员初始化列表会快一些？</span>
+说明：数据类型可分为内置类型和用户自定义类型（类类型），对于用户自定义类型，利用成员初始化列表效率高。
 
+原因1：用户自定义类型如果使用类初始化列表，直接调用该成员变量对应的构造函数即完成初始化；
+
+原因2：如果在构造函数中初始化，因为 C++ 规定，对象的成员变量的初始化动作发生在进入构造函数本体之前，那么在执行构造函数的函数体之前首先调用默认的构造函数为成员变量设初值，在进入函数体之后，调用该成员变量对应的拷贝构造函数，然后调用赋值操作函数。
+
+```
+#include <iostream>
+using namespace std;
+class A
+{
+private:
+    int val;
+public:
+    A()
+    {
+        cout << "A()" << endl;
+    }
+    A(int tmp)
+    {
+        val = tmp;
+        cout << "A(int " << val << ")" << endl;
+    }
+     A& operator= (const A& a)
+    {
+    	if(this==&a)
+    	{
+    		return *this;
+		}
+		this->val=a.val;
+		cout<<"A& operator= (const& A) "<<endl;
+		return *this;
+	}
+};
+
+class Test1
+{
+private:
+    A ex;
+
+public:
+    Test1() : ex(1) // 成员列表初始化方式
+    {
+    }
+};
+
+class Test2
+{
+private:
+    A ex;
+
+public:
+    Test2() // 函数体中赋值的方式
+    {
+        ex = A(2);
+    }
+};
+int main()
+{
+    Test1 ex1;
+    cout << endl;
+    Test2 ex2;
+    return 0;
+}
+//运行结果 
+
+/*
+A(int 1)
+
+A()
+A(int 2)
+A& operator= (const& A)
+*/
+```
 ### <span id="4-10">4.10 实例化一个对象需要哪几个阶段</span>
+1. 分配空间
+创建类对象首先要为该对象分配内存空间。不同的对象，为其分配空间的时机未必相同。全局对象、静态对象、分配在栈区域内的对象，在编译阶段进行内存分配；存储在堆空间的对象，是在运行阶段进行内存分配。
+2. 初始化
+首先明确一点：初始化不同于赋值。初始化发生在赋值之前，初始化随对象的创建而进行，而赋值是在对象创建好后，为其赋上相应的值。这一点可以联想下上一个问题中提到：初始化列表先于构造函数体内的代码执行，初始化列表执行的是数据成员的初始化过程，这个可以从成员对象的构造函数被调用看的出来。
+3. 赋值
+对象初始化完成后，可以对其进行赋值。对于一个类的对象，其成员变量的赋值过程发生在类的构造函数的函数体中。当执行完该函数体，也就意味着类对象的实例化过程完成了。（总结：构造函数实现了对象的初始化和赋值两个过程，对象的初始化是通过初始化列表来完成，而对象的赋值则才是通过构造函数的函数体来实现。）
+注：对于拥有虚函数的类的对象，还需要给虚表指针赋值。
+
+> 没有继承关系的类，分配完内存后，首先给虚表指针赋值，然后再列表初始化以及执行构造函数的函数体，即上述中的初始化和赋值操作。
+
+> 有继承关系的类，分配内存之后，首先进行基类的构造过程，然后给该派生类的虚表指针赋值，最后再列表初始化以及执行构造函数的函数体，即上述中的初始化和赋值操作
 
 ### <span id="4-11">4.11 友元函数的作用及使用场景</span>
+作用：友元提供了不同类的成员函数之间、类的成员函数与一般函数之间进行数据共享的机制。通过友元，一个不同函数或另一个类中的成员函数可以访问类中的私有成员和保护成员。
+
+使用场景：
+
+普通函数定义为友元函数，使普通函数能够访问类的私有成员。
+```
+#include <iostream>
+
+using namespace std;
+
+class A
+{
+    friend ostream &operator<<(ostream &_cout, const A &tmp); // 声明为类的友元函数
+
+public:
+    A(int tmp) : var(tmp)
+    {
+    }
+
+private:
+    int var;
+};
+
+ostream &operator<<(ostream &_cout, const A &tmp)
+{
+    _cout << tmp.var;
+    return _cout;
+}
+
+int main()
+{
+    A ex(4);
+    cout << ex << endl; // 4
+    return 0;
+}
+```
+友元类：类之间共享数据。
+```
+#include <iostream>
+
+using namespace std;
+
+class A
+{
+    friend class B;
+
+public:
+    A() : var(10){}
+    A(int tmp) : var(tmp) {}
+    void fun()
+    {
+        cout << "fun():" << var << endl;
+    }
+
+private:
+    int var;
+};
+
+class B
+{
+public:
+    B() {}
+    void fun()
+    {
+        cout << "fun():" << ex.var << endl; // 访问类 A 中的私有成员
+    }
+
+private:
+    A ex;
+};
+
+int main()
+{
+    B ex;
+    ex.fun(); // fun():10
+    return 0;
+}
+```
 
 ### <span id="4-12">4.12 静态绑定和动态绑定是怎么实现的？</span>
+转载自：https://blog.csdn.net/weixin_30466421/article/details/97728807?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-0.pc_relevant_default&spm=1001.2101.3001.4242.1&utm_relevant_index=3
+> 只有涉及虚函数的地方才存在动态绑定
 
+1、对象的静态类型和动态类型：
+* 对象的静态类型：
+对象在声明是采用的类型，在编译期确定；
+
+* 对象的动态类型：
+当前对象所指的类型，在运行期决定，对象的动态类型可以更改，但静态类型无法更改。
+```
+class B{
+ 
+};
+ 
+class C: public B{
+ 
+};
+ 
+class D: public B{
+ 
+};
+
+D* pD=new D();
+// pD的静态类型是它声明的类型D*，动态类型也是D*
+B* pB=pD;
+// pB的静态类型是它声明的类型B*，动态类型是pB所指的对象pD的类型D*
+c* pC=new C();
+// pC的静态类型是它声明的类型C*，动态类型也是C*
+pB=pC;
+// pB的动态类型可以改变，现在它的动态类型为C*
+```
+2、静态绑定和动态绑定
+
+* 静态绑定：
+绑定的是对象的静态类型，某特性（比如函数）依赖于对象的静态类型，发生在编译期。
+
+* 动态绑定：
+绑定的是对象的动态类型，某特性（比如函数）依赖于对象的动态类型，发生在运行期。
+```
+class B{
+    void DoSomething();
+    virtual void vfun();
+};
+ 
+class C: public B{
+    //首先说明一下，这个子类重新定义了父类的no-virtual函数，这是一个不好的设计，会导致名称遮掩；这里只是为了说明动态绑定和静态绑定才这样使用。  
+    void DoSomething();
+    virtual void vfun();
+};
+ 
+class D: public B{
+    void DoSomething();
+    virtual void vfun();
+};
+ 
+D* pD=new D();
+// pD的静态类型是它声明的类型D*，动态类型也是D*
+B* pB=pD;
+// pB的静态类型是它声明的类型B*，动态类型是pB所指的对象pD的类型D*
+```
+* pD->DoSomething()和pB->DoSomething()调用的是同一个函数吗？
+
+答案：不是的，虽然pD和pB指向同一对象，但函数DoSomething是一个non-virtual函数，它是静态绑定的，也就是编译器会在编译器根据对象的静态类型来选择函数，pD的静态类型是D*，那么编译器在处理pD->DoSomething()的时候会将它指向D::DoSomething()。同理，pB的静态类型是B*，那么pB->DoSomething()调用的就是B::DosSomething()。
+
+* pD->vfun()和pB->vfun()调用的是同一函数吗？
+
+答案：是的，vfun是个虚函数，它是动态绑定的，也就是它绑定的是对象的动态类型，pB和pD虽然静态类型不同，但他们同时指向一个对象，他们的动态对象是相同的，都是D*，所以，他们调用的是同一个函数：D::vfun()。
+
+> 上面都是针对对象指针的情况，对于引用（reference）的情况同样适用。
+
+指针和引用的动态类型和静态类型可能会不一致，但是对象的动态类型和静态类型是一致的。
+D D;
+D.DoSomething()和D.vfun()永远调用的都是D::DoSomething()和D::vfun()。
+
+> 总结：只有虚函数才使用的是动态绑定，其他的全部是静态绑定。
+
+当缺省参数和虚函数一起出现的时候情况有点复杂，极易出错。我们知道，虚函数是动态绑定的，但是为了执行效率，缺省参数是静态绑定的。
+
+class B{
+    void DoSomething();
+    virtual void vfun(int i=10);
+};
+ 
+ 
+class D: public B{
+    void DoSomething();
+    virtual void vfun(int i=20);
+};
+ 
+D* pD=new D();
+// pD的静态类型是它声明的类型D*，动态类型也是D*
+B* pB=pD;
+// pB的静态类型是它声明的类型B*，动态类型是pB所指的对象pD的类型D*
+pD->vfun();
+pB->vfun();
+有上面的分析可知，pD->vfun()和pB->vfun()调用都是函数D::vfun()，但是他们的缺省参数是多少？
+
+分析一下，缺省参数是静态绑定的，pD->vfun()，pD的静态类型是D*，所以它的缺省参数是20；而pB的静态类型是B*，所以pB->vfun()的缺省参数是10.
+
+对于这个特性，估计没有人会喜欢。所以，永远记住：
+
+> “绝不重新定义继承而来的缺省参数（Never redefine function’s inherited default parameters value.）”
 ### <span id="4-13">4.13 编译期多态和运行期多态的区别</span>
+* 编译时多态：在程序编译过程中出现，发生在模板和函数重载中（泛型编程）。
+* 运行时多态：在程序运行过程中出现，发生在继承体系中，是指通过基类的指针或引用访问派生类中的虚函数。
+
+编译时多态和运行时多态的区别：
+
+* 时期不同：编译时多态发生在程序编译过程中，运行时多态发生在程序的运行过程中
+* 实现方式不同：编译时多态运用泛型编程来实现，运行时多态借助虚函数来实现
 
 ### <span id="4-14">4.14 如何让类不能被继承</span>
+* 解决方法一：借助 final 关键字，用该关键字修饰的类不能被继承。
+```
+#include <iostream>
+
+using namespace std;
+
+class Base final
+{
+};
+
+class Derive: public Base{ // error: cannot derive from 'final' base 'Base' in derived type 'Derive'
+
+};
+
+int main()
+{
+    Derive ex;
+    return 0;
+}
+```
+* 解决方法二：借助友元、虚继承和私有构造函数来实现
+```
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class Base{
+    friend T;
+private:
+    Base(){
+        cout << "base" << endl;
+    }
+    ~Base(){}
+};
+
+class B:virtual public Base<B>{   //一定注意 必须是虚继承
+public:
+    B(){
+        cout << "B" << endl;
+    }
+};
+
+class C:public B{
+public:
+    C(){}     // error: 'Base<T>::Base() [with T = B]' is private within this context
+};
 
 
+int main(){
+    B b;  
+    return 0;
+}
+```
+说明：在上述代码中 B 类是不能被继承的类。
+具体原因：
+
+虽然 Base 类构造函数和析构函数被声明为私有 private，在 B 类中，由于 B 是 Base 的友元，因此可以访问 Base 类构造函数，从而正常创建 B 类的对象；
+
+B 类继承 Base 类采用虚继承的方式，创建 C 类的对象时，C 类的构造函数要负责 Base 类的构造，但是 Base 类的构造函数私有化了，C 类没有权限访问。因此，无法创建 C 类的对象， B 类是不能被继承的类。
+
+> 注意：在继承体系中，友元关系不能被继承，虽然 C 类继承了 B 类，B 类是 Base 类的友元，但是 C 类和 Base 类没有友元关系。
 
 ## <span id="6-1">6 设计模式</span>
 
