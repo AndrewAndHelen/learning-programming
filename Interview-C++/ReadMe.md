@@ -58,10 +58,10 @@
     * [4.12 静态绑定和动态绑定是怎么实现的？](#4-12)
     * [4.13 编译期多态和运行期多态的区别](#4-13)
     * [4.14 如何让类不能被继承](#4-14)
-* 5 设计模式](#5-1)
-	* 5.1 单例模式](#5-1)
-	* 5.2 观察者模式](#5-2)
-	* 5.3 工厂模式](#5-3)
+* [5 设计模式](#5-1)
+	* [5.1 单例模式](#5-1)
+	* [5.2 观察者模式](#5-2)
+	* [5.3 工厂模式](#5-3)
 
 -------------------------------
 
@@ -1143,22 +1143,23 @@ int main()
        return 0;
    }
    
+   ```
 ```
    
 3. 若字符数组 arr 作为函数的形参，`sizeof(arr)` 中 arr 被当作字符指针来处理，`strlen(arr)` 中 arr 依然是字符数组，从下述程序的运行结果中就可以看出。
 
-   ```
+```
    #include <iostream>
    #include <cstring>
-   
+
    using namespace std;
-   
+
    void size_of(char arr[])
    {
        cout << sizeof(arr) << endl; // warning: 'sizeof' on array function parameter 'arr' will return size of 'char*' .
        cout << strlen(arr) << endl; 
    }
-   
+
    int main()
    {
        char arr[20] = "hello";
@@ -1179,7 +1180,7 @@ int main()
 lambda 表达式是一个可调度的代码单元，可以视为一个未命名的内部函数。
 lambda 函数是一个函数对象，编译器在编译时会生成一个 lambda 对象的类，然后再生成一个该命令未命名的对象。
 
-```
+   ```
 Lambda 表达式的基本语法如下：
 [捕获列表](参数列表) mutable(可选) 异常属性-> 返回类型{
 // 函数体
@@ -1304,6 +1305,7 @@ test b = a; //相当于 test b = test(a) 隐式拷贝构造 引发编译错误
 static 定义变量的位置在静态变量区，超过其作用域该变量并不被释放，而是在函数结束时释放
 static 修饰的变量只会被初始化一次
 ```
+
 ```
 #include <iostream> 
 #include <string> 
@@ -2025,7 +2027,7 @@ new和delete不仅承载着内存分配的功能还承载着对象构造函数�
 ```
       CA *p1 = operator new(sizeof(CA));  //分配堆内存
       CA::CA(p1);   //调用构造函数
-
+    
       CA *p2 = operator new(sizeof(CA));  //分配堆内存
       CA::CA(p2, 10);   //调用构造函数
      
@@ -2036,13 +2038,13 @@ new和delete不仅承载着内存分配的功能还承载着对象构造函数�
          CA::CA(pt);
          pt += 1;
      }
-
+    
      CA::~CA(p1);
      operator delete(p1);
      
      CA::~CA(p2);
      operator delete(p2);
-
+    
      CA *pt = p3;
      for (int i = 0; i < 20; i++)
      {
@@ -2364,7 +2366,7 @@ void operator delete(void *p, int a, int b)
 int main(int argc, const char * argv[]) {
     
     char buf[100];
-
+    
     CA *a1 = new CA();   //调用void * CA::operator new(size_t size)
     
     CA *a2 = new CA[10];  //调用void * CA::operator new[](size_t size)
@@ -2372,8 +2374,9 @@ int main(int argc, const char * argv[]) {
     CA *a3 = new(buf)CA();  //调用void * CA::operator new(size_t size, void *p)
     
     CA *a4 = new(10, 20)CA();  //调用void* CA::operator new(size_t size, int a, int b)
-    
-    
+
+
+​    
     delete a1;  //调用void CA::operator delete(void *p)
     
     delete[] a2;  //调用void CA::operator delete[](void *p)
@@ -2381,7 +2384,7 @@ int main(int argc, const char * argv[]) {
     //a3用的是placement new的方式分配，因此需要自己调用对象的析构函数。
     a3->~CA();
     CA::operator delete(a3, buf);  //调用void CA::operator delete(void *p, void *p1)，记得要带上类命名空间。
-
+    
     //a4的运算符参数大于等于2个所以需要自己调用对象的析构函数。
     a4->~CA();
     CA::operator delete(a4, 10, 20); //调用void CA::operator delete(void *p, int a, int b)
@@ -2389,22 +2392,25 @@ int main(int argc, const char * argv[]) {
     //CB类没有重载运算符，因此使用的是全局重载的运算符。
     
     CB *b1 = new CB();  //调用void * operator new(size_t size)
- 
-    
+
+
+​    
     CB *b2 = new CB[10]; //调用void * operator new[](size_t size)
     
     //这里你可以看到同一块内存可以用来构建CA类的对象也可以用来构建CB类的对象
     CB *b3 = new(buf)CB();  //调用void * operator new(size_t size, void *p)
     
     CB *b4 = new(10, 20)CB(); //调用void* operator new(size_t size, int a, int b)
-    
+
 
     delete b1;  //调用void operator delete(void *p)
 
-    
+
+​    
     delete[] b2;   //调用void operator delete[](void *p)
-    
-    
+
+
+​    
     //b3用的是placement new的方式分配，因此需要自己调用对象的析构函数。
     b3->~CB();
     ::operator delete(b3, buf);  //调用void operator delete(void *p, void *p1)
@@ -2412,7 +2418,7 @@ int main(int argc, const char * argv[]) {
     //b4的运算符参数大于等于2个所以需要自己调用对象的析构函数。
     b4->~CB();
     ::operator delete(b4, 10, 20);  //调用void operator delete(void *p, int a, int b)
-   
+
    return 0;
 } 
 ```
@@ -2488,7 +2494,7 @@ public:
         
         free(p);
     }
-    
+
 private:
     int *m_pa;
 };
@@ -2690,7 +2696,7 @@ public:
       
     // Error, constructor B(int, int) is not a special member function. 
     B(int, int) = default;  
-  
+      
     // Error, constructor B(int=0) has a default argument. 
     B(int = 0) = default;  
 }; 
@@ -2720,7 +2726,7 @@ int main() {
 // copy-constructor using delete operator 
 #include <iostream> 
 using namespace std; 
-  
+
 class A { 
 public: 
     A(int x): m(x) { } 
@@ -2731,7 +2737,7 @@ public:
     A& operator=(const A&) = delete;  
     int m; 
 }; 
-  
+
 int main() { 
     A a1(1), a2(2), a3(3); 
     // Error, the usage of the copy assignment operator is disabled 
@@ -2834,7 +2840,7 @@ typename std::enable_if<k==0, typename element_type_holder<0, T, Ts...>::type&>:
 get(tuple<T, Ts...> &t) {
   return t.tail; 
 }
- 
+
 template <std::size_t k, class T, class... Ts>
 typename std::enable_if<k!=0, typename element_type_holder<k, T, Ts...>::type&>::type
 get(tuple<T, Ts...> &t) {
@@ -2927,6 +2933,7 @@ public:
 Tips:
 	static_cast不能转换掉expression的const、volitale、或者__unaligned属性。
 ```
+
 ```
 class ANIMAL {
 public:
@@ -2961,6 +2968,7 @@ ANIMAL * ani3 = new DOG;
 DOG* dog3 = static_cast<DOG*>(ani3);
 dog3->OutPutname(); //大黄
 ```
+
 ```
 //基本数据类型之间的转换
 double da = 1.999;
@@ -2992,7 +3000,7 @@ dynamic_cast主要用于类层次间的上行转换和下行转换，还可以�
     1、e的类型是目标类型type的公有派生类（派生类转基类-安全）
     2、e的类型是目标type的共有基类（基类转为派生类-存在类型检查）
     3、e的类型就是目标type的类型。
-	
+
 e能成功转换为type*类型的情况有三种：
 	e的类型是目标type的公有派生类：派生类向基类转换一定会成功。
 	e的类型是目标type的基类，当e是指针指向派生类对象，或者基类引用引用派生类对象时，类型转换才会成功，当e指向基类对象，试图转换为派生类对象时，转换失败。
@@ -3172,32 +3180,32 @@ int main()
 	/*返回元素个数 */ 
 	size_t num = std::tuple_size<decltype(t)>::value;
 	std::cout << "num = " << num << std::endl;
-
+	
 	/*获取第1个值的元素类型*/  
 	std::tuple_element<1, decltype(t)>::type cnt;
 	cnt = std::get<1>(t);
 	std::cout << "cnt = " << cnt << std::endl;
-
+	
 	/*比较大小*/  
 	std::tuple<int, int> ti(24, 48);
 	std::tuple<double, double> td(28.0, 56.0);
 	bool b = (ti < td);
 	std::cout << "b = " << b << std::endl;
-
+	
 	/*tuple作为返回值*/  
 	auto a = giveName();
 	std::cout << "name: " << std::get<0>(a)
 		<< " years: " << std::get<1>(a) << std::endl;
-
+	
 	/*std::tie解包*/
 	std::tuple<char, int, long, std::string> fourth('A', 2, 3, "4");
-
+	
 	// 定义变量，保存解包结果
 	char tuple_0 = '0';
 	int tuple_1 = 0;
 	long tuple_2 = 0;
 	std::string tuple_3("");
-
+	
 	// 使用std::tie, 依次传入对应的解包变量
 	std::tie(tuple_0, tuple_1, tuple_2, tuple_3) = fourth;
 	// 使用占位符
@@ -3207,24 +3215,24 @@ int main()
 	std::cout << "tuple_1 = " << tuple_1 << "\n";
 	std::cout << "tuple_2 = " << tuple_2 << "\n";
 	std::cout << "tuple_3 = " << tuple_3.c_str() << "\n";
-
+	
 	/*std::tuple_cat 执行拼接*/
 	std::tuple<char, int, double> first('A', 1, 2.2f);
-
+	
 	// 组合到一起, 使用auto， 自动推导
 	auto second = std::tuple_cat(first, std::make_tuple('B', std::string("-=+")));
 	// 组合到一起，可以知道每一个元素的数据类型时什么 与 auto推导效果一样
 	std::tuple<char, int, double, char, std::string> third = std::tuple_cat(first, std::make_tuple('B', std::string("-=+")));
-
+	
 	// 输出合并后的元组内容
 	int index = 0;
 	std::cout << index++ << " = " << std::get<0>(second) << "\n";
 	std::cout << index++ << " = " << std::get<1>(second) << "\n";
 	std::cout << index++ << " = " << std::get<2>(second) << "\n";
-
+	
 	std::cout << index++ << " = " << std::get<3>(second) << "\n";
 	std::cout << index++ << " = " << std::get<4>(second).c_str() << "\n";
-
+	
 	/* 递归遍历*/
 	auto t1 = std::make_tuple(1, 'A', "-=+", 2);
 	std::cout << t1;
@@ -3286,13 +3294,13 @@ int main()
 	cout << "max(short):" << numeric_limits<short>::max() << endl;
 	cout << "max(int):" << numeric_limits<int>::max() << endl;
 	cout << "max(long):" << numeric_limits<long>::max() << endl;
-
+	
 	cout << "max(float):" << numeric_limits<float>::max() << endl;
 	cout << "max(double):" << numeric_limits<double>::max() << endl;
 	cout << "max(long double):" << numeric_limits<long double>::max() << endl;
-
+	
 	cout << "is_signed(char):" << numeric_limits<char>::is_signed << endl;
-
+	
 	cout << "is_specialized(string):" << numeric_limits<string>::is_specialized << endl;
 }
 ```
@@ -3413,18 +3421,18 @@ void* consumer_thread()
 		cv.wait(guard, []() {return !tasks.empty(); });//上面的wait与这行的wait作用相同
 		pTask = tasks.front();
 		tasks.pop_front();
-
+	
 		guard.unlock();
-
+	
 		if(pTask==nullptr)
 			continue;
-
+	
 		pTask->doWork();
 		delete pTask;
-
+	
 		pTask = nullptr;
 	}
-
+	
 	return nullptr;
 }
 
@@ -3442,12 +3450,12 @@ void* producer_thread()
 		}
 
 		cv.notify_one();
-
+	
 		taskId++;
-
+	
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
-
+	
 	return nullptr;
 }
 int main()
@@ -3459,7 +3467,7 @@ int main()
 	std::thread consumer5(consumer_thread);
 
 	std::thread producer(producer_thread);
-
+	
 	producer.join();
 	consumer1.join();
 	consumer2.join();
@@ -3499,7 +3507,7 @@ wait(unique_lock<mutex>& _Lck)方法在阻塞时，会释放绑定的互斥体�
 
 1. 声明template类型参数
 
-```c++
+​```c++
 template<class T>class Widget;			//其中class与typename意义相同。
 template<typename T>class Widget;		
 ```
@@ -4564,9 +4572,9 @@ B 类继承 Base 类采用虚继承的方式，创建 C 类的对象时，C 类�
 
 > 注意：在继承体系中，友元关系不能被继承，虽然 C 类继承了 B 类，B 类是 Base 类的友元，但是 C 类和 Base 类没有友元关系。
 
-## <span id="6-1">5 设计模式</span>
+## <span id="5-1">5 设计模式</span>
 
-### <span id="6-1">5.1 单例模式</span>
+### <span id="5-1">5.1 单例模式</span>
 ```
 单例模式，即一个类只有一个实例对象。一般的实现方法是将构造函数、拷贝构造函数与赋值操作函数声明为private，该类提供一个静态public方法，通过该方法获取该类唯一一个实例对象。
 分类：
@@ -4721,10 +4729,10 @@ class CSingleton3
 public:
 	static CSingleton3* getInstance()
 	{
-		if (nullptr == myInstatnce)
+		if (nullptr == myInstatnce)//一次判空，如果已经实例化，直接返回
 		{
-			std::unique_lock<std::mutex> lock(myMutex);
-			if (nullptr == myInstatnce)
+			std::unique_lock<std::mutex> lock(myMutex);//没有实例化且多个线程同时申请获取资源，加锁
+			if (nullptr == myInstatnce)//其中一个线程获得锁，创建实例后，其他线程陆续获得锁，二次判空，发现已经创建实例，返回
 				myInstatnce = new(std::nothrow)CSingleton3;
 		}
 		return myInstatnce;
@@ -4814,9 +4822,9 @@ CSingleton3 destruct
 ```
 
 后续具体可见链接:https://zhuanlan.zhihu.com/p/94877789
-### <span id="6-2">5.2 观察者模式</span>
+### <span id="5-2">5.2 观察者模式</span>
 
 
 
-### <span id="6-3">5.3 工厂模式</span>
+### <span id="5-3">5.3 工厂模式</span>
 
