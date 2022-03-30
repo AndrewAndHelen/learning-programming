@@ -49,6 +49,7 @@ git clone https://github.com/AndrewAndJenny/learning-cpp.git
 - 《qt实例》[百度云链接](https://pan.baidu.com/s/1ZLxRSzAayfNS2v4MlUjX6Q) 提取码：5a4u
 - 《modern-cpp-tutorial-zh-cn》[百度云链接](https://pan.baidu.com/s/1AD9mEvtlvXZeb3xn8rnoOg) 提取码：o2qv
 - 《Google开源项目风格指南》[网址](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
+- 《Microsoft C++ Language Reference》[网址](https://docs.microsoft.com/en-us/cpp/cpp/cpp-language-reference)
 
 ### <span id="02 - Java">02 - Java</span>
 - 《Java开发手册》v1.5.0 华山版[百度云链接](https://pan.baidu.com/s/1c2IOX575rNMKmwSIjoT1MA) 提取码：843n
