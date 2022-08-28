@@ -1,31 +1,29 @@
-# learning-cpp
-
-- [DataStructureAndAlgorithm](./DataStructureAndAlgorithm/ReadMe.md)
-- [LeetCode-Algorithm](./LeetCode-Algorithm/ReadMe.md)
-- [Effective-Modern-C++](./Effective-Modern-C++/ReadMe.md)
-- [Interview-C++](./Interview-C++/ReadMe.md)
+- [basic-algorithm](./basic-algorithm/ReadMe.md)
+- [feature-cpp](./feature-cpp/ReadMe.md)
+- [modern-cpp](./modern-cpp/ReadMe.md)
 
 ## Cloning this repository
 
 ```
-git clone https://github.com/AndrewAndJenny/learning-cpp.git
+git clone https://github.com/AndrewAndJenny/learning-programming.git
 ```
-
-
 
 ## Computer books
 
-- [00 - C语言](#00---C语言)
-- [01 - C++](#01---C++)
-- [02 - Java](#02---Java)
-- [03 - 计算机基础](#03---计算机基础)
-- [04 - 计算机视觉](#04---计算机视觉)
-- [05 - 数据库](#05---数据库)
-- [06 - Git版本控制](#06---Git版本控制)
-- [07 - CMake](#07---CMake)
-- [08 - 刷题相关](#08---刷题相关)
-- [09 - Linux](#09---Linux)
-- [10 - 计算机网络](#10---计算机网络)
+- [Cloning this repository](#cloning-this-repository)
+- [Computer books](#computer-books)
+  - [<span id="00 - C语言">00 - C语言</span>](#00---c语言)
+  - [<span id="01 - C++">01 - C++</span>](#01---c)
+  - [<span id="02 - Java">02 - Java</span>](#02---java)
+  - [<span id="03 - 计算机基础">03 - 计算机基础</span>](#03---计算机基础)
+  - [<span id="04 - 计算机视觉">04 - 计算机视觉</span>](#04---计算机视觉)
+  - [<span id="05 - 数据库">05 - 数据库</span>](#05---数据库)
+  - [<span id="06 - Git版本控制">06 - Git版本控制</span>](#06---git版本控制)
+  - [<span id="07 - CMake">07 - CMake</span>](#07---cmake)
+  - [<span id="08 - 刷题相关">08 - 刷题相关</span>](#08---刷题相关)
+  - [<span id="09 - Linux">09 - Linux</span>](#09---linux)
+  - [<span id="10 - 计算机网络">10 - 计算机网络</span>](#10---计算机网络)
+- [Contack](#contack)
 
 
 

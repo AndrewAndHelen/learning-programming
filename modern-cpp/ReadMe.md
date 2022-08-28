@@ -1,4 +1,4 @@
-## Effective-modern-c++
+## modern-cpp
 
 A summary for Effective-modern-c++
 

@@ -1,4 +1,4 @@
-# C++ 面试
+# feature-cpp
 
 部分转载于：https://leetcode-cn.com/leetbook/read/cpp-interview-highlights
 
@@ -689,7 +689,7 @@ C++11 中智能指针包括以下三种：
 * 共享指针（shared_ptr）：资源可以被多个指针共享，使用计数机制表明资源被几个指针共享。通过 use_count() 查看资源的所有者的个数，可以通过 unique_ptr、weak_ptr 来构造，调用 release() 释放资源的所有权，计数减一，当计数减为 0 时，会自动释放内存空间，从而避免了内存泄漏。
 * 独占指针（unique_ptr）：独享所有权的智能指针，资源只能被一个指针占有，该指针不能拷贝构造和赋值。但可以进行移动构造和移动赋值构造（调用 move() 函数），即一个 unique_ptr 对象赋值给另一个 unique_ptr 对象，可以通过该方法进行赋值。
 * 弱指针（weak_ptr）：指向 share_ptr 指向的对象，能够解决由shared_ptr带来的循环引用问题。
->*Tips:具体请看[Effective modern C++](../Effective-Modern-C++/ReadMe.md)*
+>*Tips:具体请看[Effective modern C++](../modern-cpp/ReadMe.md)*
 
 
 ## <span id = "2">2 面向对象</span>
