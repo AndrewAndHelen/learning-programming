@@ -152,9 +152,3 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《网络是怎样连接的》[百度云链接](https://pan.baidu.com/s/1bwk6Lox8tzBe6e751VwVqQ) 提取码：jzer
 - 《图解TCPIP(第5版)》[百度云链接](https://pan.baidu.com/s/1gCchTTbxpBb4YVF9uTt7oA) 提取码：6o2c
 - 《图解HTTP 》[百度云链接](https://pan.baidu.com/s/1hs4MB02DtIDU5XT-5R9JKg) 提取码：o0cg
-
-
-## Contack
-
-If you found bugs or have new ideas,please pull requests😄   
-If you have trouble compiling or using this software,email to [15313326374@163.com](mailto:15313326374@163.com)  
