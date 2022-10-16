@@ -4751,67 +4751,58 @@ CSingleton2 destruct
 - 懒汉式实现方法二
 
 ```
-class CSingleton3
-{
+class SingleTon {
 public:
-	static CSingleton3* getInstance()
-	{
-		if (nullptr == myInstatnce)//一次判空，如果已经实例化，直接返回
-		{
-			std::unique_lock<std::mutex> lock(myMutex);//没有实例化且多个线程同时申请获取资源，加锁
-			if (nullptr == myInstatnce)//其中一个线程获得锁，创建实例后，其他线程陆续获得锁，二次判空，发现已经创建实例，返回
-				myInstatnce = new(std::nothrow)CSingleton3;
-		}
-		return myInstatnce;
-	}
+    static SingleTon* GetInstance();
+    static void RealeaseInstance();
+    ~SingleTon() = default;
 
-	static void deleteInstance()
-	{
-		std::unique_lock<std::mutex> lock(myMutex);
-		if (myInstatnce)
-		{
-			delete myInstatnce;
-			myInstatnce = nullptr;
-		}
-	}
-
-	void print()
+    void print()
 	{
 		std::cout << "我的实例内存地址是:" << this << std::endl;
 	}
-private:
-	class Deleter {
-	public:
-		Deleter() {};
-		~Deleter()
-		{
-			if (nullptr != myInstatnce)
-			{
-				delete myInstatnce;
-				myInstatnce = nullptr;
-			}
-		}
-	};
 
-	static Deleter myDeleter;
 private:
-	CSingleton3() { std::cout << "CSingleton3 construct\n"; };
-	~CSingleton3() { std::cout << "CSingleton3 destruct\n"; };
-	CSingleton3(const CSingleton3& other);
-	CSingleton3& operator=(const CSingleton3&);
+    SingleTon() = default;
+    
+    SingleTon(const SingleTon&) = delete;
+    SingleTon(SingleTon&&) = delete;
+    SingleTon& operator=(const SingleTon&) = delete;
+    SingleTon& operator=(SingleTon&&) = delete;
 
-	static CSingleton3* myInstatnce;
-	static std::mutex myMutex;
+    static unique_ptr<SingleTon> instancePtr_;
+    static mutex instanceMu_;
 };
 
-CSingleton3* CSingleton3::myInstatnce = nullptr;
-std::mutex CSingleton3::myMutex;
-CSingleton3::Deleter CSingleton3::myDeleter;
+unique_ptr<SingleTon> SingleTon::instancePtr_ = nullptr;
+mutex SingleTon::instanceMu_;
+
+SingleTon* SingleTon::GetInstance()
+{
+    if (instancePtr_ == nullptr) {
+        lock_guard<mutex> lock(instanceMu_);
+        if (instancePtr_ == nullptr) {
+            instancePtr_ = unique_ptr<SingleTon>(new SingleTon);
+        }
+    }
+    return instancePtr_.get();
+}
+
+void SingleTon::RealeaseInstance()
+{
+    if (instancePtr_ != nullptr) {
+        lock_guard<mutex> lock(instanceMu_);
+        if (instancePtr_ != nullptr) {
+            instancePtr_.reset();
+            instancePtr_ = nullptr;
+        }
+    }
+}
 
 void printHello()
 {
 	std::cout << "Hi, 我是线程 ID:[" << std::this_thread::get_id() << "]" << std::endl;
-	CSingleton3::getInstance()->print();
+	SingleTon::GetInstance()->print();
 }
 
 int main()
@@ -4827,18 +4818,6 @@ int main()
 
 	return 0;
 }
-
-输出：
-Hi, 我是线程 ID:[5312]
-Hi, 我是线程 ID:[27784]
-Hi, 我是线程 ID:[30284]
-Hi, 我是线程 ID:[29584]
-CSingleton3 construct
-我的实例内存地址是:我的实例内存地址是:000001F4EC328FF0
-000001F4EC328FF0
-我的实例内存地址是:000001F4EC328FF0
-我的实例内存地址是:000001F4EC328FF0
-CSingleton3 destruct
 ```
 
 - 2.3 总结
