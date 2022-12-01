@@ -1,7 +1,10 @@
 # learning-programming
+
+## Content
 - [basic-algorithm](./basic-algorithm/ReadMe.md)
 - [feature-cpp](./feature-cpp/ReadMe.md)
 - [modern-cpp](./modern-cpp/ReadMe.md)
+- [modern-cmake](./modern-cmake/ReadMe.md)
 
 ## Cloning this repository
 
@@ -9,24 +12,25 @@
 git clone https://github.com/AndrewAndJenny/learning-programming.git
 ```
 
-## Content
-- [<span id="00 - C语言">00 - C语言</span>](#00---c语言)
-- [<span id="01 - C++">01 - C++</span>](#01---c)
-- [<span id="02 - Java">02 - Java</span>](#02---java)
-- [<span id="03 - 计算机基础">03 - 计算机基础</span>](#03---计算机基础)
-- [<span id="04 - 计算机视觉">04 - 计算机视觉</span>](#04---计算机视觉)
-- [<span id="05 - 数据库">05 - 数据库</span>](#05---数据库)
-- [<span id="06 - Git版本控制">06 - Git版本控制</span>](#06---git版本控制)
-- [<span id="07 - CMake">07 - CMake</span>](#07---cmake)
-- [<span id="08 - 刷题相关">08 - 刷题相关</span>](#08---刷题相关)
-- [<span id="09 - Linux">09 - Linux</span>](#09---linux)
-- [<span id="10 - 计算机网络">10 - 计算机网络</span>](#10---计算机网络)
+## Books
+- [00 - C](#00-C)
+- [01 - C++](#01-c++)
+- [02 - Java](#02-java)
+- [03 - Go](#03-Go)
+- [04 - 计算机基础](#04-计算机基础)
+- [05 - 计算机视觉](#05-计算机视觉)
+- [06 - 数据库](#06-数据库)
+- [07 - Git版本控制](#07-git版本控制)
+- [08 - CMake](#08-CMake)
+- [09 - 刷题相关](#09-刷题相关)
+- [10 - Linux](#10-linux)
+- [11 - 计算机网络](#11-计算机网络)
 
-### <span id="00 - C语言">00 - C语言</span>
+### 00-C
 
 - 《C primer》[百度云链接](https://pan.baidu.com/s/1NfR4pv1lXxCTS5yWChwiOA) 提取码：9srz
 
-### <span id="01 - C++">01 - C++</span>
+### 01-c++
 
 - 《C++ Primer Plus(第6版)》[百度云链接](https://pan.baidu.com/s/1H0_gje9t8wGYuNeZy5WskA) 提取码：k9a1
 - 《C++编程规范-101条规则准则与最佳实践》[百度云链接](https://pan.baidu.com/s/1E6ttXnXlhcnXkwGWMPrIOA) 提取码：g4pr
@@ -44,7 +48,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《Google开源项目风格指南》[网址](https://zh-google-styleguide.readthedocs.io/en/latest/google-cpp-styleguide/contents/)
 - 《Microsoft C++ Language Reference》[网址](https://docs.microsoft.com/en-us/cpp/cpp/cpp-language-reference)
 
-### <span id="02 - Java">02 - Java</span>
+### 02-java
 - 《Java开发手册》v1.5.0 华山版[百度云链接](https://pan.baidu.com/s/1c2IOX575rNMKmwSIjoT1MA) 提取码：843n
 - 《Java设计模式及实践》[百度云链接](https://pan.baidu.com/s/10MYxJYGkgebeXmrncTtDeQ) 提取码：5fmr
 - 《Java编程思想》在线版[网址](https://lingcoder.github.io/OnJava8/#/sidebar)
@@ -72,7 +76,18 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《RabbitMQ实战指南》[百度云链接](https://pan.baidu.com/s/186_3TDc0TNQ2N5MNuy8knQ) 提取码：fpkr
 - 《tomcat内核设计剖析》[百度云链接](https://pan.baidu.com/s/1IpNnOB6-U8G0oPu2NyzRxw) 提取码：ecj2
 
-### <span id="03 - 计算机基础">03 - 计算机基础</span>
+### 03-Go
+- 《Distributed-Computing-with-Go-2018-英文版》[百度云链接](https://pan.baidu.com/s/1FwqrRY_-Qrq6wkJjHXRMZw) 提取码：8l0d
+- 《Go语言学习笔记.雨痕(详细书签)》[百度云链接](https://pan.baidu.com/s/1ZBbKzZGnq8RSR5wLLqJRDg) 提取码：edy2
+- 《GO专家编程.pdf》[百度云链接](https://pan.baidu.com/s/1C7I01qhAXLg7WY1zHs-3ng) 提取码：3smd
+- 《Go并发编程实战（第2版）》[百度云链接](https://pan.baidu.com/s/1mkTBltNi1tNjDzmq1nDcsA) 提取码：vfp4
+- 《Head First Go语言程序设计》[百度云链接](https://pan.baidu.com/s/1Alc72-8EdQ6BiLQweV1CTg) 提取码：zzec
+- 《Go 语言设计哲学》[链接](https://golang3.eddycjy.com/)
+- 《mojotv 博客》[链接](https://mojotv.cn/)
+- 《面向信仰编程 - Go 语言设计与实现》[链接](https://link.zhihu.com/?target=https%3A//draveness.me/golang/)
+- 《Go 夜读》[链接](https://link.zhihu.com/?target=https%3A//talkgo.org/)
+
+### 04-计算机基础
 
 - 《大话数据结构》[百度云链接](https://pan.baidu.com/s/1j8avVKTs0rv916Af6q_i0g) 提取码：0nlq
 - 《计算机组成原理（第2版）唐朔飞》[百度云链接](https://pan.baidu.com/s/1kA3Z3wnLGCL3soebdiqGcg) 提取码：1d9y
@@ -81,7 +96,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《数据结构与算法分析Java语言描述 原书第3版 》[百度云链接](https://pan.baidu.com/s/1mfUbNBRZ4byIZIFbJrrCCQ) 提取码：9sc1
 - 《现代操作系统 原书第4版 》[百度云链接](https://pan.baidu.com/s/1hhSGzCtWxMGLitTB_eIUxQ) 提取码：zcqd
 - 《CSAPP中文第三版》[百度云链接](https://pan.baidu.com/s/1hhSGzCtWxMGLitTB_eIUxQ) 提取码：zcqd
-### <span id="04 - 计算机视觉">04 - 计算机视觉</span>
+### 05-计算机视觉
 
 - 《学习OpenCV3中文版》[百度云链接](https://pan.baidu.com/s/1nRiNKR1tvSkn2w282wBqOA) 提取码：n6e4
 - 《点云库PCL学习教程》[百度云链接](https://pan.baidu.com/s/1ZhHomzFsHoWj07OJjnwLqA) 提取码：hgvh
@@ -92,7 +107,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《GN-LM算法》[百度云链接](https://pan.baidu.com/s/1U-8ApqA2OOzAKj5KB4TlCg) 提取码：a1qi
 - 《matrixcookbook》[百度云链接](https://pan.baidu.com/s/17JLMG3VyBJhXtb2TvpkUuA) 提取码：k5rg
 
-### <span id="05 - 数据库">05 - 数据库</span>
+### 06-数据库
 
 - 《Effective SQL：编写高质量SQL语句的61个有效方法》[百度云链接](https://pan.baidu.com/s/1_Vz6MwfSCZGYDLp14hlssQ) 提取码：ql2d
 - 《高性能mysql第三版》[百度云链接](https://pan.baidu.com/s/1Xa2cyz58qvWFxezQdWOcPA) 提取码：q84s
@@ -103,12 +118,12 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《MySQL技术内幕  InnoDB存储引擎  第2版》[百度云链接](https://pan.baidu.com/s/1-i4rEC7ehLlxam3wf3T59g) 提取码：6du7
 - 《数据库索引设计与优化》[百度云链接](https://pan.baidu.com/s/1PVaFN342vKLpOZ_ONNDRWw) 提取码：ovce
 
-### <span id="06 - Git版本控制">06 - Git版本控制</span>
+### 07-git版本控制
 
 - 《GitHub入门与实践》[百度云链接](https://pan.baidu.com/s/1gD71kGfkR1BMopEcaoYO3A) 提取码：klbd
 - 《Git的奇技淫巧》[百度云链接](https://pan.baidu.com/s/17KzilwwFKEnXf702-wVChg) 提取码：ansu
 
-### <span id="07 - CMake">07 - CMake</span>
+### 08-CMake
 
 - 《Professional CMake A Practical Guide (2018)》[百度云链接](https://pan.baidu.com/s/1f1U9m1dOW9s4Ubm3D3azWw) 提取码：hkdn
 - 《Modern CMake文档》[百度云链接](https://pan.baidu.com/s/1MiN4yRoCCe_JipQK4UK9kw) 提取码：19t7
@@ -120,7 +135,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《CMake 实践》[百度云链接](https://pan.baidu.com/s/1NkEDHpmGfPbZPaFc_BLcFA) 提取码：nwe4  
 - 《CMake CookBook》[链接](https://github.com/xiaoweiChen/CMake-Cookbook/blob/master/SUMMARY.md)
 
-### <span id="08 - 刷题相关">08 - 刷题相关</span>
+### 09-刷题相关
 
 - 《剑指offer》[百度云链接](https://pan.baidu.com/s/1OXgcU3hpNf7_wnq-d0V_lg) 提取码：eu85  
 - 《leetcode-solution》[百度云链接](https://pan.baidu.com/s/1oiixq2NCvX-a11NFxbtRWw) 提取码：z9nv 
@@ -129,7 +144,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《常用算法程序集(C_C++描述)(第五版)》[百度云链接](https://pan.baidu.com/s/13Hx-c_ZzUrzSdFIgeHXDkg) 提取码：8hn9
 - 《程序员内功修炼-V2.0》[百度云链接](https://pan.baidu.com/s/16bAKdTYNMOt_EYi9fkPNMw) 提取码：7e6w
 
-### <span id="09 - Linux">09 - Linux</span>
+### 10-linux
 
 - 《Linux系统命令及shell脚本实践指南linuxunix技术丛书》[百度云链接](https://pan.baidu.com/s/1VB-LkMuJXtR1ub2fevrY-w) 提取码：a8me
 - 《Linux鸟哥私房菜基础篇-第四版》[百度云链接](https://pan.baidu.com/s/1LOUwFO_IHzaJIzH4QHmShQ) 提取码：lwxt
@@ -137,7 +152,7 @@ git clone https://github.com/AndrewAndJenny/learning-programming.git
 - 《Linux高性能服务器编程》[百度云链接](https://pan.baidu.com/s/1I4UNWEd0JElaj9zmPZse0A) 提取码：auaq
 - 《Linux多线程服务端编程：使用muduo C++网络库(陈硕)》[百度云链接](https://pan.baidu.com/s/1izijeZamyDfaa1bdbAye2Q) 提取码：jh3z
 
-### <span id="10 - 计算机网络">10 - 计算机网络</span>
+### 11-计算机网络
 
 - 《计算机网络（第7版）-谢希仁》[百度云链接](https://pan.baidu.com/s/1wxUgFTx0NVt2aYEJnEXrmQ) 提取码：d00i
 - 《Http核心总结》[百度云链接](https://pan.baidu.com/s/1OH92q6i0BS_Kk4UfeI3utw) 提取码：ispf
