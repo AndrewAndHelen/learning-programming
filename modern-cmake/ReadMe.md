@@ -1,9 +1,9 @@
-# Cmake Tutorial
+# CMake Tutorial
 
 - （零）前言
-- （一）CMAKE变量分类及其含义
-- （二）CMAKE运算符、流程控制与基本命令
-- （三）CMAKE由浅入深实战训练
+- （一）CMake变量分类及其含义
+- （二）CMake运算符、流程控制与基本命令
+- （三）CMake由浅入深实战训练
 
 ## （零）前言
 ### 1. C++程序编译过程
@@ -24,11 +24,11 @@ gcc hello.world.o -o hello_world
 ```
 ### 2. CMake的作用
 ```
-CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用cmake命令将CMakeLists.txt文件转化为make所需要的makefile文件，
+CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用CMake命令将CMakeLists.txt文件转化为make所需要的makefile文件，
 最后用make命令编译源码生成可执行程序或共享库(shared object)。特点：开源、跨平台、可扩展、简化编译构建过程和编译过程。
 ```
 
-## （一）CMAKE变量分类及其含义
+## （一）CMake变量分类及其含义
 - 1 CMake变量分类
     - 1.1 普通变量
     - 1.2 缓存变量
@@ -55,31 +55,31 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
  [环境变量](./materials/环境变量/ReadMe.md)
 ### 2 CMake内置变量分类
 #### 2.1 提供信息的变量
-​ 详情可参见官方文档[Variables that Provide Information](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-that-provide-information)
+​ 详情可参见官方文档[Variables that Provide Information](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-that-provide-information)
 
 #### 2.2 改变行为的变量
-​ 详情可参见官方文档[Variables that Change Behavior](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-that-change-behavior)
+​ 详情可参见官方文档[Variables that Change Behavior](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-that-change-behavior)
 
 #### 2.3 描述系统的变量
-​ 详情可参见官方文档[Variables that Describe the System](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-that-describe-the-system)
+​ 详情可参见官方文档[Variables that Describe the System](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-that-describe-the-system)
 
 #### 2.4 控制构建的变量
-​ 详情可参见官方文档[Variables that Control the Build](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-that-control-the-build)
+​ 详情可参见官方文档[Variables that Control the Build](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-that-control-the-build)
 
 #### 2.5 语言变量
-​ 详情可参见官方文档[Variables for Languages](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-for-languages)
+​ 详情可参见官方文档[Variables for Languages](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-for-languages)
 
 #### 2.6 CTest变量
-​ 详情可参见官方文档[Variables for CTest](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-for-ctest)
+​ 详情可参见官方文档[Variables for CTest](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-for-ctest)
 
 #### 2.7 CPack变量
-​ 详情可参见官方文档[Variables for CPack](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#variables-for-cpack)
+​ 详情可参见官方文档[Variables for CPack](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#variables-for-cpack)
 
 #### 2.8 内部变量（不推荐再使用）
   ​CMake有很多内部变量。他们中的大多数都无正式文档记录。
 ​  然而，其中一些变量在某些时候被描述为普通变量，因此可能会在遗留代码中遇到。
 ​  它们意思可能会发生变化，不建议在项目代码中使用。
-​  详情可参见官方文档[Internal Variables](https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html?highlight=variable#internal-variables)
+​  详情可参见官方文档[Internal Variables](https://CMake.org/CMake/help/latest/manual/CMake-variables.7.html?highlight=variable#internal-variables)
 
 #### 2.9 常用的内置变量
 <table style="text-align:center;">
@@ -99,7 +99,7 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
   <td>当前工程的根目录</td>
 </tr>
 <tr>
-  <td>CMAKE_SOURCE_DIR</td>
+  <td>CMAKEe_SOURCE_DIR</td>
   <td>顶层CMakeLists.txt所在的路径</td>
 </tr>
 <tr>
@@ -112,11 +112,11 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
 </tr>
 <tr>
   <td>CMAKE_CURRENT_LIST_DIR</td>
-  <td>当前处理的'cmake文件'所在的目录</td>
+  <td>当前处理的'CMake文件'所在的目录</td>
 </tr>
 <tr>
   <td>CMAKE_CURRENT_LIST_FILE</td>
-  <td>当前处理的'CMakeLists.txt或cmake'文件的全路径</td>
+  <td>当前处理的'CMakeLists.txt或CMake'文件的全路径</td>
 </tr>
 <tr>
   <td>CMAKE_CURRENT_LIST_LINE</td>
@@ -131,7 +131,7 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
 </tr>
 <tr>
   <td>CMAKE_MODULE_PATH</td>
-  <td> cmake 模块所在的目录</td>
+  <td> CMake 模块所在的目录</td>
 </tr>
 <tr>
   <td>CMAKE_PREFIX_PATH</td>
@@ -145,16 +145,16 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
   <td colspan="2"><b>3.描述系统的变量</b></td>
 </tr>
 <tr>
-  <td>­CMAKE_MAJOR_VERSION</td>
-  <td>cmake 主版本号，比如 3.4.1 中的 3</td>
+  <td>CMAKE_MAJOR_VERSION</td>
+  <td>CMake 主版本号，比如 3.4.1 中的 3</td>
 </tr>
 <tr>
   <td>CMAKE_MINOR_VERSION</td>
-  <td>cmake 次版本号，比如 3.4.1 中的 4</td>
+  <td>CMake 次版本号，比如 3.4.1 中的 4</td>
 </tr>
 <tr>
   <td>CMAKE_PATCH_VERSION</td>
-  <td>cmake 补丁等级，比如 3.4.1 中的 1</td>
+  <td>CMake 补丁等级，比如 3.4.1 中的 1</td>
 </tr>
 <tr>
   <td>CMAKE_SYSTEM</td>
@@ -185,7 +185,7 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
 </tr>
 <tr>
   <td>CMAKE_INCLUDE_CURRENT_DIR</td>
-  <td> 如果启用此变量，CMake 会自动添加 CMAKE_CURRENT_SOURCE_DIR和CMAKE_CURRENT_BINARY_DIR 到每个目录的包含路径，默认情况下CMAKE_INCLUDE_CURRENT_DIR是OFF</td>
+  <td> 如果启用此变量，CMake 会自动添加 CMake_CURRENT_SOURCE_DIR和CMake_CURRENT_BINARY_DIR 到每个目录的包含路径，默认情况下CMake_INCLUDE_CURRENT_DIR是OFF</td>
 </tr>
 <tr>
   <td>CMAKE_LIBRARY_OUTPUT_DIRECTORY</td>
@@ -214,7 +214,7 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
 </tr>
 </table>
 
-## （二）CMAKE运算符、流程控制与基本命令
+## （二）CMake运算符、流程控制与基本命令
 - 1.运算符
   - 1.1 一元运算符
   - 1.2 二元运算符
@@ -225,18 +225,18 @@ CMake是一种跨平台编译工具，主要是编写CMakeLists.txt文件，用c
 #### 1.2 一元运算符
 #### 1.3 二元运算符
 #### 1.4 逻辑运算符
-[CMAKE运算符](./materials/运算符/ReadMe.md)
+[CMake运算符](./materials/运算符/ReadMe.md)
 
 ### 2.流程控制
-[CMAKE流程控制](./materials/流程控制/ReadMe.md)
+[CMake流程控制](./materials/流程控制/ReadMe.md)
 
 ### 3.基本命令
-[CMAKE基本命令](./materials/基本命令/ReadMe.md)
+[CMake基本命令](./materials/基本命令/ReadMe.md)
 
 
 ## 参考与引用
-1. [（一）CMAKE变量分类及其含义](https://www.bbsmax.com/A/gGdXeaeYz4/#21-%E6%8F%90%E4%BE%9B%E4%BF%A1%E6%81%AF%E7%9A%84%E5%8F%98%E9%87%8F)
-2. [CMakeLists详解](https://blog.csdn.net/weixin_43837968/article/details/115257575?ops_request_misc=&request_id=&biz_id=102&utm_term=CMAKE_CURRENT_LIST_DIR&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-115257575.142^v65^js_top,201^v3^control_1,213^v2^t3_esquery_v1&spm=1018.2226.3001.4187)
+1. [CMake变量分类及其含义](https://www.bbsmax.com/A/gGdXeaeYz4/#21-%E6%8F%90%E4%BE%9B%E4%BF%A1%E6%81%AF%E7%9A%84%E5%8F%98%E9%87%8F)
+2. [CMakeLists详解](https://blog.csdn.net/weixin_43837968/article/details/115257575?ops_request_misc=&request_id=&biz_id=102&utm_term=CMake_CURRENT_LIST_DIR&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-3-115257575.142^v65^js_top,201^v3^control_1,213^v2^t3_esquery_v1&spm=1018.2226.3001.4187)
 3. [CMake基本语法](https://blog.csdn.net/dadan1314/article/details/91959197)
 4. [CMake编程实践（四）　控制指令](https://blog.csdn.net/MakerCloud/article/details/105759548)
 5. [http://t.zoukankan.com/Long-w-p-9587808.html](http://t.zoukankan.com/Long-w-p-9587808.html)
