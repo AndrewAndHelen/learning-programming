@@ -9,7 +9,7 @@
 ## Cloning this repository
 
 ```
-git clone https://github.com/AndrewAndJenny/learning-programming.git
+git clone https://github.com/AndrewAndHelen/learning-programming.git
 ```
 
 ## Books
